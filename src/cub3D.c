@@ -6,40 +6,56 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:01 by lrocca            #+#    #+#             */
-/*   Updated: 2021/02/24 19:54:35 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/02/27 19:46:49 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
+
+int			ft_exit(int i)
+{
+	if (g_mlx.mlx)
+		mlx_destroy_window(g_mlx.mlx, g_mlx.win);
+	exit(i);
+	return (i);
+}
 
 char		*char_to_str(char c)
 {
 	char	*s;
 
 	if (!(s = malloc(2)))
-		return ("Failed to allocate char");
+		return (NULL);
 	s[0] = c;
 	s[1] = '\0';
 	return (s);
 }
 
-void		ft_exit(char *s, char *z)
+void		ft_error(char *s, char *z)
 {
-	int	n;
-
-	n = ft_strlen(s) ? 1 : 0;
-	errno = errno ? errno : n;
-	z ? printf("%s%s\n", s, z) : printf("%s\n", s);
+	errno = errno ? errno : 1;
+	printf("Error: ");
+	printf("%s", s);
+	if (z)
+		printf(": %s", z);
+	printf("\n");
 	free(z);
-	// free della roba
-	exit(errno);
+	ft_exit(errno);
 }
 
 static void	parse_file(t_list *list)
 {
+	int	len;
 	// ft_lstiter(list, (void *)&parse_options);
-	while (parse_options(list))
+	while (list && (parse_options(list) || ft_strlen(list->content) == 0))
 		list = list->next;
+	len = ft_lstsize(list);
+	if (!(g_cub.matrix = malloc((len + 1) * sizeof(char*))))
+		ft_error("Matrix allocation failed", NULL);
+	g_cub.matrix[len] = NULL;
+	while (list && parse_map(list))
+		list = list->next;
+	check_file();
 }
 
 static void	open_map(char *file)
@@ -52,15 +68,15 @@ static void	open_map(char *file)
 	head = NULL;
 	// printf("Opening file: %s\n", file);
 	if ((fd = open(file, O_RDONLY)) < 0)
-		ft_exit("Error opening file: ", ft_strdup(strerror(errno)));
+		ft_error("Error opening file", ft_strdup(strerror(errno)));
 	while ((n = get_next_line(fd, &line)) > 0)
 		if (ft_strlen(line) > 0)
 			ft_lstadd_back(&head, ft_lstnew(line));
 	close(fd);
-	if (ft_strlen(line) > 0)
+	// if (ft_strlen(line) > 0)
 		ft_lstadd_back(&head, ft_lstnew(line));
 	if (n == -1)
-		ft_exit("Error: Failed to get next line", NULL);
+		ft_error("Failed to get next line", NULL);
 	parse_file(head);
 	// free list
 }
@@ -69,31 +85,49 @@ void		check_flag(char *s)
 {
 	g_cub.save = 0;
 	if (ft_strncmp(s, "--save", 6))
-		ft_exit("Syntax error: Unknown flag: ", ft_strdup(s));
+		ft_error("Unknown flag", ft_strdup(s));
 	else
 		g_cub.save = 1;
+}
+
+int			keypress(int key)
+{
+	if (key == 53)
+		ft_exit(0);
+	return (0);
+}
+
+void		test_scene()
+{
+	int height;
+	int width;
+	mlx_put_image_to_window(g_mlx.mlx, g_mlx.win, mlx_xpm_file_to_image(g_mlx.mlx, g_txt.S, &width, &height), g_cub.width/2 - width/2, g_cub.height/2 - height/2);
+	mlx_string_put(g_mlx.mlx, g_mlx.win, g_cub.width/2 - 30, g_cub.height/2 + height * 3/4, create_trgb(0, 255, 255, 255), "lrocca");
 }
 
 int			main(int ac, char **av)
 {
 	if (ac == 1)
-		ft_exit("Syntax error: No .cub file specified", NULL);
+		ft_error("No .cub file specified", NULL);
 	else if (ac == 2 || ac == 3)
 	{
+		// g_cub.C = -1;
+		// g_cub.F = -1;
 		open_map(av[1]);
-		printf("NO\t%s\n", g_txt.NO);
-		printf("SO\t%s\n", g_txt.SO);
-		printf("EA\t%s\n", g_txt.EA);
-		printf("WE\t%s\n", g_txt.WE);
-		printf("S\t%s\n", g_txt.S);
-		printf("w\t%d\n", g_cub.wwidth);
-		printf("h\t%d\n", g_cub.wheight);
-		printf("F\t%#.8X\n", g_cub.F);
-		printf("C\t%#.8X\n", g_cub.C);
 		// check flag before file
 		if (ac == 3)
 			check_flag(av[2]);
+		g_mlx.mlx = mlx_init();
+		int width;
+		int height;
+		mlx_get_screen_size(g_mlx.mlx, &width, &height);
+		printf("%d * %d\n", width, height);
+		g_mlx.win = mlx_new_window(g_mlx.mlx, g_cub.width, g_cub.height, "cub3D");
+		test_scene();
+		mlx_hook(g_mlx.win, 2, 1L << 0, &keypress, 0);
+		mlx_hook(g_mlx.win, 17, 1L, &ft_exit, 0);
+		mlx_loop(g_mlx.mlx);
 	}
 	else
-		ft_exit("Syntax error: Too many arguments", NULL);
+		ft_error("Too many arguments", NULL);
 }

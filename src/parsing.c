@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/02/24 19:48:30 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/02/27 19:00:39 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@ static char	parse_window(char *s)
 {
 	if (*s == 'R')
 	{
+		if (g_cub.width || g_cub.height)
+			ft_error("Multiple R declarations", NULL);
 		s++;
 		while (ft_isspace(*s))
 			s++;
-		if (!(ft_isdigit(*s) && (g_cub.wwidth = ft_atoi(s))))
-			ft_exit("Error: Window width not valid or memory allocation failed", NULL);
+		if (!(ft_isdigit(*s) && (g_cub.width = ft_atoi(s))))
+			ft_error("Window width not valid", NULL);
 		while (ft_isdigit(*s))
 			s++;
 		while (ft_isspace(*s))
 			s++;
-		if (!(ft_isdigit(*s) && (g_cub.wheight = ft_atoi(s))))
-			ft_exit("Error: Window height not valid or memory allocation failed", NULL);
+		if (!(ft_isdigit(*s) && (g_cub.height = ft_atoi(s))))
+			ft_error("Window height not valid", NULL);
 		return (1);
 	}
 	return (0);
@@ -47,7 +49,7 @@ static char	parse_texture(char *s)
 	if (!ft_strncmp(s, "NO", 2) && skip(&s, 2))
 	{
 		if (g_txt.NO || !(g_txt.NO = ft_strdup(s)))
-			ft_exit("Error: Multiple NO paths or memory allocation failed", NULL);
+			ft_error("Multiple NO paths or memory allocation failed", NULL);
 		// if (!(tmp = ft_strtrim(g_txt.NO, " \t\v\f\r")))
 		// 	ft_exit(1);
 		// free(g_txt.NO);
@@ -56,22 +58,22 @@ static char	parse_texture(char *s)
 	else if (!ft_strncmp(s, "SO", 2) && skip(&s, 2))
 	{
 		if (g_txt.SO || !(g_txt.SO = ft_strdup(s)))
-			ft_exit("Error: Multiple SO paths or memory allocation failed", NULL);
+			ft_error("Multiple SO paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "WE", 2) && skip(&s, 2))
 	{
 		if (g_txt.WE || !(g_txt.WE = ft_strdup(s)))
-			ft_exit("Error: Multiple WE paths or memory allocation failed", NULL);
+			ft_error("Multiple WE paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "EA", 2) && skip(&s, 2))
 	{
 		if (g_txt.EA || !(g_txt.EA = ft_strdup(s)))
-			ft_exit("Error: Multiple EA paths or memory allocation failed", NULL);
+			ft_error("Multiple EA paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "S", 1) && skip(&s, 2))
 	{
 		if (g_txt.S || !(g_txt.S = ft_strdup(s)))
-			ft_exit("Error: Multiple S paths or memory allocation failed", NULL);
+			ft_error("Multiple S paths or memory allocation failed", NULL);
 	}
 	else
 		return (0);
@@ -90,16 +92,16 @@ static int	parse_color_component(char **s, char c)
 	if (c != z)
 		i = 0;
 	if (i > 3)
-		ft_exit("Error: Invalid color: ", char_to_str(c));
+		ft_error("Invalid color", char_to_str(c));
 	if (!(ft_isdigit(**s)))
-		ft_exit("Error: Invalid color: ", char_to_str(c));
+		ft_error("Invalid color", char_to_str(c));
 	n = ft_atoi(*s);
 	while (ft_isdigit(**s))
 		(*s)++;
 	if (i == 3 && **s != '\0')
-		ft_exit("Error: Invalid color: ", char_to_str(c));
+		ft_error("Invalid color", char_to_str(c));
 	else if ((i == 1 || i == 2) && **s != ',')
-		ft_exit("Error: Invalid color: ", char_to_str(c));
+		ft_error("Invalid color", char_to_str(c));
 	(*s)++;
 	return (n);
 }
@@ -114,7 +116,7 @@ static char	parse_color(char *s)
 	if ((*s == 'F' && (c = 'F')) || (*s == 'C' && (c = 'C')))
 	{
 		if ((c == 'F' && g_cub.F) || (c == 'C' && g_cub.C))
-			ft_exit("Error: Multiple declarations for: ", char_to_str(c));
+			ft_error("Multiple declarations for", char_to_str(c));
 		skip(&s, 1);
 		r = parse_color_component(&s, c);
 		g = parse_color_component(&s, c);
@@ -146,6 +148,15 @@ char		parse_options(t_list *list)
 	return (0);
 }
 
+char		parse_map(t_list *list)
+{
+	static int	i = 0;
+
+	if (!(g_cub.matrix[i] = ft_strdup(list->content)))
+		ft_error("Matrix row allocation failed", NULL);
+	i++;
+	return (1);
+}
+
 // TO DO
-// controlla se variabile esiste gia'
-// trim spazi dalla path
+// trim spazi dalla path?
