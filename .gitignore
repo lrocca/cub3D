@@ -1,3 +1,9 @@
 *.o
 *.out
 cub3D
+*.dylib
+*.a
+*.swiftmodule
+*.swiftdoc
+.vscode
+cub3D.dSYM
