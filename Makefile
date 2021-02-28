@@ -1,7 +1,8 @@
 NAME		=	cub3D
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
-FILES		=	cub3D.c gnl.c parsing.c utils_color.c check.c
+FILES		=	cub3D.c gnl.c parsing.c check.c render.c \
+				utils.c utils_check.c utils_color.c utils_render.c
 SRC			=	$(addprefix $(SRCDIR)/,$(FILES))
 OBJ			= 	$(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRC:.c=.o))
 OBJDIR		=	./obj
@@ -44,7 +45,7 @@ clean:
 	@make clean -C ./mlx_opengl
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) libmlx.dylib
 	@printf "%-80.80b\n" "\e[1;31m•\e[0m Deleted archive for \033[1m$(NAME)\033[0m"
 	@make fclean -C $(LIBFTDIR)
 

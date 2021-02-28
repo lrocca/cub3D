@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/02/27 19:09:24 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/02/28 18:59:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,48 @@
 # include "structs.h"
 
 t_mlx	g_mlx;
+t_win	g_win;
 t_cub	g_cub;
 t_txt	g_txt;
+t_data	g_data;
+char	**g_map;
 
-char	*char_to_str(char c);
+/*
+** utils.c
+*/
+int		ft_exit(int i);
 void	ft_error(char *s, char *z);
+char	*char_to_str(char c);
 
+/*
+** utils_check.c
+*/
+void	check_flag(char *s);
+char	check_extension(char *s);
+
+/*
+** utils_color.c
+*/
 int		create_trgb(int t, int r, int g, int b);
 
+/*
+** utils_render.c
+*/
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+
+/*
+** gnl.c
+*/
 int		get_next_line(int fd, char **line);
 
 char	parse_options(t_list *list);
 char	parse_map(t_list *list);
 
 void	check_file(void);
+
+/*
+** render.c
+*/
+void	draw_minimap(void);
 
 #endif

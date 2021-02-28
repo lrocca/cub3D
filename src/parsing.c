@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/02/27 19:00:39 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/02/28 18:29:36 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ static char	parse_window(char *s)
 {
 	if (*s == 'R')
 	{
-		if (g_cub.width || g_cub.height)
+		if (g_win.w || g_win.h)
 			ft_error("Multiple R declarations", NULL);
 		s++;
 		while (ft_isspace(*s))
 			s++;
-		if (!(ft_isdigit(*s) && (g_cub.width = ft_atoi(s))))
+		if (!(ft_isdigit(*s) && (g_win.w = ft_atoi(s))))
 			ft_error("Window width not valid", NULL);
 		while (ft_isdigit(*s))
 			s++;
 		while (ft_isspace(*s))
 			s++;
-		if (!(ft_isdigit(*s) && (g_cub.height = ft_atoi(s))))
+		if (!(ft_isdigit(*s) && (g_win.h = ft_atoi(s))))
 			ft_error("Window height not valid", NULL);
 		return (1);
 	}
@@ -48,7 +48,7 @@ static char	parse_texture(char *s)
 
 	if (!ft_strncmp(s, "NO", 2) && skip(&s, 2))
 	{
-		if (g_txt.NO || !(g_txt.NO = ft_strdup(s)))
+		if (g_txt.NO || !(g_txt.NO = ft_strtrim(s, " \t\v\f\r")))
 			ft_error("Multiple NO paths or memory allocation failed", NULL);
 		// if (!(tmp = ft_strtrim(g_txt.NO, " \t\v\f\r")))
 		// 	ft_exit(1);
@@ -57,22 +57,22 @@ static char	parse_texture(char *s)
 	}
 	else if (!ft_strncmp(s, "SO", 2) && skip(&s, 2))
 	{
-		if (g_txt.SO || !(g_txt.SO = ft_strdup(s)))
+		if (g_txt.SO || !(g_txt.SO = ft_strtrim(s, " \t\v\f\r")))
 			ft_error("Multiple SO paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "WE", 2) && skip(&s, 2))
 	{
-		if (g_txt.WE || !(g_txt.WE = ft_strdup(s)))
+		if (g_txt.WE || !(g_txt.WE = ft_strtrim(s, " \t\v\f\r")))
 			ft_error("Multiple WE paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "EA", 2) && skip(&s, 2))
 	{
-		if (g_txt.EA || !(g_txt.EA = ft_strdup(s)))
+		if (g_txt.EA || !(g_txt.EA = ft_strtrim(s, " \t\v\f\r")))
 			ft_error("Multiple EA paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "S", 1) && skip(&s, 2))
 	{
-		if (g_txt.S || !(g_txt.S = ft_strdup(s)))
+		if (g_txt.S || !(g_txt.S = ft_strtrim(s, " \t\v\f\r")))
 			ft_error("Multiple S paths or memory allocation failed", NULL);
 	}
 	else
@@ -152,11 +152,8 @@ char		parse_map(t_list *list)
 {
 	static int	i = 0;
 
-	if (!(g_cub.matrix[i] = ft_strdup(list->content)))
+	if (!(g_map[i] = ft_strdup(list->content)))
 		ft_error("Matrix row allocation failed", NULL);
 	i++;
 	return (1);
 }
-
-// TO DO
-// trim spazi dalla path?
