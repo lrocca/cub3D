@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/02/28 18:59:48 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/02 16:57:43 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+#include <math.h>
 # include "../mlx_mms/mlx.h"
 # include "../mlx_opengl/mlx.h"
 
@@ -30,6 +31,8 @@ t_win	g_win;
 t_cub	g_cub;
 t_txt	g_txt;
 t_data	g_data;
+t_plr	g_plr;
+t_ray	g_ray;
 char	**g_map;
 
 /*
@@ -60,6 +63,11 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 */
 int		get_next_line(int fd, char **line);
 
+/*
+** mlx.c
+*/
+void	mlx(void);
+
 char	parse_options(t_list *list);
 char	parse_map(t_list *list);
 
@@ -68,6 +76,7 @@ void	check_file(void);
 /*
 ** render.c
 */
+void	ray(void);
 void	draw_minimap(void);
 
 #endif

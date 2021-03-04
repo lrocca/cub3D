@@ -1,7 +1,7 @@
 NAME		=	cub3D
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
-FILES		=	cub3D.c gnl.c parsing.c check.c render.c \
+FILES		=	cub3D.c gnl.c parsing.c check.c mlx.c render.c \
 				utils.c utils_check.c utils_color.c utils_render.c
 SRC			=	$(addprefix $(SRCDIR)/,$(FILES))
 OBJ			= 	$(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRC:.c=.o))
@@ -9,6 +9,7 @@ OBJDIR		=	./obj
 SRCDIR		=	./src
 LIBFT		=	$(LIBFTDIR)/libft.a
 LIBFTDIR	=	./libft
+DYLIB		=	./mlx_mms/libmlx.dylib
 
 all: mlx $(LIBFT) $(NAME)
 
@@ -28,10 +29,10 @@ $(OBJ): | $(OBJDIR)
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
-mlx:
+mlx: $(DYLIB)
 	@make -C ./mlx_mms
 	@make -C ./mlx_opengl
-	mv ./mlx_mms/libmlx.dylib ./
+	cp $^ ./
 
 test: all
 	./cub3D maps/test.cub
