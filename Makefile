@@ -2,7 +2,8 @@ NAME		=	cub3D
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
 FILES		=	cub3D.c gnl.c parsing.c check.c mlx.c render.c \
-				utils.c utils_check.c utils_color.c utils_render.c
+				utils.c utils_check.c utils_color.c utils_render.c \
+				test_scenes.c
 SRC			=	$(addprefix $(SRCDIR)/,$(FILES))
 OBJ			= 	$(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRC:.c=.o))
 OBJDIR		=	./obj

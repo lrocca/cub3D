@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/02 16:57:43 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/06 14:58:15 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void	check_file(void);
 */
 void	ray(void);
 void	draw_minimap(void);
+void	test_scene(void);
 
 #endif
