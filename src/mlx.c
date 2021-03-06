@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/04 18:32:11 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/06 15:16:23 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	get_image(void)
 	ray();
 	draw_minimap();
 	mlx_put_image_to_window(g_mlx.mlx, g_win.ptr, g_data.img, 0, 0);
+	// test_scene();
 }
 
 int		keypress(int key)
@@ -34,26 +35,27 @@ int		keypress(int key)
 		ft_exit(0);
 	else if (key == 13) // W
 	{
-		// printf("%f\n", g_plr.posY);
-		// if (g_map[(int)(g_plr.posY) - 1][(int)g_plr.posX] != '1')
-		// 	g_plr.posY -= 1;
-		g_plr.posX += g_plr.dirX * MOVESPEED;
-		g_plr.posY += g_plr.dirY * MOVESPEED;
+		if (g_map[(int)(g_plr.posY + (g_plr.dirX * MOVESPEED * 2))][(int)g_plr.posY] == '0')
+			g_plr.posX += g_plr.dirX * MOVESPEED;
+		if (g_map[(int)g_plr.posX][(int)(g_plr.posY + (g_plr.dirX * MOVESPEED * 2))] == '0')
+			g_plr.posY += g_plr.dirY * MOVESPEED;
 	}
 	else if (key == 1) // S
 	{
-		if (g_map[(int)(g_plr.posY) + 1][(int)g_plr.posX] != '1')
-			g_plr.posY += 1;
+		// if (g_map[(int)(g_plr.posX - (g_plr.dirX * MOVESPEED * 2))][(int)g_plr.posY] == '0')
+			g_plr.posX -= g_plr.dirX * MOVESPEED;
+		// if (g_map[(int)g_plr.posX][(int)(g_plr.posY - (g_plr.dirX * MOVESPEED * 2))] == '0')
+			g_plr.posY -= g_plr.dirY * MOVESPEED;
 	}
 	else if (key == 0) // A
 	{
-		if (g_map[(int)g_plr.posY][(int)(g_plr.posX) - 1] != '1')
-			g_plr.posX -= 1;
+		g_plr.posX += g_plr.dirY * MOVESPEED;
+		g_plr.posY -= g_plr.dirX * MOVESPEED;
 	}
 	else if (key == 2) // D
 	{
-		if (g_map[(int)g_plr.posY][(int)(g_plr.posX) + 1] != '1')
-			g_plr.posX += 1;
+		g_plr.posX -= g_plr.dirY * MOVESPEED;
+		g_plr.posY += g_plr.dirX * MOVESPEED;
 	}
 	else if (key == 123) // <-
 	{

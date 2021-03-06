@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/04 17:39:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/05 17:42:42 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,30 @@ static char	check_len_row(char *s, int len)
 		if (*(s++ + len) != '1')
 			return (1);
 	return (0);
+}
+
+static void	set_direction(char c)
+{
+	if (c == 'N')
+	{
+		g_plr.dirX = 0;
+		g_plr.dirY = -1;
+	}
+	if (c == 'S')
+	{
+		g_plr.dirX = 0;
+		g_plr.dirY = 1;
+	}
+	if (c == 'E')
+	{
+		g_plr.dirX = 1;
+		g_plr.dirY = 0;
+	}
+	if (c == 'W')
+	{
+		g_plr.dirX = -1;
+		g_plr.dirY = 0;
+	}
 }
 
 static char	check_map(void)
@@ -57,11 +81,7 @@ static char	check_map(void)
 			{
 				g_plr.posX = x + 0.5;
 				g_plr.posY = y + 0.5;
-				if (g_map[y][x] == 'N')
-				{
-					g_plr.dirX = 0;
-					g_plr.dirY = -1;
-				}
+				set_direction(g_map[y][x]);
 				player++;
 			}
 			if (player > 1)
