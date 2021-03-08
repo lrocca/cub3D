@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/02 17:28:35 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/08 19:13:51 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,22 +113,22 @@ void	get_distance(int x)//, double cameraX)
 	if (g_ray.x < 0)
 	{
 		stepX = -1;
-		sideDistX = (mapX - (int)g_plr.posX) * deltaDistX;
+		sideDistX = (g_plr.posX - mapX) * deltaDistX;
 	}
 	else
 	{
 		stepX = 1;
-		sideDistX = ((int)g_plr.posX + 1.0 - g_plr.posX) * deltaDistX;
+		sideDistX = (mapX + 1.0 - g_plr.posX) * deltaDistX;
 	}
 	if (g_ray.y < 0)
 	{
 		stepY = -1;
-		sideDistY = (mapY - (int)g_plr.posY) * deltaDistY;
+		sideDistY = (g_plr.posY - mapY) * deltaDistY;
 	}
 	else
 	{
 		stepY = 1;
-		sideDistY = ((int)g_plr.posY + 1.0 - mapY) * deltaDistY;
+		sideDistY = (mapY + 1.0 - g_plr.posY) * deltaDistY;
 	}
 
 	//perform DDA
@@ -157,19 +157,62 @@ void	get_distance(int x)//, double cameraX)
 		perpWallDist = (mapY - g_plr.posY + (1 - stepY) / 2) / g_ray.y;
 
 	//Calculate height of line to draw on screen
-	int lineHeight = (int)(g_win.h / perpWallDist * 2);
+	int lineHeight = (int)(g_win.h / perpWallDist);
 
 	int color;
-	color = 0x00FFFFFF;
-	if (side == 1)
-		color = color / 2;
+	// color = g_cub.C;
+	// if (side == 1)
+	// 	color = g_cub.F;
 
-	int i = 0;
-	// int padding = (g_win.h - lineHeight) / 2;
-	while (i < lineHeight)
+	//calculate lowest and highest pixel to fill in current stripe
+	int drawStart = -lineHeight / 2 + g_win.h / 2;
+	if (drawStart < 0)
+		drawStart = 0;
+	int drawEnd = lineHeight / 2 + g_win.h / 2;
+	if (drawEnd >= g_win.h)
+		drawEnd = g_win.h - 1;
+
+	//calculate value of wallX
+	double wallX; //where exactly the wall was hit
+	if (side == 0)
+		wallX = g_plr.posY + perpWallDist * g_ray.y;
+	else
+		wallX = g_plr.posX + perpWallDist * g_ray.x;
+	wallX -= floor((wallX));
+
+	//x coordinate on the texture
+	int texX = (int)(wallX * (double)TEXWIDTH);
+	if (side == 0 && g_ray.x > 0)
+		texX = TEXWIDTH - texX - 1;
+	if (side == 1 && g_ray.y < 0)
+		texX = TEXWIDTH - texX - 1;
+
+	// How much to increase the texture coordinate per screen pixel
+	double step = 1.0 * TEXHEIGHT / lineHeight;
+	// Starting texture coordinate
+	double texPos = (drawStart - g_win.h / 2 + lineHeight / 2) * step;
+	int y = 0;
+	while (y < drawStart)
 	{
-		my_mlx_pixel_put(&g_data, x, (g_win.h - lineHeight) / 2 + i, color);
-		i++;
+		my_mlx_pixel_put(&g_data, x, y, g_cub.C);
+		y++;
+	}
+	y = drawStart;
+	while (y < drawEnd)
+	{
+		// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+		int texY = (int)texPos & (TEXHEIGHT - 1);
+		texPos += step;
+		color = ((unsigned int *)g_tex.NO)[TEXHEIGHT * texY + texX];
+		//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+		if(side == 1) color = (color >> 1) & 8355711;
+		my_mlx_pixel_put(&g_data, x, y, color);
+		y++;
+	}
+	while (y < g_win.h)
+	{
+		my_mlx_pixel_put(&g_data, x, y, g_cub.F);
+		y++;
 	}
 }
 

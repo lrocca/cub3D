@@ -6,58 +6,55 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/06 15:16:23 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/08 19:12:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
-#define ROTSPEED 0.2
-#define MOVESPEED 0.5
 
 // <- 123
 // -> 124
 
-void	get_image(void)
+int		get_image(void)
 {
-	if (g_data.img)
-		mlx_destroy_image(g_mlx.mlx, g_data.img);
 	g_data.img = mlx_new_image(g_mlx.mlx, g_win.w, g_win.h);
 	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel, &g_data.line_length, &g_data.endian);
 	ray();
 	draw_minimap();
 	mlx_put_image_to_window(g_mlx.mlx, g_win.ptr, g_data.img, 0, 0);
-	// test_scene();
+	mlx_destroy_image(g_mlx.mlx, g_data.img);
+	return (1);
 }
 
 int		keypress(int key)
 {
 	if (key == 53)
 		ft_exit(0);
-	else if (key == 13) // W
+	if (key == 13) // W
 	{
-		if (g_map[(int)(g_plr.posY + (g_plr.dirX * MOVESPEED * 2))][(int)g_plr.posY] == '0')
+		if (g_map[(int)g_plr.posY][(int)(g_plr.posX + g_plr.dirX * MOVESPEED * COLLISION)] == '0')
 			g_plr.posX += g_plr.dirX * MOVESPEED;
-		if (g_map[(int)g_plr.posX][(int)(g_plr.posY + (g_plr.dirX * MOVESPEED * 2))] == '0')
+		if (g_map[(int)(g_plr.posY + g_plr.dirY * MOVESPEED * COLLISION)][(int)g_plr.posX] == '0')
 			g_plr.posY += g_plr.dirY * MOVESPEED;
 	}
-	else if (key == 1) // S
+	if (key == 1) // S
 	{
-		// if (g_map[(int)(g_plr.posX - (g_plr.dirX * MOVESPEED * 2))][(int)g_plr.posY] == '0')
+		if (g_map[(int)g_plr.posY][(int)(g_plr.posX - g_plr.dirX * MOVESPEED * COLLISION)] == '0')
 			g_plr.posX -= g_plr.dirX * MOVESPEED;
-		// if (g_map[(int)g_plr.posX][(int)(g_plr.posY - (g_plr.dirX * MOVESPEED * 2))] == '0')
+		if (g_map[(int)(g_plr.posY - g_plr.dirY * MOVESPEED * COLLISION)][(int)g_plr.posX] == '0')
 			g_plr.posY -= g_plr.dirY * MOVESPEED;
 	}
-	else if (key == 0) // A
+	if (key == 0) // A
 	{
 		g_plr.posX += g_plr.dirY * MOVESPEED;
 		g_plr.posY -= g_plr.dirX * MOVESPEED;
 	}
-	else if (key == 2) // D
+	if (key == 2) // D
 	{
 		g_plr.posX -= g_plr.dirY * MOVESPEED;
 		g_plr.posY += g_plr.dirX * MOVESPEED;
 	}
-	else if (key == 123) // <-
+	if (key == 123) // <-
 	{
 		double	oldPlaneX = g_plr.planeX;
 		double	oldDirX = g_plr.dirX;
@@ -70,7 +67,7 @@ int		keypress(int key)
 		g_plr.planeY = oldPlaneX * sin(-ROTSPEED / 2) +
 			g_plr.planeY * cos(-ROTSPEED / 2);
 	}
-	else if (key == 124) // ->
+	if (key == 124) // ->
 	{
 		double	oldPlaneY = g_plr.planeY;
 		double	oldDirY = g_plr.dirY;
@@ -83,19 +80,32 @@ int		keypress(int key)
 		g_plr.planeX = oldPlaneY * sin(-ROTSPEED / 2) +
 			g_plr.planeX * cos(-ROTSPEED / 2);
 	}
-	get_image();
 	return (0);
+}
+
+static char	load_textures(void)
+{
+	int	width;
+	int	height;
+	t_data d;
+
+	if (!(g_tex.NO = mlx_xpm_file_to_image(g_mlx.mlx, g_cub.NO, &width, &height)))
+		ft_error("Failed to load", NULL);
+	d.addr = mlx_get_data_addr(g_tex.NO, &d.bits_per_pixel, &d.line_length, &d.endian);
+	g_tex.NO = d.addr;
+	return (1);
 }
 
 void	mlx(void)
 {
 	g_mlx.mlx = mlx_init();
 	g_win.ptr = mlx_new_window(g_mlx.mlx, g_win.w, g_win.h, "cub3D");
+	load_textures();
 	// test_scene();
 	// g_plr.dirX = -1, g_plr.dirY = 0; //initial direction vector
 	g_plr.planeX = 0.66, g_plr.planeY = 0;
-	get_image();
 	mlx_hook(g_win.ptr, 2, 1L, &keypress, 0);
 	mlx_hook(g_win.ptr, 17, 1L, &ft_exit, 0);
+	mlx_loop_hook(g_mlx.mlx, &get_image, 0);
 	mlx_loop(g_mlx.mlx);
 }

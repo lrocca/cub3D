@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/02 13:45:59 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/08 18:43:05 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ typedef struct	s_cub
 	char 	save;
 	int		x;
 	int		y;
+	char	*NO;
+	char	*SO;
+	char	*WE;
+	char	*EA;
+	char	*S;
 }				t_cub;
 
 typedef struct s_win
@@ -28,14 +33,14 @@ typedef struct s_win
 	int		w;
 	int		h;
 }				t_win;
-typedef struct	s_txt
+typedef struct	s_tex
 {
-	char	*NO;
-	char	*SO;
-	char	*WE;
-	char	*EA;
-	char	*S;
-}				t_txt;
+	void	*NO;
+	void	*SO;
+	void	*WE;
+	void	*EA;
+	void	*S;
+}				t_tex;
 
 typedef struct s_mlx
 {

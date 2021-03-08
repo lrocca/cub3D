@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/05 17:42:42 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/08 18:11:20 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,11 @@ static char	check_map(void)
 
 // static void debug(void)
 // {
-// 	printf("NO\t%s\n", g_txt.NO);
-// 	printf("SO\t%s\n", g_txt.SO);
-// 	printf("EA\t%s\n", g_txt.EA);
-// 	printf("WE\t%s\n", g_txt.WE);
-// 	printf("S\t%s\n", g_txt.S);
+// 	printf("NO\t%s\n", g_tex.NO);
+// 	printf("SO\t%s\n", g_tex.SO);
+// 	printf("EA\t%s\n", g_tex.EA);
+// 	printf("WE\t%s\n", g_tex.WE);
+// 	printf("S\t%s\n", g_tex.S);
 // 	printf("w\t%d\n", g_win.w);
 // 	printf("h\t%d\n", g_win.h);
 // 	printf("F\t%#.8X\n", g_cub.F);
@@ -126,7 +126,7 @@ static char	check_map(void)
 // 		printf("%s\n", g_map[i++]);
 // }
 
-void	check_file(void)
+void		check_file(void)
 {
 	int width;
 	int height;
@@ -136,8 +136,10 @@ void	check_file(void)
 		ft_error("Missing or invalid R declaration", NULL);
 	else if (!g_cub.C || !g_cub.F )
 		ft_error("Missing colors", NULL);
-	else if (!g_txt.NO || !g_txt.SO || !g_txt.EA || !g_txt.WE || !g_txt.S)
+	else if (!g_cub.NO || !g_cub.SO || !g_cub.EA || !g_cub.WE || !g_cub.S)
 		ft_error("One or more textures are missing", NULL);
+	// else if (!load_textures())
+	// 	ft_error("Failed to load textures", NULL);
 	else if (check_map())
 		ft_error("Invalid map", NULL);
 	mlx_get_screen_size(g_mlx.mlx, &width, &height);

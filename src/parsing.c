@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/02/28 18:29:36 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/08 18:05:17 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,37 +44,21 @@ static char	skip(char **s, int n)
 
 static char	parse_texture(char *s)
 {
-	// char	*tmp;
-
 	if (!ft_strncmp(s, "NO", 2) && skip(&s, 2))
-	{
-		if (g_txt.NO || !(g_txt.NO = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple NO paths or memory allocation failed", NULL);
-		// if (!(tmp = ft_strtrim(g_txt.NO, " \t\v\f\r")))
-		// 	ft_exit(1);
-		// free(g_txt.NO);
-		// g_txt.NO = tmp;
-	}
+	{	if (g_cub.NO || !(g_cub.NO = ft_strtrim(s, " \t\v\f\r")))
+			ft_error("Multiple NO paths or memory allocation failed", NULL);}
 	else if (!ft_strncmp(s, "SO", 2) && skip(&s, 2))
-	{
-		if (g_txt.SO || !(g_txt.SO = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple SO paths or memory allocation failed", NULL);
-	}
+	{	if (g_cub.SO || !(g_cub.SO = ft_strtrim(s, " \t\v\f\r")))
+			ft_error("Multiple SO paths or memory allocation failed", NULL);}
 	else if (!ft_strncmp(s, "WE", 2) && skip(&s, 2))
-	{
-		if (g_txt.WE || !(g_txt.WE = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple WE paths or memory allocation failed", NULL);
-	}
+	{	if (g_cub.WE || !(g_cub.WE = ft_strtrim(s, " \t\v\f\r")))
+			ft_error("Multiple WE paths or memory allocation failed", NULL);}
 	else if (!ft_strncmp(s, "EA", 2) && skip(&s, 2))
-	{
-		if (g_txt.EA || !(g_txt.EA = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple EA paths or memory allocation failed", NULL);
-	}
+	{	if (g_cub.EA || !(g_cub.EA = ft_strtrim(s, " \t\v\f\r")))
+			ft_error("Multiple EA paths or memory allocation failed", NULL);}
 	else if (!ft_strncmp(s, "S", 1) && skip(&s, 2))
-	{
-		if (g_txt.S || !(g_txt.S = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple S paths or memory allocation failed", NULL);
-	}
+		{if (g_cub.S || !(g_cub.S = ft_strtrim(s, " \t\v\f\r")))
+			ft_error("Multiple S paths or memory allocation failed", NULL);}
 	else
 		return (0);
 	return (1);

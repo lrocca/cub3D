@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/06 14:58:15 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/08 16:33:03 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,17 @@
 # include "../libft/libft.h"
 # include "structs.h"
 
+
+# define TEXWIDTH	64
+# define TEXHEIGHT	64
+# define ROTSPEED	0.2
+# define MOVESPEED	0.5
+# define COLLISION	3
+
 t_mlx	g_mlx;
 t_win	g_win;
 t_cub	g_cub;
-t_txt	g_txt;
+t_tex	g_tex;
 t_data	g_data;
 t_plr	g_plr;
 t_ray	g_ray;
