@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:58:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/02/28 18:59:10 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include "../inc/cub3D.h"
 
 void		check_flag(char *s)
 {

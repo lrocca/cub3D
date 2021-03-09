@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/08 16:33:03 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 12:30:16 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-#include <math.h>
+# include <math.h>
 # include "../mlx_mms/mlx.h"
 # include "../mlx_opengl/mlx.h"
 
@@ -30,8 +30,7 @@
 # define TEXWIDTH	64
 # define TEXHEIGHT	64
 # define ROTSPEED	0.2
-# define MOVESPEED	0.5
-# define COLLISION	3
+# define MOVESPEED	0.3
 
 t_mlx	g_mlx;
 t_win	g_win;

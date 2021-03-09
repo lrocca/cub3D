@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 01:16:02 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include "../inc/cub3D.h"
 
 int		get_image(void)
 {
@@ -29,27 +29,31 @@ int		keypress(int key)
 		ft_exit(0);
 	if (key == 13) // W
 	{
-		if (g_map[(int)g_plr.posY][(int)(g_plr.posX + g_plr.dirX * MOVESPEED * COLLISION)] == '0')
+		if (g_map[(int)g_plr.posY][(int)(g_plr.posX + g_plr.dirX * MOVESPEED)] == '0')
 			g_plr.posX += g_plr.dirX * MOVESPEED;
-		if (g_map[(int)(g_plr.posY + g_plr.dirY * MOVESPEED * COLLISION)][(int)g_plr.posX] == '0')
+		if (g_map[(int)(g_plr.posY + g_plr.dirY * MOVESPEED)][(int)g_plr.posX] == '0')
 			g_plr.posY += g_plr.dirY * MOVESPEED;
 	}
 	if (key == 1) // S
 	{
-		if (g_map[(int)g_plr.posY][(int)(g_plr.posX - g_plr.dirX * MOVESPEED * COLLISION)] == '0')
+		if (g_map[(int)g_plr.posY][(int)(g_plr.posX - g_plr.dirX * MOVESPEED)] == '0')
 			g_plr.posX -= g_plr.dirX * MOVESPEED;
-		if (g_map[(int)(g_plr.posY - g_plr.dirY * MOVESPEED * COLLISION)][(int)g_plr.posX] == '0')
+		if (g_map[(int)(g_plr.posY - g_plr.dirY * MOVESPEED)][(int)g_plr.posX] == '0')
 			g_plr.posY -= g_plr.dirY * MOVESPEED;
 	}
 	if (key == 0) // A
 	{
-		g_plr.posX += g_plr.dirY * MOVESPEED;
-		g_plr.posY -= g_plr.dirX * MOVESPEED;
+		if (g_map[(int)g_plr.posY][(int)(g_plr.posX + g_plr.dirY * MOVESPEED)] == '0')
+			g_plr.posX += g_plr.dirY * MOVESPEED;
+		if (g_map[(int)(g_plr.posY - g_plr.dirX * MOVESPEED)][(int)g_plr.posX] == '0')
+			g_plr.posY -= g_plr.dirX * MOVESPEED;
 	}
 	if (key == 2) // D
 	{
-		g_plr.posX -= g_plr.dirY * MOVESPEED;
-		g_plr.posY += g_plr.dirX * MOVESPEED;
+		if (g_map[(int)g_plr.posY][(int)(g_plr.posX - g_plr.dirY * MOVESPEED)] == '0')
+			g_plr.posX -= g_plr.dirY * MOVESPEED;
+		if (g_map[(int)(g_plr.posY + g_plr.dirX * MOVESPEED)][(int)g_plr.posX] == '0')
+			g_plr.posY += g_plr.dirX * MOVESPEED;
 	}
 	if (key == 123) // <-
 	{

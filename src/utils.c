@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:02 by lrocca            #+#    #+#             */
-/*   Updated: 2021/02/28 18:59:02 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include "../inc/cub3D.h"
 
 int			ft_exit(int i)
 {

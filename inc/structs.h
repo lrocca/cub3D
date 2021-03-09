@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/08 18:43:05 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 19:33:43 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,11 @@ typedef struct	s_ray
 	double y;
 }				t_ray;
 
+typedef struct	s_spr
+{
+	int		x;
+	int		y;
+	double	distance;
+}				t_spr;
 
 #endif

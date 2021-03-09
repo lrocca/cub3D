@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/08 23:57:22 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include "../inc/cub3D.h"
 
 void	draw_position(void)
 {

@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 01:13:04 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3D.h"
+#include "../inc/cub3D.h"
 
 static char	check_row(char *s)
 {
@@ -90,6 +90,7 @@ static char	check_map(void)
 				g_plr.posX = x + 0.5;
 				g_plr.posY = y + 0.5;
 				set_direction(g_map[y][x]);
+				g_map[y][x] = '0';
 				player++;
 			}
 			if (player > 1)
