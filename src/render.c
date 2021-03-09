@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/08 19:13:51 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/08 23:57:22 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,9 +160,6 @@ void	get_distance(int x)//, double cameraX)
 	int lineHeight = (int)(g_win.h / perpWallDist);
 
 	int color;
-	// color = g_cub.C;
-	// if (side == 1)
-	// 	color = g_cub.F;
 
 	//calculate lowest and highest pixel to fill in current stripe
 	int drawStart = -lineHeight / 2 + g_win.h / 2;
@@ -198,14 +195,29 @@ void	get_distance(int x)//, double cameraX)
 		y++;
 	}
 	y = drawStart;
+	void	*texture;
+	if (side == 1)
+	{
+		if (g_ray.y > 0)
+			texture = g_tex.SO;
+		else
+			texture = g_tex.NO;
+	}
+	else
+	{
+		if (g_ray.x > 0)
+			texture = g_tex.EA;
+		else
+			texture = g_tex.WE;
+	}
 	while (y < drawEnd)
 	{
 		// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
 		int texY = (int)texPos & (TEXHEIGHT - 1);
 		texPos += step;
-		color = ((unsigned int *)g_tex.NO)[TEXHEIGHT * texY + texX];
+		color = ((unsigned int *)texture)[TEXHEIGHT * texY + texX];
 		//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-		if(side == 1) color = (color >> 1) & 8355711;
+		// if(side == 1) color = (color >> 1) & 8355711;
 		my_mlx_pixel_put(&g_data, x, y, color);
 		y++;
 	}

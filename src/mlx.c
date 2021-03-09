@@ -6,14 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/08 19:12:52 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 01:16:02 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
-
-// <- 123
-// -> 124
 
 int		get_image(void)
 {
@@ -90,9 +87,21 @@ static char	load_textures(void)
 	t_data d;
 
 	if (!(g_tex.NO = mlx_xpm_file_to_image(g_mlx.mlx, g_cub.NO, &width, &height)))
-		ft_error("Failed to load", NULL);
+		ft_error("Failed to load 'NO' texture", NULL);
 	d.addr = mlx_get_data_addr(g_tex.NO, &d.bits_per_pixel, &d.line_length, &d.endian);
 	g_tex.NO = d.addr;
+	if (!(g_tex.SO = mlx_xpm_file_to_image(g_mlx.mlx, g_cub.SO, &width, &height)))
+		ft_error("Failed to load 'SO' texture", NULL);
+	d.addr = mlx_get_data_addr(g_tex.SO, &d.bits_per_pixel, &d.line_length, &d.endian);
+	g_tex.SO = d.addr;
+	if (!(g_tex.WE = mlx_xpm_file_to_image(g_mlx.mlx, g_cub.WE, &width, &height)))
+		ft_error("Failed to load 'WE' texture", NULL);
+	d.addr = mlx_get_data_addr(g_tex.WE, &d.bits_per_pixel, &d.line_length, &d.endian);
+	g_tex.WE = d.addr;
+	if (!(g_tex.EA = mlx_xpm_file_to_image(g_mlx.mlx, g_cub.EA, &width, &height)))
+		ft_error("Failed to load 'EA' texture", NULL);
+	d.addr = mlx_get_data_addr(g_tex.EA, &d.bits_per_pixel, &d.line_length, &d.endian);
+	g_tex.EA = d.addr;
 	return (1);
 }
 
@@ -102,8 +111,6 @@ void	mlx(void)
 	g_win.ptr = mlx_new_window(g_mlx.mlx, g_win.w, g_win.h, "cub3D");
 	load_textures();
 	// test_scene();
-	// g_plr.dirX = -1, g_plr.dirY = 0; //initial direction vector
-	g_plr.planeX = 0.66, g_plr.planeY = 0;
 	mlx_hook(g_win.ptr, 2, 1L, &keypress, 0);
 	mlx_hook(g_win.ptr, 17, 1L, &ft_exit, 0);
 	mlx_loop_hook(g_mlx.mlx, &get_image, 0);

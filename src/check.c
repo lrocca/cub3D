@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/08 18:11:20 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/09 01:13:04 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,29 @@ static void	set_direction(char c)
 	{
 		g_plr.dirX = 0;
 		g_plr.dirY = -1;
+		g_plr.planeX = 0.66;
+		g_plr.planeY = 0;
 	}
 	if (c == 'S')
 	{
 		g_plr.dirX = 0;
 		g_plr.dirY = 1;
+		g_plr.planeX = -0.66;
+		g_plr.planeY = 0;
 	}
 	if (c == 'E')
 	{
 		g_plr.dirX = 1;
 		g_plr.dirY = 0;
+		g_plr.planeX = 0;
+		g_plr.planeY = 0.66;
 	}
 	if (c == 'W')
 	{
 		g_plr.dirX = -1;
 		g_plr.dirY = 0;
+		g_plr.planeX = 0;
+		g_plr.planeY = -0.66;
 	}
 }
 
