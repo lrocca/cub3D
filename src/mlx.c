@@ -6,14 +6,31 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/10 17:26:40 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
 
+void	update_player(void)
+{
+	if (g_mlx.key[MOVEFWD])
+		move_fwd();
+	if (g_mlx.key[MOVEBACK])
+		move_back();
+	if (g_mlx.key[MOVELEFT])
+		move_left();
+	if (g_mlx.key[MOVERIGHT])
+		move_right();
+	if (g_mlx.key[ROTLEFT])
+		rotate_left();
+	if (g_mlx.key[ROTRIGHT])
+		rotate_right();
+}
+
 int		get_image(void)
 {
+	update_player();
 	g_data.img = mlx_new_image(g_mlx.mlx, g_win.w, g_win.h);
 	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel, &g_data.line_length, &g_data.endian);
 	ray();
@@ -25,62 +42,37 @@ int		get_image(void)
 
 int		keypress(int key)
 {
-	if (key == 53)
+	if (key == ESCKEY)
 		ft_exit(0);
-	if (key == 13) // W
-	{
-		if (g_map[(int)g_plr.posY][(int)(g_plr.posX + g_plr.dirX * MOVESPEED)] == '0')
-			g_plr.posX += g_plr.dirX * MOVESPEED;
-		if (g_map[(int)(g_plr.posY + g_plr.dirY * MOVESPEED)][(int)g_plr.posX] == '0')
-			g_plr.posY += g_plr.dirY * MOVESPEED;
-	}
-	if (key == 1) // S
-	{
-		if (g_map[(int)g_plr.posY][(int)(g_plr.posX - g_plr.dirX * MOVESPEED)] == '0')
-			g_plr.posX -= g_plr.dirX * MOVESPEED;
-		if (g_map[(int)(g_plr.posY - g_plr.dirY * MOVESPEED)][(int)g_plr.posX] == '0')
-			g_plr.posY -= g_plr.dirY * MOVESPEED;
-	}
-	if (key == 0) // A
-	{
-		if (g_map[(int)g_plr.posY][(int)(g_plr.posX + g_plr.dirY * MOVESPEED)] == '0')
-			g_plr.posX += g_plr.dirY * MOVESPEED;
-		if (g_map[(int)(g_plr.posY - g_plr.dirX * MOVESPEED)][(int)g_plr.posX] == '0')
-			g_plr.posY -= g_plr.dirX * MOVESPEED;
-	}
-	if (key == 2) // D
-	{
-		if (g_map[(int)g_plr.posY][(int)(g_plr.posX - g_plr.dirY * MOVESPEED)] == '0')
-			g_plr.posX -= g_plr.dirY * MOVESPEED;
-		if (g_map[(int)(g_plr.posY + g_plr.dirX * MOVESPEED)][(int)g_plr.posX] == '0')
-			g_plr.posY += g_plr.dirX * MOVESPEED;
-	}
-	if (key == 123) // <-
-	{
-		double	oldPlaneX = g_plr.planeX;
-		double	oldDirX = g_plr.dirX;
-		g_plr.dirX = g_plr.dirX * cos(-ROTSPEED / 2) -
-			g_plr.dirY * sin(-ROTSPEED / 2);
-		g_plr.dirY = oldDirX * sin(-ROTSPEED / 2) +
-			g_plr.dirY * cos(-ROTSPEED / 2);
-		g_plr.planeX = g_plr.planeX * cos(-ROTSPEED / 2)
-			- g_plr.planeY * sin(-ROTSPEED / 2);
-		g_plr.planeY = oldPlaneX * sin(-ROTSPEED / 2) +
-			g_plr.planeY * cos(-ROTSPEED / 2);
-	}
-	if (key == 124) // ->
-	{
-		double	oldPlaneY = g_plr.planeY;
-		double	oldDirY = g_plr.dirY;
-		g_plr.dirY = g_plr.dirY * cos(-ROTSPEED / 2) -
-			g_plr.dirX * sin(-ROTSPEED / 2);
-		g_plr.dirX = oldDirY * sin(-ROTSPEED / 2) +
-			g_plr.dirX * cos(-ROTSPEED / 2);
-		g_plr.planeY = g_plr.planeY * cos(-ROTSPEED / 2)
-			- g_plr.planeX * sin(-ROTSPEED / 2);
-		g_plr.planeX = oldPlaneY * sin(-ROTSPEED / 2) +
-			g_plr.planeX * cos(-ROTSPEED / 2);
-	}
+	if (key == WKEY)
+		g_mlx.key[MOVEFWD] = 1;
+	if (key == SKEY)
+		g_mlx.key[MOVEBACK] = 1;
+	if (key == AKEY)
+		g_mlx.key[MOVELEFT] = 1;
+	if (key == DKEY)
+		g_mlx.key[MOVERIGHT] = 1;
+	if (key == LEFTARROW)
+		g_mlx.key[ROTLEFT] = 1;
+	if (key == RIGHTARROW)
+		g_mlx.key[ROTRIGHT] = 1;
+	return (0);
+}
+
+int		keyrelease(int key)
+{
+	if (key == WKEY)
+		g_mlx.key[0] = 0;
+	if (key == SKEY)
+		g_mlx.key[1] = 0;
+	if (key == AKEY)
+		g_mlx.key[2] = 0;
+	if (key == DKEY)
+		g_mlx.key[3] = 0;
+	if (key == LEFTARROW)
+		g_mlx.key[4] = 0;
+	if (key == RIGHTARROW)
+		g_mlx.key[5] = 0;
 	return (0);
 }
 
@@ -109,13 +101,31 @@ static char	load_textures(void)
 	return (1);
 }
 
+/* static void save_flag(void)
+{
+	g_data.img = mlx_new_image(g_mlx.mlx, g_win.w, g_win.h);
+	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel, &g_data.line_length, &g_data.endian);
+	ray();
+	draw_minimap();
+	ft_exit(0);
+} */
+
 void	mlx(void)
 {
+	g_mlx.key[0] = 0;
+	g_mlx.key[1] = 0;
+	g_mlx.key[2] = 0;
+	g_mlx.key[3] = 0;
+	g_mlx.key[4] = 0;
+	g_mlx.key[5] = 0;
 	g_mlx.mlx = mlx_init();
-	g_win.ptr = mlx_new_window(g_mlx.mlx, g_win.w, g_win.h, "cub3D");
 	load_textures();
+	// if (g_cub.save)
+		// save_flag();
+	g_win.ptr = mlx_new_window(g_mlx.mlx, g_win.w, g_win.h, "cub3D");
 	// test_scene();
-	mlx_hook(g_win.ptr, 2, 1L, &keypress, 0);
+	mlx_hook(g_win.ptr, KEYPRESS, 1L, &keypress, 0);
+	mlx_hook(g_win.ptr, KEYRELEASE, 2L, &keyrelease, 0);
 	mlx_hook(g_win.ptr, 17, 1L, &ft_exit, 0);
 	mlx_loop_hook(g_mlx.mlx, &get_image, 0);
 	mlx_loop(g_mlx.mlx);

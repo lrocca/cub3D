@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 12:30:16 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/10 17:49:45 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,27 @@
 # include "../libft/libft.h"
 # include "structs.h"
 
-
+# define KEYPRESS	2
+# define KEYRELEASE	3
+# define MOVESPEED	0.1
+# define ROTSPEED	0.05
 # define TEXWIDTH	64
 # define TEXHEIGHT	64
-# define ROTSPEED	0.2
-# define MOVESPEED	0.3
+
+# define ESCKEY		53
+# define WKEY		13
+# define SKEY		1
+# define AKEY		0
+# define DKEY		2
+# define LEFTARROW	123
+# define RIGHTARROW	124
+
+# define MOVEFWD	0
+# define MOVEBACK	1
+# define MOVELEFT	2
+# define MOVERIGHT	3
+# define ROTLEFT	4
+# define ROTRIGHT	5
 
 t_mlx	g_mlx;
 t_win	g_win;
@@ -85,5 +101,19 @@ void	check_file(void);
 void	ray(void);
 void	draw_minimap(void);
 void	test_scene(void);
+
+/*
+** move.c
+*/
+void	move_fwd(void);
+void	move_back(void);
+void	move_left(void);
+void	move_right(void);
+
+/*
+** rotate.c
+*/
+void	rotate_left(void);
+void	rotate_right(void);
 
 #endif

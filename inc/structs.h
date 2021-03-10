@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 19:33:43 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/10 17:13:35 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_tex
 typedef struct s_mlx
 {
 	void	*mlx;
+	char	key[6];
 }				t_mlx;
 
 typedef struct	s_data {
