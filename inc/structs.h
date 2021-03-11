@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/11 16:57:19 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/11 19:54:23 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ typedef struct	s_cub
 {
 	int		F;
 	int		C;
-	char 	save;
+	char	save;
 	int		x;
 	int		y;
 	char	*NO;

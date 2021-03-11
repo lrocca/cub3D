@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 18:15:40 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/11 17:23:25 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/11 19:58:59 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,14 @@ void sprite(double *zBuffer)
 
 		int spriteScreenX = (int)((g_win.w / 2) * (1 + transformX / transformY));
 
+		int vMoveScreen = (int)(64.0 / transformY);
 		//calculate height of the sprite on screen
 		int spriteHeight = abs((int)(g_win.h / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + g_win.h / 2;
+		int drawStartY = -spriteHeight / 2 + g_win.h / 2 + vMoveScreen;
 		if (drawStartY < 0)
 			drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + g_win.h / 2;
+		int drawEndY = spriteHeight / 2 + g_win.h / 2 + vMoveScreen;
 		if (drawEndY >= g_win.h)
 			drawEndY = g_win.h - 1;
 
@@ -112,7 +113,7 @@ void sprite(double *zBuffer)
 				int y = drawStartY;
 				while (y < drawEndY) //for every pixel of the current stripe
 				{
-					int d = (y) * 256 - g_win.h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int d = (y - vMoveScreen) * 256 - g_win.h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 					int texY = ((d * TEXHEIGHT) / spriteHeight) / 256;
 					int color = texture[TEXWIDTH * texY + texX]; //get current color from the texture
 					if ((color & 0x00FFFFFF) != 0) //paint pixel if it isn't black, black is the invisible color
