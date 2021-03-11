@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/10 17:26:40 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/11 17:03:44 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ void	update_player(void)
 
 int		get_image(void)
 {
+	// int width, height;
 	update_player();
 	g_data.img = mlx_new_image(g_mlx.mlx, g_win.w, g_win.h);
 	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel, &g_data.line_length, &g_data.endian);
 	ray();
 	draw_minimap();
 	mlx_put_image_to_window(g_mlx.mlx, g_win.ptr, g_data.img, 0, 0);
+	// mlx_put_image_to_window(g_mlx.mlx, g_win.ptr, mlx_xpm_file_to_image(g_mlx.mlx, g_cub.S, &width, &height), 0, 0);
 	mlx_destroy_image(g_mlx.mlx, g_data.img);
 	return (1);
 }
@@ -98,6 +100,10 @@ static char	load_textures(void)
 		ft_error("Failed to load 'EA' texture", NULL);
 	d.addr = mlx_get_data_addr(g_tex.EA, &d.bits_per_pixel, &d.line_length, &d.endian);
 	g_tex.EA = d.addr;
+	if (!(g_tex.S = mlx_xpm_file_to_image(g_mlx.mlx, g_cub.S, &width, &height)))
+		ft_error("Failed to load 'S' texture", NULL);
+	d.addr = mlx_get_data_addr(g_tex.S, &d.bits_per_pixel, &d.line_length, &d.endian);
+	g_tex.S = d.addr;
 	return (1);
 }
 

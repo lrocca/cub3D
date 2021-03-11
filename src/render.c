@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/11 16:59:36 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,10 @@ void	draw_square(int x, int y)
 		{
 			if (g_map[y][x] == '1')
 				color = g_cub.C;
-			// // else if (chose_color(x, y) == 1)
 			else if (g_map[y][x] == '0')
 				color = g_cub.F;
 			else
 				color = 0;
-			// 	color = g_tex.color_sky;
 			my_mlx_pixel_put(&g_data, ((x * i) + a), ((y * j) + b), color);
 			b++;
 		}
@@ -89,7 +87,7 @@ void	draw_minimap(void)
 	draw_position();
 }
 
-void	get_distance(int x)//, double cameraX)
+void	get_distance(int x)
 {
 	int mapX = (int)g_plr.posX;
 	int mapY = (int)g_plr.posY;
@@ -195,7 +193,7 @@ void	get_distance(int x)//, double cameraX)
 		y++;
 	}
 	y = drawStart;
-	void	*texture;
+	unsigned int	*texture;
 	if (side == 1)
 	{
 		if (g_ray.y > 0)
@@ -215,7 +213,7 @@ void	get_distance(int x)//, double cameraX)
 		// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
 		int texY = (int)texPos & (TEXHEIGHT - 1);
 		texPos += step;
-		color = ((unsigned int *)texture)[TEXHEIGHT * texY + texX];
+		color = texture[TEXHEIGHT * texY + texX];
 		//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
 		// if(side == 1) color = (color >> 1) & 8355711;
 		my_mlx_pixel_put(&g_data, x, y, color);
@@ -226,17 +224,26 @@ void	get_distance(int x)//, double cameraX)
 		my_mlx_pixel_put(&g_data, x, y, g_cub.F);
 		y++;
 	}
+	//SET THE ZBUFFER FOR THE SPRITE CASTING
+	g_ray.perpWallDist = perpWallDist; //perpendicular distance is used
 }
 
 void	ray(void)
 {
-	for(int x = 0; x < g_win.w; x++)
+	int		x;
+	double	zBuffer[g_win.w];
+
+	x = 0;
+	while (x < g_win.w)
 	{
 		//calculate ray position and direction
 		double cameraX = 2 * x / (double)g_win.w - 1; //x-coordinate in camera space
 		g_ray.x = g_plr.dirX + g_plr.planeX * cameraX;
 		g_ray.y = g_plr.dirY + g_plr.planeY * cameraX;
-		// printf("%f\n", cameraX);
-		get_distance(x);//, cameraX);
+		get_distance(x);
+		zBuffer[x] = g_ray.perpWallDist;
+		x++;
 	}
+	// sprite
+	sprite(zBuffer);
 }

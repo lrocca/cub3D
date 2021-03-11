@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/11 15:26:35 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ static void	set_direction(char c)
 
 static char	check_map(void)
 {
-	int	y;
-	int	x;
-	int	len;
-	int	player;
+	int		y;
+	int		x;
+	int		len;
+	int		player;
+	t_spr	*spr;
 
 	y = 0;
 	x = 0;
@@ -92,9 +93,18 @@ static char	check_map(void)
 				set_direction(g_map[y][x]);
 				g_map[y][x] = '0';
 				player++;
+				if (player > 1)
+					return (1);
 			}
-			if (player > 1)
-				return (1);
+			else if (g_map[y][x] == '2')
+			{
+				if (!(spr = malloc(sizeof(t_spr))))
+					ft_error("Failed sprite allocation", NULL);
+				spr->x = x;
+				spr->y = y;
+				spr->distance = 0;
+				ft_lstadd_back(&g_cub.spr, ft_lstnew(spr));
+			}
 			if (!g_map[y][x + 1] && g_map[y][x] != '1') // controlla ultimo carattere
 				return (1);
 			if (ft_isspace(g_map[y][x]))

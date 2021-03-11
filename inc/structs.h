@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/10 17:13:35 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/11 16:57:19 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_cub
 	char	*WE;
 	char	*EA;
 	char	*S;
+	t_list	*spr;
 }				t_cub;
 
 typedef struct s_win
@@ -68,8 +69,9 @@ typedef struct	s_plr
 
 typedef struct	s_ray
 {
-	double x;
-	double y;
+	double	x;
+	double	y;
+	double	perpWallDist;
 }				t_ray;
 
 typedef struct	s_spr
