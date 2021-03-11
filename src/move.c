@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 16:49:56 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/10 17:21:46 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/11 14:01:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ void	move_back(void)
 
 void	move_left(void)
 {
-	if (g_map[(int)g_plr.posY][(int)(g_plr.posX - g_plr.dirY * MOVESPEED)] == '0')
-		g_plr.posX -= g_plr.dirY * MOVESPEED;
-	if (g_map[(int)(g_plr.posY + g_plr.dirX * MOVESPEED)][(int)g_plr.posX] == '0')
-		g_plr.posY += g_plr.dirX * MOVESPEED;
-}
-
-void	move_right(void)
-{
 	if (g_map[(int)g_plr.posY][(int)(g_plr.posX + g_plr.dirY * MOVESPEED)] == '0')
 		g_plr.posX += g_plr.dirY * MOVESPEED;
 	if (g_map[(int)(g_plr.posY - g_plr.dirX * MOVESPEED)][(int)g_plr.posX] == '0')
 		g_plr.posY -= g_plr.dirX * MOVESPEED;
+}
+
+void	move_right(void)
+{
+	if (g_map[(int)g_plr.posY][(int)(g_plr.posX - g_plr.dirY * MOVESPEED)] == '0')
+		g_plr.posX -= g_plr.dirY * MOVESPEED;
+	if (g_map[(int)(g_plr.posY + g_plr.dirX * MOVESPEED)][(int)g_plr.posX] == '0')
+		g_plr.posY += g_plr.dirX * MOVESPEED;
 }
