@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 18:28:58 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/12 19:46:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,9 @@ void	get_distance(int x)
 	while (y < drawEnd)
 	{
 		// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-		int texY = (int)texPos & (TEXHEIGHT - 1);
+		int texY = (int)texPos % TEXHEIGHT;
 		texPos += step;
 		color = texture[TEXHEIGHT * texY + texX];
-		//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-		// if(side == 1) color = (color >> 1) & 8355711;
 		my_mlx_pixel_put(&g_data, x, y, color);
 		y++;
 	}
@@ -169,6 +167,5 @@ void	ray(void)
 		zBuffer[x] = g_ray.perpWallDist;
 		x++;
 	}
-	// sprite
-	sprite(zBuffer);
+	sprites(zBuffer);
 }

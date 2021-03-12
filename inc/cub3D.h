@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/11 16:58:45 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/12 19:47:03 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,6 @@ void	rotate_right(void);
 /*
 ** sprites.c
 */
-void	sprite(double *zBuffer);
+void	sprites(double *zBuffer);
 
 #endif
