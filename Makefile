@@ -11,9 +11,10 @@ SRC			=	$(addprefix $(SRCDIR)/,$(FILES))
 OBJ			= 	$(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRC:.c=.o))
 OBJDIR		=	./obj
 SRCDIR		=	./src
+LIBDIR		=	./lib
 LIBFT		=	$(LIBFTDIR)/libft.a
-LIBFTDIR	=	./libft
-DYLIB		=	./mlx_mms/libmlx.dylib
+LIBFTDIR	=	$(LIBDIR)/libft
+DYLIB		=	$(LIBDIR)/mlx_mms/libmlx.dylib
 
 all: mlx $(LIBFT) $(NAME)
 
@@ -26,7 +27,7 @@ $(LIBFT):
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -Imlx_mms -Imlx_opengl -Iinc -c $^ -o $@
+	@$(CC) $(CFLAGS) -I$(LIBDIR)/mlx_mms -I$(LIBDIR)/mlx_opengl -Iinc -c $^ -o $@
 	@printf "%-80.80b\r" "○ Compiling \033[1m$(NAME)\033[0m... $^"
 
 $(OBJ): | $(OBJDIR)
@@ -35,8 +36,8 @@ $(OBJDIR):
 	mkdir $(OBJDIR)
 
 mlx:
-	@make -C ./mlx_mms
-	@make -C ./mlx_opengl
+	@make -C $(LIBDIR)/mlx_mms
+	@make -C $(LIBDIR)/mlx_opengl
 	@cp $(DYLIB) ./
 
 test: all
@@ -47,8 +48,8 @@ clean:
 	@printf "%-80.80b\n" "\e[1;31m•\e[0m Deleted objects for \033[1m$(NAME)\033[0m"
 #	rm -r $(OBJDIR)
 	@make clean -C $(LIBFTDIR)
-	@make clean -C ./mlx_mms
-	@make clean -C ./mlx_opengl
+	@make clean -C $(LIBDIR)/mlx_mms
+	@make clean -C $(LIBDIR)/mlx_opengl
 
 fclean: clean
 	@rm -f $(NAME) libmlx.dylib
