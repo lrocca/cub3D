@@ -1,9 +1,11 @@
 NAME		=	cub3D
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
-FILES		=	cub3D.c gnl.c parsing.c check.c mlx.c render.c \
-				utils.c utils_check.c utils_color.c utils_render.c \
-				move.c rotate.c sprites.c \
+FILES		=	cub3D.c \
+				input/gnl.c input/parsing.c input/check.c \
+				mlx/mlx.c mlx/move.c mlx/rotate.c \
+				render/walls.c render/sprites.c \
+				utils/global.c utils/check.c utils/color.c utils/render.c
 				# test_scenes.c
 SRC			=	$(addprefix $(SRCDIR)/,$(FILES))
 OBJ			= 	$(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRC:.c=.o))
@@ -23,7 +25,8 @@ $(LIBFT):
 	@make -C $(LIBFTDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@$(CC) $(CFLAGS) -Imlx_mms -Imlx_opengl -c $^ -o $@
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -Imlx_mms -Imlx_opengl -Iinc -c $^ -o $@
 	@printf "%-80.80b\r" "○ Compiling \033[1m$(NAME)\033[0m... $^"
 
 $(OBJ): | $(OBJDIR)

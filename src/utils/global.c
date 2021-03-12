@@ -1,30 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_check.c                                      :+:      :+:    :+:   */
+/*   global.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/28 18:58:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
+/*   Created: 2021/02/28 15:58:02 by lrocca            #+#    #+#             */
+/*   Updated: 2021/03/12 18:17:08 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
-void		check_flag(char *s)
+int			ft_exit(int i)
 {
-	g_cub.save = 0;
-	if (ft_strncmp(s, "--save", 6))
-		ft_error("Unknown flag", ft_strdup(s));
-	else
-		g_cub.save = 1;
+	if (g_mlx.mlx)
+		mlx_destroy_window(g_mlx.mlx, g_win.ptr);
+	exit(i);
+	return (i);
 }
 
-char	check_extension(char *s)
+void		ft_error(char *s, char *z)
 {
-	s = ft_strrchr(s, '.');
-	if (!s)
-		return (1);
-	return (ft_strncmp(s, ".cub", 4));
+	errno = errno ? errno : 1;
+	printf("Error: ");
+	printf("%s", s);
+	if (z)
+		printf(": %s", z);
+	printf("\n");
+	free(z);
+	ft_exit(errno);
+}
+
+char	*char_to_str(char c)
+{
+	char	*s;
+
+	if (!(s = malloc(2)))
+		return (NULL);
+	s[0] = c;
+	s[1] = '\0';
+	return (s);
 }

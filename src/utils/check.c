@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_color.c                                      :+:      :+:    :+:   */
+/*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/24 17:12:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/09 18:21:11 by lrocca           ###   ########.fr       */
+/*   Created: 2021/02/28 18:58:41 by lrocca            #+#    #+#             */
+/*   Updated: 2021/03/12 18:17:08 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
-int		create_trgb(int t, int r, int g, int b)
+void		check_flag(char *s)
 {
-	return(t << 24 | r << 16 | g << 8 | b);
+	g_cub.save = 0;
+	if (ft_strncmp(s, "--save", 6))
+		ft_error("Unknown flag", ft_strdup(s));
+	else
+		g_cub.save = 1;
+}
+
+char	check_extension(char *s)
+{
+	s = ft_strrchr(s, '.');
+	if (!s)
+		return (1);
+	return (ft_strncmp(s, ".cub", 4));
 }

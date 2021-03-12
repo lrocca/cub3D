@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 17:01:25 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/10 17:03:41 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/12 18:17:08 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 void	rotate_left(void)
 {
