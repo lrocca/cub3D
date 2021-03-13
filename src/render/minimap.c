@@ -6,64 +6,54 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:29:03 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 18:29:11 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:24:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
+
+#define SCALE	16
+#define COLOR	0xEEF0F2
+#define PADDING	12
 
 void	draw_position(void)
 {
-	double	i;
-	double	j;
-	int		e;
+	int	offsetX = (g_win.w - g_cub.x * SCALE) / 2;
+	int	offsetY = SCALE / PADDING;
+	int e = 0;
 
-	i = (g_win.w / 3) / g_cub.x;
-	j = (g_win.h / 3) / g_cub.y;
-	e = 0;
-	if (g_win.h > 5 && g_win.w > 5)
+	while (e < SCALE / 4)
 	{
-		while (e < 5)
-		{
-			my_mlx_pixel_put(&g_data, ((g_plr.posX * i) + e),
-			((g_plr.posY * j)), 0x00000000);
-			my_mlx_pixel_put(&g_data, ((g_plr.posX * i) - e),
-			((g_plr.posY * j)), 0x00000000);
-			my_mlx_pixel_put(&g_data, (g_plr.posX * i),
-			(g_plr.posY * j - e), 0x00000000);
-			my_mlx_pixel_put(&g_data, (g_plr.posX * i),
-			(g_plr.posY * j + e), 0x00000000);
-			e++;
-		}
+		my_mlx_pixel_put(&g_data, g_plr.posX * SCALE + e + offsetX, g_plr.posY * SCALE + offsetY, COLOR);
+		my_mlx_pixel_put(&g_data, g_plr.posX * SCALE - e + offsetX, g_plr.posY * SCALE + offsetY, COLOR);
+		my_mlx_pixel_put(&g_data, g_plr.posX * SCALE + offsetX, g_plr.posY * SCALE - e + offsetY, COLOR);
+		my_mlx_pixel_put(&g_data, g_plr.posX * SCALE + offsetX, g_plr.posY * SCALE + e + offsetY, COLOR);
+		e++;
 	}
 }
 
 void	draw_square(int x, int y)
 {
-	int		color;
-	double	i;
-	double	j;
-	int		a;
-	int		b;
+	int	color;
+	int	i;
+	int	j;
+	int	offsetX = (g_win.w - g_cub.x * SCALE) / 2;
+	int	offsetY = SCALE / PADDING;
 
-	i = (g_win.w / 3) / g_cub.x;
-	j = (g_win.h / 3) / g_cub.y;
-	a = 0;
-	while ((x + a) < (x + i))
+	i = SCALE / PADDING;
+	j = SCALE / PADDING;
+	if (g_map[y][x] == '0')
+		color = 0x0D21A1;
+	else if (g_map[y][x] == '1')
+		color = 0x011638;
+	else if (g_map[y][x] == '2')
+		color = 0xF77F00;
+	while (j < SCALE)
 	{
-		b = 0;
-		while ((y + b) < (y + j))
-		{
-			if (g_map[y][x] == '1')
-				color = g_cub.C;
-			else if (g_map[y][x] == '0')
-				color = g_cub.F;
-			else
-				color = 0;
-			my_mlx_pixel_put(&g_data, ((x * i) + a), ((y * j) + b), color);
-			b++;
-		}
-		a++;
+		i = SCALE / PADDING;
+		while (i < SCALE)
+			my_mlx_pixel_put(&g_data, offsetX + x * SCALE + i++ + SCALE / PADDING, offsetY + y * SCALE + j + SCALE / PADDING, color);
+		j++;
 	}
 }
 
@@ -76,12 +66,9 @@ void	draw_minimap(void)
 	y = 0;
 	while (x < g_cub.x)
 	{
-		while (y < g_cub.y)
-		{
-			draw_square(x, y);
-			y++;
-		}
 		y = 0;
+		while (y < g_cub.y)
+			draw_square(x, y++);
 		x++;
 	}
 	draw_position();

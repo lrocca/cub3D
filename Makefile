@@ -1,10 +1,10 @@
 NAME		=	cub3D
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra
-FILES		=	cub3D.c \
+CFLAGS		=	-Wall -Werror -Wextra -g
+FILES		=	cub3d.c \
 				input/gnl.c input/parsing.c input/check.c \
 				mlx/mlx.c mlx/move.c mlx/rotate.c \
-				render/walls.c render/sprites.c render/minimap.c \
+				render/walls.c render/sprites.c render/minimap.c render/bmp.c \
 				utils/global.c utils/check.c utils/color.c utils/render.c
 				# test_scenes.c
 SRC			=	$(addprefix $(SRCDIR)/,$(FILES))

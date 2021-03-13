@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 18:16:41 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:34:29 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static char	check_row(char *s)
 {
@@ -82,6 +82,8 @@ static char	check_map(void)
 			return (1);
 		while (g_map[y][x])
 		{
+			if (ft_isspace(g_map[y][x]))
+				g_map[y][x] = 1;
 			if (!g_map[y + 1] && check_row(g_map[y]))
 				return (1);
 			if (x > len && check_len_row(g_map[y], len)) // quella prima era piu' corta
@@ -150,10 +152,9 @@ void		check_file(void)
 	int width;
 	int height;
 
-	// debug();
 	if (!g_win.h || !g_win.w)
 		ft_error("Missing or invalid R declaration", NULL);
-	else if (!g_cub.C || !g_cub.F )
+	else if (!g_cub.C || !g_cub.F)
 		ft_error("Missing colors", NULL);
 	else if (!g_cub.NO || !g_cub.SO || !g_cub.EA || !g_cub.WE || !g_cub.S)
 		ft_error("One or more textures are missing", NULL);

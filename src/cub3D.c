@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.c                                            :+:      :+:    :+:   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:01 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 18:17:08 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:24:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static void	parse_file(t_list *list)
 {
@@ -40,8 +40,7 @@ static void	open_map(char *file)
 	if ((fd = open(file, O_RDONLY)) < 0)
 		ft_error("Opening file failed", ft_strdup(strerror(errno)));
 	while ((n = get_next_line(fd, &line)) > 0)
-		// if (ft_strlen(line) > 0)
-			ft_lstadd_back(&head, ft_lstnew(line));
+		ft_lstadd_back(&head, ft_lstnew(line));
 	close(fd);
 	if (ft_strlen(line) > 0)
 		ft_lstadd_back(&head, ft_lstnew(line));
@@ -59,7 +58,7 @@ int			main(int ac, char **av)
 		ft_error("No .cub file specified", NULL);
 	else if (ac == 2 || ac == 3)
 	{
-		if (ac == 3)
+		if (ac > 2)
 			check_flag(av[2]);
 		else
 			g_cub.save = 0;

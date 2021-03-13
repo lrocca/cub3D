@@ -6,21 +6,27 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:02 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 18:17:08 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:41:28 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
-int			ft_exit(int i)
+/*
+** free
+** - sprites
+*/
+
+int		ft_exit(int i)
 {
-	if (g_mlx.mlx)
+	if (g_win.ptr)
 		mlx_destroy_window(g_mlx.mlx, g_win.ptr);
+	ft_lstclear(&g_cub.spr, free);
 	exit(i);
 	return (i);
 }
 
-void		ft_error(char *s, char *z)
+void	ft_error(char *s, char *z)
 {
 	errno = errno ? errno : 1;
 	printf("Error: ");

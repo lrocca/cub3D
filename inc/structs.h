@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/11 19:54:23 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:12:43 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct	s_cub
 	t_list	*spr;
 }				t_cub;
 
-typedef struct s_win
+typedef struct	s_win
 {
 	void	*ptr;
 	int		w;
@@ -43,7 +43,7 @@ typedef struct	s_tex
 	void	*S;
 }				t_tex;
 
-typedef struct s_mlx
+typedef struct	s_mlx
 {
 	void	*mlx;
 	char	key[6];

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 19:47:03 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:12:15 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define KEYPRESS	2
 # define KEYRELEASE	3
-# define MOVESPEED	0.1
+# define MOVESPEED	0.05
 # define ROTSPEED	0.05
 # define TEXWIDTH	64
 # define TEXHEIGHT	64
@@ -96,11 +96,16 @@ char	parse_map(t_list *list);
 void	check_file(void);
 
 /*
-** render.c
+** walls.c
 */
 void	ray(void);
 void	draw_minimap(void);
 void	test_scene(void);
+
+/*
+** bmp.c
+*/
+int		save_image_to_bmp_file(int width, int height);
 
 /*
 ** move.c

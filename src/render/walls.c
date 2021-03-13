@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 19:46:52 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:24:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void	get_distance(int x)
 {
@@ -167,5 +167,6 @@ void	ray(void)
 		zBuffer[x] = g_ray.perpWallDist;
 		x++;
 	}
-	sprites(zBuffer);
+	if (g_cub.spr)
+		sprites(zBuffer);
 }

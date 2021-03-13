@@ -6,11 +6,13 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 18:17:08 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:24:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
+
+#define WHITESPACE	 "\t\v\f\r"
 
 static char	parse_window(char *s)
 {
@@ -45,20 +47,30 @@ static char	skip(char **s, int n)
 static char	parse_texture(char *s)
 {
 	if (!ft_strncmp(s, "NO", 2) && skip(&s, 2))
-	{	if (g_cub.NO || !(g_cub.NO = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple NO paths or memory allocation failed", NULL);}
+	{
+		if (g_cub.NO || !(g_cub.NO = ft_strtrim(s, WHITESPACE)))
+			ft_error("Multiple NO paths or memory allocation failed", NULL);
+	}
 	else if (!ft_strncmp(s, "SO", 2) && skip(&s, 2))
-	{	if (g_cub.SO || !(g_cub.SO = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple SO paths or memory allocation failed", NULL);}
+	{
+		if (g_cub.SO || !(g_cub.SO = ft_strtrim(s, WHITESPACE)))
+			ft_error("Multiple SO paths or memory allocation failed", NULL);
+	}
 	else if (!ft_strncmp(s, "WE", 2) && skip(&s, 2))
-	{	if (g_cub.WE || !(g_cub.WE = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple WE paths or memory allocation failed", NULL);}
+	{
+		if (g_cub.WE || !(g_cub.WE = ft_strtrim(s, WHITESPACE)))
+			ft_error("Multiple WE paths or memory allocation failed", NULL);
+	}
 	else if (!ft_strncmp(s, "EA", 2) && skip(&s, 2))
-	{	if (g_cub.EA || !(g_cub.EA = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple EA paths or memory allocation failed", NULL);}
+	{
+		if (g_cub.EA || !(g_cub.EA = ft_strtrim(s, WHITESPACE)))
+			ft_error("Multiple EA paths or memory allocation failed", NULL);
+	}
 	else if (!ft_strncmp(s, "S", 1) && skip(&s, 2))
-		{if (g_cub.S || !(g_cub.S = ft_strtrim(s, " \t\v\f\r")))
-			ft_error("Multiple S paths or memory allocation failed", NULL);}
+	{
+		if (g_cub.S || !(g_cub.S = ft_strtrim(s, WHITESPACE)))
+			ft_error("Multiple S paths or memory allocation failed", NULL);
+	}
 	else
 		return (0);
 	return (1);
@@ -97,8 +109,9 @@ static char	parse_color(char *s)
 	int		b;
 	char	c;
 
-	if ((*s == 'F' && (c = 'F')) || (*s == 'C' && (c = 'C')))
+	if (*s == 'F' || *s == 'C')
 	{
+		c = *s;
 		if ((c == 'F' && g_cub.F) || (c == 'C' && g_cub.C))
 			ft_error("Multiple declarations for", char_to_str(c));
 		skip(&s, 1);
@@ -109,10 +122,9 @@ static char	parse_color(char *s)
 			g_cub.F = create_trgb(0, r, g, b);
 		else if (c == 'C')
 			g_cub.C = create_trgb(0, r, g, b);
+		return (1);
 	}
-	else
-		return (0);
-	return (1);
+	return (0);
 }
 
 char		parse_options(t_list *list)

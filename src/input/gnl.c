@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:45:52 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 18:17:08 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:24:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static char	*ft_bufjoin(char *line, char buffer[128])
 {

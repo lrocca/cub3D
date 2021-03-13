@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 18:15:40 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 19:46:49 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:24:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 /*
 ** > init sprites
@@ -19,43 +19,71 @@
 ** draw first (furthest) to last (closest)
 */
 
-//sort algorithm
-//sort the sprites based on distance
-// void sortSprites(int* order, double* dist, int amount)
-// {
-// 	std::vector<std::pair<double, int>> sprites(amount);
-// 	for (int i = 0; i < amount; i++)
-// 	{
-// 		sprites[i].first = dist[i];
-// 		sprites[i].second = order[i];
-// 	}
-// 	std::sort(sprites.begin(), sprites.end());
-// 	// restore in reverse order to go from farthest to nearest
-// 	for(int i = 0; i < amount; i++)
-// 	{
-// 		dist[i] = sprites[amount - i - 1].first;
-// 		order[i] = sprites[amount - i - 1].second;
-// 	}
-// }
+static void	get_sprites_distance(t_list *curr, t_spr *spr)
+{
+	while (curr)
+	{
+		spr = curr->content;
+		spr->distance = ((g_plr.posX - spr->x) * (g_plr.posX - spr->x)
+						+ (g_plr.posY - spr->y) * (g_plr.posY - spr->y));
+		curr = curr->next;
+	}
+}
+
+static t_list *find_lowest(t_list *curr, t_list *prev)
+{
+	double	n;
+
+	if (!curr)
+		return (NULL);
+	n = ((t_spr*)curr->content)->distance;
+	while (curr->next) // itera la lista
+	{
+		if (((t_spr*)curr->next->content)->distance <= n) // un minore
+		{
+			n = ((t_spr*)curr->next->content)->distance; // nuovo minimo
+			prev = curr; // il precedente te lo salvi per riconnettere la lista
+		}
+		curr = curr->next; // controlla il resto
+	}
+	if (prev) // se ce n'e' uno da ricollegare
+	{
+		curr = prev->next; // prendi il minimo
+		prev->next = curr->next; // next del minimo diventa il next del prev
+		return (curr); // ritorna il minimo
+	}
+	prev = g_cub.spr; // altrimenti e' il primo
+	g_cub.spr = prev->next; // metti il secondo come primo
+	return (prev); // ritorna il primo
+}
+
+static void	sort_sprites(void)
+{
+	t_list	*out;
+	t_list	*lowest;
+
+	while ((lowest = find_lowest(g_cub.spr, 0)))
+	{
+		lowest->next = NULL;
+		ft_lstadd_front(&out, lowest);
+	}
+	g_cub.spr = out;
+}
 
 void sprites(double *zBuffer)
 {
 	t_list	*curr;
-	t_spr	*spr;
+	t_spr	*spr = NULL;
+
+	curr = g_cub.spr;
 
 	//sort sprites from far to close
-	curr = g_cub.spr;
-	while (curr)
-	{
-		spr = curr->content;
-		spr->distance = ((g_plr.posX - spr->x) * (g_plr.posX - spr->x) + (g_plr.posY - spr->y) * (g_plr.posY - spr->y)); //sqrt not taken, unneeded
-		curr = curr->next;
-	}
+	get_sprites_distance(curr, spr);
 
 	// sort function
+	sort_sprites();
 
 	//after sorting the sprites, do the projection and draw them
-	curr = g_cub.spr;
 	while (curr)
 	{
 		spr = curr->content;
@@ -64,11 +92,6 @@ void sprites(double *zBuffer)
 		double spriteX = spr->x - g_plr.posX + 0.5;
 		double spriteY = spr->y - g_plr.posY + 0.5;
 
-		//transform sprite with the inverse camera matrix
-		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
-		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
-		// [ planeY   dirY ]                                          [ -planeY  planeX ]
-
 		double invDet = 1.0 / (g_plr.planeX * g_plr.dirY - g_plr.dirX * g_plr.planeY); //required for correct matrix multiplication
 
 		double transformX = invDet * (g_plr.dirY * spriteX - g_plr.dirX * spriteY);
@@ -76,9 +99,11 @@ void sprites(double *zBuffer)
 
 		int spriteScreenX = (int)((g_win.w / 2) * (1 + transformX / transformY));
 
-		int vMoveScreen = (int)(64.0 / transformY);
+		int vDiv = 2;
+		int uDiv = 2;
+		int vMoveScreen = (int)(TEXHEIGHT * 4 / transformY);
 		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(g_win.h / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = abs((int)(g_win.h / (transformY))) / vDiv; //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStartY = -spriteHeight / 2 + g_win.h / 2 + vMoveScreen;
 		if (drawStartY < 0)
@@ -88,7 +113,7 @@ void sprites(double *zBuffer)
 			drawEndY = g_win.h - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs((int)(g_win.h / (transformY)));
+		int spriteWidth = abs((int)(g_win.h / (transformY))) / uDiv;
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
 		if (drawStartX < 0)
 			drawStartX = 0;

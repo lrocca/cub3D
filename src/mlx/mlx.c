@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/12 18:17:08 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/13 19:40:02 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void	update_player(void)
 {
@@ -30,14 +30,13 @@ void	update_player(void)
 
 int		get_image(void)
 {
-	// int width, height;
 	update_player();
 	g_data.img = mlx_new_image(g_mlx.mlx, g_win.w, g_win.h);
-	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel, &g_data.line_length, &g_data.endian);
+	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel,
+									&g_data.line_length, &g_data.endian);
 	ray();
 	draw_minimap();
 	mlx_put_image_to_window(g_mlx.mlx, g_win.ptr, g_data.img, 0, 0);
-	// mlx_put_image_to_window(g_mlx.mlx, g_win.ptr, mlx_xpm_file_to_image(g_mlx.mlx, g_cub.S, &width, &height), 0, 0);
 	mlx_destroy_image(g_mlx.mlx, g_data.img);
 	return (1);
 }
@@ -80,9 +79,9 @@ int		keyrelease(int key)
 
 static char	load_textures(void)
 {
-	int	width;
-	int	height;
-	t_data d;
+	int		width;
+	int		height;
+	t_data	d;
 
 	if (!(g_tex.NO = mlx_xpm_file_to_image(g_mlx.mlx, g_cub.NO, &width, &height)))
 		ft_error("Failed to load 'NO' texture", NULL);
@@ -107,14 +106,16 @@ static char	load_textures(void)
 	return (1);
 }
 
-/* static void save_flag(void)
+static void	save_flag(void)
 {
 	g_data.img = mlx_new_image(g_mlx.mlx, g_win.w, g_win.h);
-	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel, &g_data.line_length, &g_data.endian);
+	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel,
+									&g_data.line_length, &g_data.endian);
 	ray();
 	draw_minimap();
+	save_image_to_bmp_file(g_win.w, g_win.h);
 	ft_exit(0);
-} */
+}
 
 void	mlx(void)
 {
@@ -126,10 +127,9 @@ void	mlx(void)
 	g_mlx.key[5] = 0;
 	g_mlx.mlx = mlx_init();
 	load_textures();
-	// if (g_cub.save)
-		// save_flag();
+	if (g_cub.save)
+		save_flag();
 	g_win.ptr = mlx_new_window(g_mlx.mlx, g_win.w, g_win.h, "cub3D");
-	// test_scene();
 	mlx_hook(g_win.ptr, KEYPRESS, 1L, &keypress, 0);
 	mlx_hook(g_win.ptr, KEYRELEASE, 2L, &keyrelease, 0);
 	mlx_hook(g_win.ptr, 17, 1L, &ft_exit, 0);
