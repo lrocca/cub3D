@@ -1,0 +1,16 @@
+R 1280 720
+NO	./textures/blocks/darkwood.xpm
+SO	./textures/blocks/darkwood.xpm
+WE	./textures/blocks/bookshelf.xpm
+EA	./textures/blocks/stonebricks.xpm
+
+S	./textures/cone.xpm
+F	80,80,80
+C	120,120,255
+
+111111111111111111111111
+110002222211111111000001
+11E202100000000000000001
+110002220211111111000001
+100000000011111111111111
+11111111111

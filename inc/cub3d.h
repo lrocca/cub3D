@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/13 19:12:15 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/18 19:38:22 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
-# include "../mlx_mms/mlx.h"
-# include "../mlx_opengl/mlx.h"
 
-# include "../libft/libft.h"
+# include "../lib/libft/libft.h"
+# include "../lib/mlx_mms/mlx.h"
+# include "../lib/mlx_opengl/mlx.h"
+
 # include "structs.h"
 
 # define KEYPRESS	2
@@ -51,11 +52,57 @@
 t_mlx	g_mlx;
 t_win	g_win;
 t_cub	g_cub;
-t_tex	g_tex;
 t_data	g_data;
-t_plr	g_plr;
 t_ray	g_ray;
-char	**g_map;
+
+char	parse_options(t_list *list);
+char	parse_map(t_list *list, int max);
+void	check_file(void);
+
+/*
+** gnl.c
+*/
+int		get_next_line(int fd, char **line);
+
+/*
+** mlx.c
+*/
+void	mlx(void);
+
+/*
+** bmp.c
+*/
+int		save_image_to_bmp_file(int width, int height);
+
+/*
+** move.c
+*/
+void	move_fwd(void);
+void	move_back(void);
+void	move_left(void);
+void	move_right(void);
+
+/*
+** rotate.c
+*/
+void	rotate_left(void);
+void	rotate_right(void);
+
+/*
+** walls.c
+*/
+void	draw_walls(void);
+
+/*
+** sprites.c
+*/
+void	sprites(double *zBuffer);
+
+/*
+** minimap.c
+*/
+void	draw_minimap(void);
+void	test_scene(void);
 
 /*
 ** utils.c
@@ -79,51 +126,5 @@ int		create_trgb(int t, int r, int g, int b);
 ** utils_render.c
 */
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-
-/*
-** gnl.c
-*/
-int		get_next_line(int fd, char **line);
-
-/*
-** mlx.c
-*/
-void	mlx(void);
-
-char	parse_options(t_list *list);
-char	parse_map(t_list *list);
-
-void	check_file(void);
-
-/*
-** walls.c
-*/
-void	ray(void);
-void	draw_minimap(void);
-void	test_scene(void);
-
-/*
-** bmp.c
-*/
-int		save_image_to_bmp_file(int width, int height);
-
-/*
-** move.c
-*/
-void	move_fwd(void);
-void	move_back(void);
-void	move_left(void);
-void	move_right(void);
-
-/*
-** rotate.c
-*/
-void	rotate_left(void);
-void	rotate_right(void);
-
-/*
-** sprites.c
-*/
-void	sprites(double *zBuffer);
 
 #endif

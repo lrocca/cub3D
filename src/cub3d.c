@@ -6,28 +6,48 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:01 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/13 19:24:48 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/17 19:23:54 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+static int	max_len(t_list *list)
+{
+	int max;
+	int	len;
+
+	max = 0;
+	while (list && list->content)
+	{
+		len = ft_strlen(list->content);
+		max = max > len ? max : len;
+		list = list->next;
+	}
+	return (max);
+}
+
 static void	parse_file(t_list *list)
 {
 	int	len;
+	int	max;
 
 	while (list && (parse_options(list) || ft_strlen(list->content) == 0))
 		list = list->next;
-	len = ft_lstsize(list);
-	if (!(g_map = malloc((len + 1) * sizeof(char*))))
+	len = ft_lstsize(list) + 2;
+	if (!(g_cub.map = malloc((len + 1) * sizeof(char*))))
 		ft_error("Matrix allocation failed", NULL);
-	g_map[len] = NULL;
-	while (list && parse_map(list))
+	g_cub.map[len] = NULL;
+
+	max = max_len(list) + 2;
+	while (list && parse_map(list, max))
 		list = list->next;
+	parse_map(NULL, max);
+
 	check_file();
 }
 
-static void	open_map(char *file)
+static void	open_file(char *file)
 {
 	int		n;
 	int		fd;
@@ -62,7 +82,7 @@ int			main(int ac, char **av)
 			check_flag(av[2]);
 		else
 			g_cub.save = 0;
-		open_map(av[1]);
+		open_file(av[1]);
 		mlx();
 	}
 	else

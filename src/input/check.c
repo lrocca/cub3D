@@ -6,99 +6,99 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/13 19:34:29 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/18 19:51:08 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char	check_row(char *s)
-{
-	while (s && *s)
-		if (*s++ != '1')
-			return (1);
-	return (0);
-}
+// static char	check_row(char *s)
+// {
+// 	while (s && *s)
+// 		if (*s++ != '1')
+// 			return (1);
+// 	return (0);
+// }
 
-static char	check_len_row(char *s, int len)
-{
-	while (*(s + len))
-		if (*(s++ + len) != '1')
-			return (1);
-	return (0);
-}
+// static char	check_len_row(char *s, int len)
+// {
+// 	while (*(s + len))
+// 		if (*(s++ + len) != '1')
+// 			return (1);
+// 	return (0);
+// }
 
 static void	set_direction(char c)
 {
 	if (c == 'N')
 	{
-		g_plr.dirX = 0;
-		g_plr.dirY = -1;
-		g_plr.planeX = 0.66;
-		g_plr.planeY = 0;
+		g_cub.plr.dirX = 0;
+		g_cub.plr.dirY = -1;
+		g_cub.plr.planeX = 0.66;
+		g_cub.plr.planeY = 0;
 	}
 	if (c == 'S')
 	{
-		g_plr.dirX = 0;
-		g_plr.dirY = 1;
-		g_plr.planeX = -0.66;
-		g_plr.planeY = 0;
+		g_cub.plr.dirX = 0;
+		g_cub.plr.dirY = 1;
+		g_cub.plr.planeX = -0.66;
+		g_cub.plr.planeY = 0;
 	}
 	if (c == 'E')
 	{
-		g_plr.dirX = 1;
-		g_plr.dirY = 0;
-		g_plr.planeX = 0;
-		g_plr.planeY = 0.66;
+		g_cub.plr.dirX = 1;
+		g_cub.plr.dirY = 0;
+		g_cub.plr.planeX = 0;
+		g_cub.plr.planeY = 0.66;
 	}
 	if (c == 'W')
 	{
-		g_plr.dirX = -1;
-		g_plr.dirY = 0;
-		g_plr.planeX = 0;
-		g_plr.planeY = -0.66;
+		g_cub.plr.dirX = -1;
+		g_cub.plr.dirY = 0;
+		g_cub.plr.planeX = 0;
+		g_cub.plr.planeY = -0.66;
 	}
 }
 
-static char	check_map(void)
+static char	new_check(void)
 {
-	int		y;
 	int		x;
+	int		y;
+	int		max;
 	int		len;
-	int		player;
+	char	player;
 	t_spr	*spr;
 
 	y = 0;
-	x = 0;
-	g_cub.x = 0;
-	len = ft_strlen(g_map[y]);
 	player = 0;
-	if (check_row(g_map[0])) // prima riga
-		return (1);
-	while (g_map[y])
+	max = ft_strlen(g_cub.map[0]);
+	len = 0;
+	while (g_cub.map[len])
+		len++;
+	while (y < len)
 	{
 		x = 0;
-		if (ft_strlen(g_map[y]) == 0)// && g_map[i + 1])
-			return (1);
-		while (g_map[y][x])
+		while (x < max)
 		{
-			if (ft_isspace(g_map[y][x]))
-				g_map[y][x] = 1;
-			if (!g_map[y + 1] && check_row(g_map[y]))
-				return (1);
-			if (x > len && check_len_row(g_map[y], len)) // quella prima era piu' corta
-				return (1);
-			if (ft_ischarset(g_map[y][x], "NSEW"))
+			if (g_cub.map[y][x] == ' ')
 			{
-				g_plr.posX = x + 0.5;
-				g_plr.posY = y + 0.5;
-				set_direction(g_map[y][x]);
-				g_map[y][x] = '0';
-				player++;
-				if (player > 1)
+				if ((y > 0 && g_cub.map[y - 1][x] && !ft_ischarset(g_cub.map[y - 1][x], " 1")) || // tutte tranne prima colonna
+					(x > 0 && g_cub.map[y][x - 1] && !ft_ischarset(g_cub.map[y][x - 1], " 1")) || // tutte tranne prima riga
+					(y < len - 1 && g_cub.map[y + 1][x] && !ft_ischarset(g_cub.map[y + 1][x], " 1")) || // tutte tranne ultima colonna
+					(x < max && g_cub.map[y][x + 1] && !ft_ischarset(g_cub.map[y][x + 1], " 1"))) // tutte tranne ultima riga
 					return (1);
 			}
-			else if (g_map[y][x] == '2')
+			else if (ft_ischarset(g_cub.map[y][x], "NSEW"))
+			{
+				g_cub.plr.posX = x + 0.5;
+				g_cub.plr.posY = y + 0.5;
+				set_direction(g_cub.map[y][x]);
+				g_cub.map[y][x] = '0';
+				player++;
+				if (player > 1)
+					ft_error("Multiple players in map", NULL);
+			}
+			else if (g_cub.map[y][x] == '2')
 			{
 				if (!(spr = malloc(sizeof(t_spr))))
 					ft_error("Failed sprite allocation", NULL);
@@ -107,20 +107,84 @@ static char	check_map(void)
 				spr->distance = 0;
 				ft_lstadd_back(&g_cub.spr, ft_lstnew(spr));
 			}
-			if (!g_map[y][x + 1] && g_map[y][x] != '1') // controlla ultimo carattere
-				return (1);
-			if (ft_isspace(g_map[y][x]))
-				g_map[y][x] = '1';
 			x++;
 		}
-		if (len > x && check_len_row(g_map[y - 1], x)) // quella prima era piu' lunga
-			return (1);
-		len = x;
-		g_cub.x = len > g_cub.x ? len : g_cub.x;
 		y++;
 	}
+	g_cub.x = x;
 	g_cub.y = y;
-	return (player != 1);
+	return (0);
+}
+
+static char	check_map(void)
+{
+	return (new_check());
+	// int		y;
+	// int		x;
+	// int		len;
+	// int		player;
+	// t_spr	*spr;
+
+	// y = 0;
+	// x = 0;
+	// g_cub.x = 0;
+	// len = ft_strlen(g_cub.map[y]);
+	// player = 0;
+
+	// while (g_cub.map[0][x])
+	// {
+	// 	if (ft_isspace(g_cub.map[0][x]))
+	// 		g_cub.map[0][x] = '1';
+	// 	x++;
+	// }
+	// if (check_row(g_cub.map[0])) // prima riga
+	// 	ft_error("Map: Problem with first line", NULL);
+	// while (g_cub.map[y])
+	// {
+	// 	x = 0;
+	// 	if (ft_strlen(g_cub.map[y]) == 0)
+	// 		ft_error("Map: Empty line ", ft_itoa(y));
+	// 	while (g_cub.map[y][x])
+	// 	{
+	// 		if (ft_isspace(g_cub.map[y][x]))
+	// 			g_cub.map[y][x] = 1;
+	// 		if (!g_cub.map[y + 1] && check_row(g_cub.map[y]))
+	// 			ft_error("Problem with map in line ", ft_itoa(y));
+	// 		if (x > len && check_len_row(g_cub.map[y], len)) // quella prima era piu' corta
+	// 			ft_error("Problem with map in line ", ft_itoa(y));
+	// 		if (ft_ischarset(g_cub.map[y][x], "NSEW"))
+	// 		{
+	// 			g_cub.plr.posX = x + 0.5;
+	// 			g_cub.plr.posY = y + 0.5;
+	// 			set_direction(g_cub.map[y][x]);
+	// 			g_cub.map[y][x] = '0';
+	// 			player++;
+	// 			if (player > 1)
+	// 				ft_error("Multiple players in map", NULL);
+	// 		}
+	// 		else if (g_cub.map[y][x] == '2')
+	// 		{
+	// 			if (!(spr = malloc(sizeof(t_spr))))
+	// 				ft_error("Failed sprite allocation", NULL);
+	// 			spr->x = x;
+	// 			spr->y = y;
+	// 			spr->distance = 0;
+	// 			ft_lstadd_back(&g_cub.spr, ft_lstnew(spr));
+	// 		}
+	// 		if (!g_cub.map[y][x + 1] && g_cub.map[y][x] != '1') // controlla ultimo carattere
+	// 			ft_error("Map: Problem with last character in line ", ft_itoa(y));
+	// 		if (ft_isspace(g_cub.map[y][x]))
+	// 			g_cub.map[y][x] = '1';
+	// 		x++;
+	// 	}
+	// 	if (len > x && check_len_row(g_cub.map[y - 1], x)) // quella prima era piu' lunga
+	// 		ft_error("Problem with map in line ", ft_itoa(y));
+	// 	len = x;
+	// 	g_cub.x = len > g_cub.x ? len : g_cub.x;
+	// 	y++;
+	// }
+	// g_cub.y = y;
+	// return (player != 1);
 }
 
 // prima riga
@@ -133,18 +197,18 @@ static char	check_map(void)
 
 // static void debug(void)
 // {
-// 	printf("NO\t%s\n", g_tex.NO);
-// 	printf("SO\t%s\n", g_tex.SO);
-// 	printf("EA\t%s\n", g_tex.EA);
-// 	printf("WE\t%s\n", g_tex.WE);
-// 	printf("S\t%s\n", g_tex.S);
+// 	printf("NO\t%s\n", g_cub.no.image);
+// 	printf("SO\t%s\n", g_cub.so.image);
+// 	printf("EA\t%s\n", g_cub.ea.image);
+// 	printf("WE\t%s\n", g_cub.we.image);
+// 	printf("S\t%s\n", g_cub.s.image);
 // 	printf("w\t%d\n", g_win.w);
 // 	printf("h\t%d\n", g_win.h);
 // 	printf("F\t%#.8X\n", g_cub.F);
 // 	printf("C\t%#.8X\n", g_cub.C);
 // 	int i = 0;
-// 	while (g_map && g_map[i] != NULL)
-// 		printf("%s\n", g_map[i++]);
+// 	while (g_cub.map && g_cub.map[i] != NULL)
+// 		printf("%s\n", g_cub.map[i++]);
 // }
 
 void		check_file(void)
@@ -156,7 +220,7 @@ void		check_file(void)
 		ft_error("Missing or invalid R declaration", NULL);
 	else if (!g_cub.C || !g_cub.F)
 		ft_error("Missing colors", NULL);
-	else if (!g_cub.NO || !g_cub.SO || !g_cub.EA || !g_cub.WE || !g_cub.S)
+	else if (!g_cub.no.path || !g_cub.so.path || !g_cub.ea.path || !g_cub.we.path || !g_cub.s.path)
 		ft_error("One or more textures are missing", NULL);
 	// else if (!load_textures())
 	// 	ft_error("Failed to load textures", NULL);

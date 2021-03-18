@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/13 19:24:48 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/17 18:59:43 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,27 @@ static char	parse_texture(char *s)
 {
 	if (!ft_strncmp(s, "NO", 2) && skip(&s, 2))
 	{
-		if (g_cub.NO || !(g_cub.NO = ft_strtrim(s, WHITESPACE)))
+		if (g_cub.no.path || !(g_cub.no.path = ft_strtrim(s, WHITESPACE)))
 			ft_error("Multiple NO paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "SO", 2) && skip(&s, 2))
 	{
-		if (g_cub.SO || !(g_cub.SO = ft_strtrim(s, WHITESPACE)))
+		if (g_cub.so.path || !(g_cub.so.path = ft_strtrim(s, WHITESPACE)))
 			ft_error("Multiple SO paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "WE", 2) && skip(&s, 2))
 	{
-		if (g_cub.WE || !(g_cub.WE = ft_strtrim(s, WHITESPACE)))
+		if (g_cub.we.path || !(g_cub.we.path = ft_strtrim(s, WHITESPACE)))
 			ft_error("Multiple WE paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "EA", 2) && skip(&s, 2))
 	{
-		if (g_cub.EA || !(g_cub.EA = ft_strtrim(s, WHITESPACE)))
+		if (g_cub.ea.path || !(g_cub.ea.path = ft_strtrim(s, WHITESPACE)))
 			ft_error("Multiple EA paths or memory allocation failed", NULL);
 	}
 	else if (!ft_strncmp(s, "S", 1) && skip(&s, 2))
 	{
-		if (g_cub.S || !(g_cub.S = ft_strtrim(s, WHITESPACE)))
+		if (g_cub.s.path || !(g_cub.s.path = ft_strtrim(s, WHITESPACE)))
 			ft_error("Multiple S paths or memory allocation failed", NULL);
 	}
 	else
@@ -92,6 +92,8 @@ static int	parse_color_component(char **s, char c)
 	if (!(ft_isdigit(**s)))
 		ft_error("Invalid color", char_to_str(c));
 	n = ft_atoi(*s);
+	if (n < 0 || n > 255)
+		ft_error("Invalid color", char_to_str(c));
 	while (ft_isdigit(**s))
 		(*s)++;
 	if (i == 3 && **s != '\0')
@@ -133,23 +135,48 @@ char		parse_options(t_list *list)
 	{
 		if (ft_isspace(*(char *)list->content))
 			;
-		else if (parse_window((char *)list->content) || \
-		parse_texture((char *)list->content) || \
-		parse_color((char *)list->content))
+		else if (parse_window((char *)list->content) ||
+				 parse_texture((char *)list->content) ||
+				 parse_color((char *)list->content))
 			return (1);
-		else // linea senza lettere ovvero mappa
+		else
 			return (0);
 		list->content++;
 	}
 	return (0);
 }
 
-char		parse_map(t_list *list)
+static char	*fill_line(char *s, int max)
+{
+	int		i;
+	char	*out;
+
+	if (!(out = malloc(max + 1)))
+		ft_error("Matrix row allocation failed", NULL);
+	out[0] = ' ';
+	out[max] = '\0';
+	i = 0;
+	while (s[i])
+	{
+		out[i + 1] = s[i];
+		i++;
+	}
+	while (i + 1 < max)
+		out[1 + i++] = ' ';
+	return (out);
+}
+
+char		parse_map(t_list *list, int max)
 {
 	static int	i = 0;
 
-	if (!(g_map[i] = ft_strdup(list->content)))
-		ft_error("Matrix row allocation failed", NULL);
-	i++;
+	if (i == 0 || !list)
+	{
+		g_cub.map[i] = fill_line("", max);
+		if (!list)
+			return (1);
+		i++;
+	}
+	g_cub.map[i++] = fill_line(list->content, max);
 	return (1);
 }

@@ -12,28 +12,29 @@ OBJ			= 	$(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRC:.c=.o))
 OBJDIR		=	./obj
 SRCDIR		=	./src
 LIBDIR		=	./lib
-LIBFT		=	$(LIBFTDIR)/libft.a
+LIB			=	$(LIBFT) ./libmlx.dylib $(LIBDIR)/mlx_opengl/libmlx.a
 LIBFTDIR	=	$(LIBDIR)/libft
+LIBFT		=	$(LIBFTDIR)/libft.a
 DYLIB		=	$(LIBDIR)/mlx_mms/libmlx.dylib
 
 all: mlx $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -lmlx -framework OpenGL -framework AppKit $^ $(LIBFT) ./libmlx.dylib -o $@
+	@$(CC) $(CFLAGS) -framework OpenGL -framework AppKit $^ $(LIB) -o $@
 	@printf "%-80.80b\n" "\e[1;32m•\e[0m Compiling \033[1m$@\033[0m... done"
-
-$(LIBFT):
-	@make -C $(LIBFTDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -I$(LIBDIR)/mlx_mms -I$(LIBDIR)/mlx_opengl -Iinc -c $^ -o $@
+	@$(CC) $(CFLAGS) -Iinc -c $^ -o $@
 	@printf "%-80.80b\r" "○ Compiling \033[1m$(NAME)\033[0m... $^"
 
 $(OBJ): | $(OBJDIR)
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
+
+$(LIBFT):
+	@make -C $(LIBFTDIR)
 
 mlx:
 	@make -C $(LIBDIR)/mlx_mms
@@ -42,6 +43,7 @@ mlx:
 
 test: all
 	./cub3D maps/test.cub
+
 
 clean:
 	@rm -f $(OBJ)
@@ -52,8 +54,8 @@ clean:
 	@make clean -C $(LIBDIR)/mlx_opengl
 
 fclean: clean
-	@rm -f $(NAME) libmlx.dylib
-	@printf "%-80.80b\n" "\e[1;31m•\e[0m Deleted archive for \033[1m$(NAME)\033[0m"
+	@rm -f $(NAME) ./libmlx.dylib ./save.bmp
+	@printf "%-80.80b\n" "\e[1;31m•\e[0m Deleted target for \033[1m$(NAME)\033[0m"
 	@make fclean -C $(LIBFTDIR)
 
 re: fclean all
