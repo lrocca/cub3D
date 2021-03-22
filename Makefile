@@ -37,8 +37,8 @@ $(LIBFT):
 	@make -C $(LIBFTDIR)
 
 mlx:
-	@make -C $(LIBDIR)/mlx_mms
-	@make -C $(LIBDIR)/mlx_opengl
+	@printf "Making mlx_mms..." && make -C $(LIBDIR)/mlx_mms &> /dev/null && echo " done"
+	@printf "Making mlx_opengl..." && make -C $(LIBDIR)/mlx_opengl &> /dev/null && echo " done"
 	@cp $(DYLIB) ./
 
 test: all
