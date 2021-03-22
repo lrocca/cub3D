@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:01 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/17 19:23:54 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/22 18:21:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ static void	parse_file(t_list *list)
 	int	len;
 	int	max;
 
-	while (list && (parse_options(list) || ft_strlen(list->content) == 0))
+	while (list && (parse_options(list)
+		|| ft_strlen(list->content) == 0
+		|| empty_line(list->content)))
 		list = list->next;
 	len = ft_lstsize(list) + 2;
 	if (!(g_cub.map = malloc((len + 1) * sizeof(char*))))
 		ft_error("Matrix allocation failed", NULL);
 	g_cub.map[len] = NULL;
-
 	max = max_len(list) + 2;
 	while (list && parse_map(list, max))
 		list = list->next;
 	parse_map(NULL, max);
-
 	check_file();
 }
 
@@ -78,10 +78,11 @@ int			main(int ac, char **av)
 		ft_error("No .cub file specified", NULL);
 	else if (ac == 2 || ac == 3)
 	{
-		if (ac > 2)
+		g_cub.save = 0;
+		if (ac == 3)
 			check_flag(av[2]);
-		else
-			g_cub.save = 0;
+		g_cub.check[0] = 0;
+		g_cub.check[1] = 0;
 		open_file(av[1]);
 		mlx();
 	}

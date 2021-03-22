@@ -6,13 +6,13 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/17 18:59:43 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/22 17:47:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-#define WHITESPACE	 "\t\v\f\r"
+#define WHITESPACE	" \t\v\f\r"
 
 static char	parse_window(char *s)
 {
@@ -31,6 +31,12 @@ static char	parse_window(char *s)
 			s++;
 		if (!(ft_isdigit(*s) && (g_win.h = ft_atoi(s))))
 			ft_error("Window height not valid", NULL);
+		while (ft_isdigit(*s))
+			s++;
+		while (ft_isspace(*s))
+			s++;
+		if (*s != '\0')
+			ft_error("Bad character after resolution", NULL);
 		return (1);
 	}
 	return (0);
@@ -79,28 +85,27 @@ static char	parse_texture(char *s)
 static int	parse_color_component(char **s, char c)
 {
 	int			n;
-	static int	i = 0;
+	static char	i = 0;
 	static char	z = 0;
 
-	i++;
 	if (!z)
 		z = c;
-	if (c != z)
+	else if (c != z && (z = c))
 		i = 0;
-	if (i > 3)
-		ft_error("Invalid color", char_to_str(c));
 	if (!(ft_isdigit(**s)))
 		ft_error("Invalid color", char_to_str(c));
 	n = ft_atoi(*s);
 	if (n < 0 || n > 255)
-		ft_error("Invalid color", char_to_str(c));
+		ft_error("Invalid color component", char_to_str(c));
 	while (ft_isdigit(**s))
 		(*s)++;
-	if (i == 3 && **s != '\0')
-		ft_error("Invalid color", char_to_str(c));
-	else if ((i == 1 || i == 2) && **s != ',')
-		ft_error("Invalid color", char_to_str(c));
-	(*s)++;
+	skip(s, 0);
+	if ((i == 0 || i == 1) && **s != ',')
+		ft_error("Too few components for color", char_to_str(c));
+	else if (i == 2 && **s != '\0')
+		ft_error("Too many components for color", char_to_str(c));
+	i++;
+	skip(s, 1);
 	return (n);
 }
 
@@ -114,15 +119,15 @@ static char	parse_color(char *s)
 	if (*s == 'F' || *s == 'C')
 	{
 		c = *s;
-		if ((c == 'F' && g_cub.F) || (c == 'C' && g_cub.C))
+		if ((c == 'F' && g_cub.check[0]) || (c == 'C' && g_cub.check[1]))
 			ft_error("Multiple declarations for", char_to_str(c));
 		skip(&s, 1);
 		r = parse_color_component(&s, c);
 		g = parse_color_component(&s, c);
 		b = parse_color_component(&s, c);
-		if (c == 'F')
+		if (c == 'F' && (g_cub.check[0] = 1))
 			g_cub.F = create_trgb(0, r, g, b);
-		else if (c == 'C')
+		else if (c == 'C' && (g_cub.check[1] = 1))
 			g_cub.C = create_trgb(0, r, g, b);
 		return (1);
 	}
@@ -131,17 +136,18 @@ static char	parse_color(char *s)
 
 char		parse_options(t_list *list)
 {
-	while (*(char *)list->content)
+	char	*s;
+
+	s = (char *)list->content;
+	while (*s)
 	{
-		if (ft_isspace(*(char *)list->content))
+		if (ft_isspace(*s))
 			;
-		else if (parse_window((char *)list->content) ||
-				 parse_texture((char *)list->content) ||
-				 parse_color((char *)list->content))
+		else if ((parse_window(s) || parse_texture(s) || parse_color(s)))
 			return (1);
 		else
 			return (0);
-		list->content++;
+		s++;
 	}
 	return (0);
 }

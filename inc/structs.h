@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/18 19:40:43 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/22 18:28:19 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct	s_tex
 typedef struct	s_mlx
 {
 	void	*mlx;
-	char	key[7];
+	char	keys[129];
 }				t_mlx;
 
 typedef struct	s_plr
@@ -70,6 +70,7 @@ typedef struct	s_cub
 {
 	int		F;
 	int		C;
+	char	check[2];
 	char	save;
 	int		x;
 	int		y;

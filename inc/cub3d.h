@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/18 19:38:22 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/22 17:49:31 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,6 @@
 # define DKEY		2
 # define LEFTARROW	123
 # define RIGHTARROW	124
-
-# define MOVEFWD	0
-# define MOVEBACK	1
-# define MOVELEFT	2
-# define MOVERIGHT	3
-# define ROTLEFT	4
-# define ROTRIGHT	5
 
 t_mlx	g_mlx;
 t_win	g_win;
@@ -116,6 +109,7 @@ char	*char_to_str(char c);
 */
 void	check_flag(char *s);
 char	check_extension(char *s);
+char	empty_line(char *s);
 
 /*
 ** utils_color.c

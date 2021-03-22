@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/18 19:47:08 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/22 18:28:44 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 static void	update_player(void)
 {
-	if (g_mlx.key[MOVEFWD])
+	if (g_mlx.keys[WKEY])
 		move_fwd();
-	if (g_mlx.key[MOVEBACK])
+	if (g_mlx.keys[SKEY])
 		move_back();
-	if (g_mlx.key[MOVELEFT])
+	if (g_mlx.keys[AKEY])
 		move_left();
-	if (g_mlx.key[MOVERIGHT])
+	if (g_mlx.keys[DKEY])
 		move_right();
-	if (g_mlx.key[ROTLEFT] || g_mlx.key[6] > 0)
+	if (g_mlx.keys[LEFTARROW] || g_mlx.keys[128] > 0)
 	{
-		g_mlx.key[6] = 0;
+		g_mlx.keys[128] = 0;
 		rotate_left();
 	}
-	if (g_mlx.key[ROTRIGHT] || g_mlx.key[6] < 0)
+	if (g_mlx.keys[RIGHTARROW] || g_mlx.keys[128] < 0)
 	{
-		g_mlx.key[6] = 0;
+		g_mlx.keys[128] = 0;
 		rotate_right();
 	}
 }
@@ -56,35 +56,15 @@ static int	keypress(int key)
 {
 	if (key == ESCKEY)
 		ft_exit(0);
-	if (key == WKEY)
-		g_mlx.key[MOVEFWD] = 1;
-	if (key == SKEY)
-		g_mlx.key[MOVEBACK] = 1;
-	if (key == AKEY)
-		g_mlx.key[MOVELEFT] = 1;
-	if (key == DKEY)
-		g_mlx.key[MOVERIGHT] = 1;
-	if (key == LEFTARROW)
-		g_mlx.key[ROTLEFT] = 1;
-	if (key == RIGHTARROW)
-		g_mlx.key[ROTRIGHT] = 1;
+	if (key < 128)
+		g_mlx.keys[key] = 1;
 	return (0);
 }
 
 static int	keyrelease(int key)
 {
-	if (key == WKEY)
-		g_mlx.key[0] = 0;
-	if (key == SKEY)
-		g_mlx.key[1] = 0;
-	if (key == AKEY)
-		g_mlx.key[2] = 0;
-	if (key == DKEY)
-		g_mlx.key[3] = 0;
-	if (key == LEFTARROW)
-		g_mlx.key[4] = 0;
-	if (key == RIGHTARROW)
-		g_mlx.key[5] = 0;
+	if (key < 128)
+		g_mlx.keys[key] = 0;
 	return (0);
 }
 
@@ -93,15 +73,15 @@ static int	mousemove(int x, int y)
 	static int	ex_x;
 	static char	flag;
 
-	// mlx_mouse_hide();
+	mlx_mouse_hide();
 	if (y)
 		mlx_mouse_move(g_win.ptr, x, 0);
 	if (flag && (flag = 0))
 		return (0);
 	if (ex_x > x)
-		g_mlx.key[6] = 1;
+		g_mlx.keys[128] = 1;
 	else if (ex_x < x)
-		g_mlx.key[6] = -1;
+		g_mlx.keys[128] = -1;
 	ex_x = x;
 	if (x > g_win.w || x < 0)
 	{
@@ -114,7 +94,9 @@ static int	mousemove(int x, int y)
 static void	load_texture(t_tex *tex)
 {
 	if (!(tex->data.img = mlx_xpm_file_to_image(g_mlx.mlx, tex->path,
-		&tex->width, &tex->height)))
+		&tex->width, &tex->height))
+	&& (!(tex->data.img = mlx_png_file_to_image(g_mlx.mlx, tex->path,
+		&tex->width, &tex->height))))
 		ft_error("Failed to load texture", NULL);
 	tex->data.addr = mlx_get_data_addr(tex->data.img, &tex->data.bits_per_pixel,
 		&tex->data.line_length, &tex->data.endian);
@@ -145,13 +127,7 @@ static void	save_flag(void)
 
 void		mlx(void)
 {
-	g_mlx.key[0] = 0;
-	g_mlx.key[1] = 0;
-	g_mlx.key[2] = 0;
-	g_mlx.key[3] = 0;
-	g_mlx.key[4] = 0;
-	g_mlx.key[5] = 0;
-	g_mlx.key[6] = 0;
+	ft_bzero(g_mlx.keys, 129);
 	if (!(g_mlx.mlx = mlx_init()))
 		ft_error("Connection to graphical system failed", NULL);
 	load_textures();

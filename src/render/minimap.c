@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:29:03 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/18 18:54:40 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/20 16:32:45 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	draw_minimap(void)
 	int x;
 	int y;
 
+	if (g_win.h < SCALE * g_cub.y || g_win.w < SCALE * g_cub.x)
+		return ;
 	x = 0;
 	y = 0;
 	while (x < g_cub.x)

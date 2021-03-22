@@ -6,16 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:02 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/13 19:41:28 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/20 16:37:59 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-/*
-** free
-** - sprites
-*/
 
 int		ft_exit(int i)
 {
@@ -29,12 +24,14 @@ int		ft_exit(int i)
 void	ft_error(char *s, char *z)
 {
 	errno = errno ? errno : 1;
-	printf("Error: ");
+	printf("Error\n");
 	printf("%s", s);
 	if (z)
+	{
 		printf(": %s", z);
+		free(z);
+	}
 	printf("\n");
-	free(z);
 	ft_exit(errno);
 }
 
