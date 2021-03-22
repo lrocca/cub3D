@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/22 18:28:44 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/22 19:05:19 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static void	update_player(void)
 		move_left();
 	if (g_mlx.keys[DKEY])
 		move_right();
-	if (g_mlx.keys[LEFTARROW] || g_mlx.keys[128] > 0)
+	if (g_mlx.keys[LEFTARROW] || g_mlx.keys[MOUSE] > 0)
 	{
-		g_mlx.keys[128] = 0;
+		g_mlx.keys[MOUSE] = 0;
 		rotate_left();
 	}
-	if (g_mlx.keys[RIGHTARROW] || g_mlx.keys[128] < 0)
+	if (g_mlx.keys[RIGHTARROW] || g_mlx.keys[MOUSE] < 0)
 	{
-		g_mlx.keys[128] = 0;
+		g_mlx.keys[MOUSE] = 0;
 		rotate_right();
 	}
 }
@@ -79,9 +79,9 @@ static int	mousemove(int x, int y)
 	if (flag && (flag = 0))
 		return (0);
 	if (ex_x > x)
-		g_mlx.keys[128] = 1;
+		g_mlx.keys[MOUSE] = 1;
 	else if (ex_x < x)
-		g_mlx.keys[128] = -1;
+		g_mlx.keys[MOUSE] = -1;
 	ex_x = x;
 	if (x > g_win.w || x < 0)
 	{

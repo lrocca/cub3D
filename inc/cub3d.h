@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/22 17:49:31 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/22 19:04:18 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define DKEY		2
 # define LEFTARROW	123
 # define RIGHTARROW	124
+# define MOUSE		128
 
 t_mlx	g_mlx;
 t_win	g_win;
