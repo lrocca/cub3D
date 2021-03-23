@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 15:48:01 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 19:22:41 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,21 @@ typedef struct	s_ray {
 	double	sidedisty;
 	double	deltadistx;
 	double	deltadisty;
+	double	spritex;
+	double	spritey;
+	double	invdet;
+	double	transformx;
+	double	transformy;
+	int		spriteheight;
+	int		spritewidth;
+	int		drawstarty;
+	int		drawendy;
+	int		drawstartx;
+	int		drawendx;
+	int		vmove;
+	int		spritescreenx;
+	int		udiv;
+	int		vdiv;
 	t_tex	*texture;
 }				t_ray;
 

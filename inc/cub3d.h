@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 15:11:04 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 19:44:15 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@
 # define LEFTARROW	123
 # define RIGHTARROW	124
 # define MOUSE		128
+
+# define UDIV		2
+# define VDIV		2
 
 t_cub	g_cub;
 
@@ -118,5 +121,7 @@ int		create_trgb(int t, int r, int g, int b);
 */
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 t_tex	*select_texture(int side);
+void	get_sprites_distance(t_list *curr, t_spr *spr);
+void	put_texel(int y, int stripe);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 15:11:01 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 16:52:20 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ static void	update_player(void)
 
 static void	get_image(void)
 {
-	g_cub.data.img = mlx_new_image(g_cub.mlx, g_cub.w, g_cub.h);
-	g_cub.data.addr = mlx_get_data_addr(g_cub.data.img, &g_cub.data.bits_per_pixel,
-		&g_cub.data.line_length, &g_cub.data.endian);
+	t_data	*data;
+
+	data = &g_cub.data;
+	data->img = mlx_new_image(g_cub.mlx, g_cub.w, g_cub.h);
+	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, \
+		&data->line_length, &data->endian);
 	draw_walls();
 	draw_minimap();
 }
