@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:29:03 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/20 16:32:45 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:11:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 
 void	draw_position(void)
 {
-	int	offsetX = (g_win.w - g_cub.x * SCALE) / 2;
+	int	offsetX = (g_cub.w - g_cub.x * SCALE) / 2;
 	int	offsetY = -(SCALE / PADDING);
 	int e = 0;
 
 	while (e < SCALE / 4)
 	{
-		my_mlx_pixel_put(&g_data, g_cub.plr.posX * SCALE + e + offsetX, g_cub.plr.posY * SCALE + offsetY, COLOR);
-		my_mlx_pixel_put(&g_data, g_cub.plr.posX * SCALE - e + offsetX, g_cub.plr.posY * SCALE + offsetY, COLOR);
-		my_mlx_pixel_put(&g_data, g_cub.plr.posX * SCALE + offsetX, g_cub.plr.posY * SCALE - e + offsetY, COLOR);
-		my_mlx_pixel_put(&g_data, g_cub.plr.posX * SCALE + offsetX, g_cub.plr.posY * SCALE + e + offsetY, COLOR);
+		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + e + offsetX, g_cub.plr.posy * SCALE + offsetY, COLOR);
+		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE - e + offsetX, g_cub.plr.posy * SCALE + offsetY, COLOR);
+		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + offsetX, g_cub.plr.posy * SCALE - e + offsetY, COLOR);
+		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + offsetX, g_cub.plr.posy * SCALE + e + offsetY, COLOR);
 		e++;
 	}
 }
@@ -37,7 +37,7 @@ void	draw_square(int x, int y)
 	int	color;
 	int	i;
 	int	j;
-	int	offsetX = (g_win.w - g_cub.x * SCALE) / 2;
+	int	offsetX = (g_cub.w - g_cub.x * SCALE) / 2;
 	int	offsetY = -(SCALE / PADDING);
 
 	i = SCALE / PADDING;
@@ -52,7 +52,7 @@ void	draw_square(int x, int y)
 	{
 		i = SCALE / PADDING;
 		while (i < SCALE)
-			my_mlx_pixel_put(&g_data, offsetX + x * SCALE + i++, offsetY + y * SCALE + j, color);
+			my_mlx_pixel_put(&g_cub.data, offsetX + x * SCALE + i++, offsetY + y * SCALE + j, color);
 		j++;
 	}
 }
@@ -62,7 +62,7 @@ void	draw_minimap(void)
 	int x;
 	int y;
 
-	if (g_win.h < SCALE * g_cub.y || g_win.w < SCALE * g_cub.x)
+	if (g_cub.h < SCALE * g_cub.y || g_cub.w < SCALE * g_cub.x)
 		return ;
 	x = 0;
 	y = 0;

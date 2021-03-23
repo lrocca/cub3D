@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/22 19:05:19 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:11:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 
 static void	update_player(void)
 {
-	if (g_mlx.keys[WKEY])
+	if (g_cub.keys[WKEY])
 		move_fwd();
-	if (g_mlx.keys[SKEY])
+	if (g_cub.keys[SKEY])
 		move_back();
-	if (g_mlx.keys[AKEY])
+	if (g_cub.keys[AKEY])
 		move_left();
-	if (g_mlx.keys[DKEY])
+	if (g_cub.keys[DKEY])
 		move_right();
-	if (g_mlx.keys[LEFTARROW] || g_mlx.keys[MOUSE] > 0)
+	if (g_cub.keys[LEFTARROW] || g_cub.keys[MOUSE] > 0)
 	{
-		g_mlx.keys[MOUSE] = 0;
+		g_cub.keys[MOUSE] = 0;
 		rotate_left();
 	}
-	if (g_mlx.keys[RIGHTARROW] || g_mlx.keys[MOUSE] < 0)
+	if (g_cub.keys[RIGHTARROW] || g_cub.keys[MOUSE] < 0)
 	{
-		g_mlx.keys[MOUSE] = 0;
+		g_cub.keys[MOUSE] = 0;
 		rotate_right();
 	}
 }
 
 static void	get_image(void)
 {
-	g_data.img = mlx_new_image(g_mlx.mlx, g_win.w, g_win.h);
-	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel,
-		&g_data.line_length, &g_data.endian);
+	g_cub.data.img = mlx_new_image(g_cub.mlx, g_cub.w, g_cub.h);
+	g_cub.data.addr = mlx_get_data_addr(g_cub.data.img, &g_cub.data.bits_per_pixel,
+		&g_cub.data.line_length, &g_cub.data.endian);
 	draw_walls();
 	draw_minimap();
 }
@@ -47,8 +47,8 @@ static int	my_hook(void)
 {
 	update_player();
 	get_image();
-	mlx_put_image_to_window(g_mlx.mlx, g_win.ptr, g_data.img, 0, 0);
-	mlx_destroy_image(g_mlx.mlx, g_data.img);
+	mlx_put_image_to_window(g_cub.mlx, g_cub.win, g_cub.data.img, 0, 0);
+	mlx_destroy_image(g_cub.mlx, g_cub.data.img);
 	return (1);
 }
 
@@ -57,14 +57,14 @@ static int	keypress(int key)
 	if (key == ESCKEY)
 		ft_exit(0);
 	if (key < 128)
-		g_mlx.keys[key] = 1;
+		g_cub.keys[key] = 1;
 	return (0);
 }
 
 static int	keyrelease(int key)
 {
 	if (key < 128)
-		g_mlx.keys[key] = 0;
+		g_cub.keys[key] = 0;
 	return (0);
 }
 
@@ -75,27 +75,27 @@ static int	mousemove(int x, int y)
 
 	mlx_mouse_hide();
 	if (y)
-		mlx_mouse_move(g_win.ptr, x, 0);
+		mlx_mouse_move(g_cub.win, x, 0);
 	if (flag && (flag = 0))
 		return (0);
 	if (ex_x > x)
-		g_mlx.keys[MOUSE] = 1;
+		g_cub.keys[MOUSE] = 1;
 	else if (ex_x < x)
-		g_mlx.keys[MOUSE] = -1;
+		g_cub.keys[MOUSE] = -1;
 	ex_x = x;
-	if (x > g_win.w || x < 0)
+	if (x > g_cub.w || x < 0)
 	{
 		flag = 1;
-		mlx_mouse_move(g_win.ptr, g_win.w/2, 0);
+		mlx_mouse_move(g_cub.win, g_cub.w/2, 0);
 	}
 	return (0);
 }
 
 static void	load_texture(t_tex *tex)
 {
-	if (!(tex->data.img = mlx_xpm_file_to_image(g_mlx.mlx, tex->path,
+	if (!(tex->data.img = mlx_xpm_file_to_image(g_cub.mlx, tex->path,
 		&tex->width, &tex->height))
-	&& (!(tex->data.img = mlx_png_file_to_image(g_mlx.mlx, tex->path,
+	&& (!(tex->data.img = mlx_png_file_to_image(g_cub.mlx, tex->path,
 		&tex->width, &tex->height))))
 		ft_error("Failed to load texture", NULL);
 	tex->data.addr = mlx_get_data_addr(tex->data.img, &tex->data.bits_per_pixel,
@@ -115,29 +115,29 @@ static char	load_textures(void)
 
 static void	save_flag(void)
 {
-	g_data.img = mlx_new_image(g_mlx.mlx, g_win.w, g_win.h);
-	g_data.addr = mlx_get_data_addr(g_data.img, &g_data.bits_per_pixel,
-		&g_data.line_length, &g_data.endian);
+	g_cub.data.img = mlx_new_image(g_cub.mlx, g_cub.w, g_cub.h);
+	g_cub.data.addr = mlx_get_data_addr(g_cub.data.img, &g_cub.data.bits_per_pixel,
+		&g_cub.data.line_length, &g_cub.data.endian);
 	draw_walls();
 	draw_minimap();
-	save_image_to_bmp_file(g_win.w, g_win.h);
-	mlx_destroy_image(g_mlx.mlx, g_data.img);
+	save_image_to_bmp_file(g_cub.w, g_cub.h);
+	mlx_destroy_image(g_cub.mlx, g_cub.data.img);
 	ft_exit(0);
 }
 
 void		mlx(void)
 {
-	ft_bzero(g_mlx.keys, 129);
-	if (!(g_mlx.mlx = mlx_init()))
+	ft_bzero(g_cub.keys, 129);
+	if (!(g_cub.mlx = mlx_init()))
 		ft_error("Connection to graphical system failed", NULL);
 	load_textures();
 	if (g_cub.save)
 		save_flag();
-	g_win.ptr = mlx_new_window(g_mlx.mlx, g_win.w, g_win.h, "cub3D");
-	mlx_hook(g_win.ptr, 6, 0, &mousemove, NULL);
-	mlx_hook(g_win.ptr, KEYPRESS, 1L, &keypress, NULL);
-	mlx_hook(g_win.ptr, KEYRELEASE, 2L, &keyrelease, NULL);
-	mlx_hook(g_win.ptr, 17, 1L, &ft_exit, NULL);
-	mlx_loop_hook(g_mlx.mlx, &my_hook, NULL);
-	mlx_loop(g_mlx.mlx);
+	g_cub.win = mlx_new_window(g_cub.mlx, g_cub.w, g_cub.h, "cub3D");
+	mlx_hook(g_cub.win, 6, 0, &mousemove, NULL);
+	mlx_hook(g_cub.win, KEYPRESS, 1L, &keypress, NULL);
+	mlx_hook(g_cub.win, KEYRELEASE, 2L, &keyrelease, NULL);
+	mlx_hook(g_cub.win, 17, 1L, &ft_exit, NULL);
+	mlx_loop_hook(g_cub.mlx, &my_hook, NULL);
+	mlx_loop(g_cub.mlx);
 }

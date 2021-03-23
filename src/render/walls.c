@@ -6,160 +6,129 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/17 19:34:44 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:11:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static t_tex	*select_texture(int side)
+static int		perform_dda(void)
 {
-	t_tex	*texture;
+	int	hit;
+	int	side;
 
-	if (side == 1)
-	{
-		if (g_ray.y > 0)
-			texture = &g_cub.so;
-		else
-			texture = &g_cub.no;
-	}
-	else
-	{
-		if (g_ray.x > 0)
-			texture = &g_cub.ea;
-		else
-			texture = &g_cub.we;
-	}
-	return (texture);
-}
-
-void	draw_column(int x)
-{
-	int mapX = (int)g_cub.plr.posX;
-	int mapY = (int)g_cub.plr.posY;
-	//length of ray from current position to next x or y-side
-	double sideDistX;
-	double sideDistY;
-
-	//length of ray from one x or y-side to next x or y-side
-	double deltaDistX = fabs(1 / g_ray.x);
-	double deltaDistY = fabs(1 / g_ray.y);
-	double perpWallDist;
-
-	// //what direction to step in x or y-direction (either +1 or -1)
-	int stepX;
-	int stepY;
-
-	//calculate step and initial sideDist
-	if (g_ray.x < 0 && (stepX = -1))
-		sideDistX = (g_cub.plr.posX - mapX) * deltaDistX;
-	else if ((stepX = 1))
-		sideDistX = (mapX + 1.0 - g_cub.plr.posX) * deltaDistX;
-	if (g_ray.y < 0 && (stepY = -1))
-		sideDistY = (g_cub.plr.posY - mapY) * deltaDistY;
-	else if ((stepY = 1))
-		sideDistY = (mapY + 1.0 - g_cub.plr.posY) * deltaDistY;
-
-	int hit = 0; //was there a wall hit?
-	int side;	 //was a NS or a EW wall hit?
-
-	//perform DDA
+	hit = 0;
 	while (hit == 0)
 	{
-		//jump to next map square, OR in x-direction, OR in y-direction
-		if (sideDistX < sideDistY)
+		if (g_cub.ray.sidedistx < g_cub.ray.sidedisty)
 		{
-			sideDistX += deltaDistX;
-			mapX += stepX;
+			g_cub.ray.sidedistx += g_cub.ray.deltadistx;
+			g_cub.ray.mapx += g_cub.ray.stepx;
 			side = 0;
 		}
 		else
 		{
-			sideDistY += deltaDistY;
-			mapY += stepY;
+			g_cub.ray.sidedisty += g_cub.ray.deltadisty;
+			g_cub.ray.mapy += g_cub.ray.stepy;
 			side = 1;
 		}
-		//Check if ray has hit a wall
-		if (g_cub.map[mapY][mapX] == '1')
+		if (g_cub.map[g_cub.ray.mapy][g_cub.ray.mapx] == '1')
 			hit = 1;
 	}
-	//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-	if (side == 0)
-		perpWallDist = (mapX - g_cub.plr.posX + (1 - stepX) / 2) / g_ray.x;
-	else
-		perpWallDist = (mapY - g_cub.plr.posY + (1 - stepY) / 2) / g_ray.y;
-
-	//Calculate height of line to draw on screen
-	int lineHeight = (int)(g_win.h / perpWallDist);
-
-	//calculate lowest and highest pixel to fill in current stripe
-	int draw_start = -lineHeight / 2 + g_win.h / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	int draw_end;
-	draw_end = lineHeight / 2 + g_win.h / 2;
-	if (draw_end >= g_win.h)
-		draw_end = g_win.h - 1;
-
-	//calculate value of wallX
-	double wallX; //where exactly the wall was hit
-	if (side == 0)
-		wallX = g_cub.plr.posY + perpWallDist * g_ray.y;
-	else
-		wallX = g_cub.plr.posX + perpWallDist * g_ray.x;
-	wallX -= floor((wallX));
-
-	t_tex *texture;
-	texture = select_texture(side);
-
-	//x coordinate on the texture
-	int	texX;
-	texX = (int)(wallX * (double)texture->width);
-	if (side == 0 && g_ray.x > 0)
-		texX = texture->width - texX - 1;
-	if (side == 1 && g_ray.y < 0)
-		texX = texture->width - texX - 1;
-
-	// How much to increase the texture coordinate per screen pixel
-	double	step;
-	step = 1.0 * texture->height / lineHeight;
-	// Starting texture coordinate
-	double	texPos;
-	texPos = (draw_start - g_win.h / 2 + lineHeight / 2) * step;
-	int y = 0;
-
-	while (y < draw_start)
-		my_mlx_pixel_put(&g_data, x, y++, g_cub.C);
-	y = draw_start;
-	int color;
-	while (y < draw_end)
-	{
-		int texY = (int)texPos % texture->height;
-		texPos += step;
-		color = ((int *)(texture->data.addr))[texture->height * texY + texX];
-		my_mlx_pixel_put(&g_data, x, y, color);
-		y++;
-	}
-	while (y < g_win.h)
-		my_mlx_pixel_put(&g_data, x, y++, g_cub.F);
-	//SET THE ZBUFFER FOR THE SPRITE CASTING
-	g_ray.perpWallDist = perpWallDist; //perpendicular distance is used
+	return (side);
 }
 
-void draw_walls(void)
+static void		before_print(int side)
 {
-	int x;
-	double zBuffer[g_win.w];
+	if (side == 0)
+		g_cub.ray.dist = (g_cub.ray.mapx - g_cub.plr.posx + (1 - g_cub.ray.stepx) / 2) / g_cub.ray.x;
+	else
+		g_cub.ray.dist = (g_cub.ray.mapy - g_cub.plr.posy + (1 - g_cub.ray.stepy) / 2) / g_cub.ray.y;
+	g_cub.ray.line_height = (int)(g_cub.h / g_cub.ray.dist);
+	if (side == 0)
+		g_cub.ray.wallx = g_cub.plr.posy + g_cub.ray.dist * g_cub.ray.y;
+	else
+		g_cub.ray.wallx = g_cub.plr.posx + g_cub.ray.dist * g_cub.ray.x;
+	g_cub.ray.wallx -= floor((g_cub.ray.wallx));
+	g_cub.ray.texture = select_texture(side);
+	g_cub.ray.texx = (int)(g_cub.ray.wallx * (double)g_cub.ray.texture->width);
+	if (side == 0 && g_cub.ray.x > 0)
+		g_cub.ray.texx = g_cub.ray.texture->width - g_cub.ray.texx - 1;
+	if (side == 1 && g_cub.ray.y < 0)
+		g_cub.ray.texx = g_cub.ray.texture->width - g_cub.ray.texx - 1;
+	g_cub.ray.drawstart = -g_cub.ray.line_height / 2 + g_cub.h / 2;
+	if (g_cub.ray.drawstart < 0)
+		g_cub.ray.drawstart = 0;
+	g_cub.ray.drawend = g_cub.ray.line_height / 2 + g_cub.h / 2;
+	if (g_cub.ray.drawend >= g_cub.h)
+		g_cub.ray.drawend = g_cub.h - 1;
+}
+
+static void		put_column(int x)
+{
+	int		y;
+	double	step;
+	double	texPos;
+	int		texY;
+	int		color;
+
+	y = 0;
+	step = 1.0 * g_cub.ray.texture->height / g_cub.ray.line_height;
+	texPos = (g_cub.ray.drawstart - g_cub.h / 2 + g_cub.ray.line_height / 2) * step;
+	while (y < g_cub.ray.drawstart)
+		my_mlx_pixel_put(&g_cub.data, x, y++, g_cub.c);
+	y = g_cub.ray.drawstart;
+	while (y < g_cub.ray.drawend)
+	{
+		texY = (int)texPos % g_cub.ray.texture->height;
+		texPos += step;
+		color = ((int *)(g_cub.ray.texture->data.addr))[g_cub.ray.texture->height * texY + g_cub.ray.texx];
+		my_mlx_pixel_put(&g_cub.data, x, y, color);
+		y++;
+	}
+	while (y < g_cub.h)
+		my_mlx_pixel_put(&g_cub.data, x, y++, g_cub.f);
+}
+
+static void		draw_column(int x)
+{
+	int side;
+
+	if (g_cub.ray.x < 0 && (g_cub.ray.stepx = -1))
+		g_cub.ray.sidedistx = (g_cub.plr.posx - g_cub.ray.mapx) * g_cub.ray.deltadistx;
+	else if ((g_cub.ray.stepx = 1))
+		g_cub.ray.sidedistx = (g_cub.ray.mapx + 1.0 - g_cub.plr.posx) * g_cub.ray.deltadistx;
+	if (g_cub.ray.y < 0 && (g_cub.ray.stepy = -1))
+		g_cub.ray.sidedisty = (g_cub.plr.posy - g_cub.ray.mapy) * g_cub.ray.deltadisty;
+	else if ((g_cub.ray.stepy = 1))
+		g_cub.ray.sidedisty = (g_cub.ray.mapy + 1.0 - g_cub.plr.posy) * g_cub.ray.deltadisty;
+	side = perform_dda();
+	before_print(side);
+	put_column(x);
+}
+
+void			draw_walls(void)
+{
+	int		x;
+	double	zBuffer[g_cub.w];
+	double	cameraX;
 
 	x = 0;
-	while (x < g_win.w)
+	while (x < g_cub.w)
 	{
-		//calculate ray position and direction
-		double cameraX = 2 * x / (double)g_win.w - 1; //x-coordinate in camera space
-		g_ray.x = g_cub.plr.dirX + g_cub.plr.planeX * cameraX;
-		g_ray.y = g_cub.plr.dirY + g_cub.plr.planeY * cameraX;
+		cameraX = 2 * x / (double)g_cub.w - 1;
+		g_cub.ray.x = g_cub.plr.dirx + g_cub.plr.planex * cameraX;
+		g_cub.ray.y = g_cub.plr.diry + g_cub.plr.planey * cameraX;
+		g_cub.ray.sidedistx = 0.0;
+		g_cub.ray.sidedisty = 0.0;
+		g_cub.ray.deltadistx = 0.0;
+		g_cub.ray.deltadisty = 0.0;
+		g_cub.ray.deltadistx = fabs(1 / g_cub.ray.x);
+		g_cub.ray.deltadisty = fabs(1 / g_cub.ray.y);
+		g_cub.ray.mapx = (int)g_cub.plr.posx;
+		g_cub.ray.mapy = (int)g_cub.plr.posy;
 		draw_column(x);
-		zBuffer[x] = g_ray.perpWallDist;
+		zBuffer[x] = g_cub.ray.dist;
 		x++;
 	}
 	if (g_cub.spr)

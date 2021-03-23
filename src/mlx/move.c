@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 16:49:56 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/20 18:07:50 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 14:42:18 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	move_fwd(void)
 
 	map = g_cub.map;
 	plr = &g_cub.plr;
-	if (map[(int)plr->posY][(int)(plr->posX + plr->dirX * MOVESPEED)] == '0')
-		plr->posX += plr->dirX * MOVESPEED;
-	if (map[(int)(plr->posY + plr->dirY * MOVESPEED)][(int)plr->posX] == '0')
-		plr->posY += plr->dirY * MOVESPEED;
+	if (map[(int)plr->posy][(int)(plr->posx + plr->dirx * MOVESPEED)] == '0')
+		plr->posx += plr->dirx * MOVESPEED;
+	if (map[(int)(plr->posy + plr->diry * MOVESPEED)][(int)plr->posx] == '0')
+		plr->posy += plr->diry * MOVESPEED;
 }
 
 void	move_back(void)
@@ -32,10 +32,10 @@ void	move_back(void)
 
 	map = g_cub.map;
 	plr = &g_cub.plr;
-	if (map[(int)plr->posY][(int)(plr->posX - plr->dirX * MOVESPEED)] == '0')
-		plr->posX -= plr->dirX * MOVESPEED;
-	if (map[(int)(plr->posY - plr->dirY * MOVESPEED)][(int)plr->posX] == '0')
-		plr->posY -= plr->dirY * MOVESPEED;
+	if (map[(int)plr->posy][(int)(plr->posx - plr->dirx * MOVESPEED)] == '0')
+		plr->posx -= plr->dirx * MOVESPEED;
+	if (map[(int)(plr->posy - plr->diry * MOVESPEED)][(int)plr->posx] == '0')
+		plr->posy -= plr->diry * MOVESPEED;
 }
 
 void	move_left(void)
@@ -45,10 +45,12 @@ void	move_left(void)
 
 	map = g_cub.map;
 	plr = &g_cub.plr;
-	if (map[(int)plr->posY][(int)(plr->posX + plr->dirY * MOVESPEED / 1.5)] == '0')
-		plr->posX += plr->dirY * MOVESPEED / 1.5;
-	if (map[(int)(plr->posY - plr->dirX * MOVESPEED / 1.5)][(int)plr->posX] == '0')
-		plr->posY -= plr->dirX * MOVESPEED / 1.5;
+	if (map[(int)plr->posy]
+		[(int)(plr->posx + plr->diry * MOVESPEED / 1.5)] == '0')
+		plr->posx += plr->diry * MOVESPEED / 1.5;
+	if (map[(int)(plr->posy - plr->dirx * MOVESPEED / 1.5)]
+		[(int)plr->posx] == '0')
+		plr->posy -= plr->dirx * MOVESPEED / 1.5;
 }
 
 void	move_right(void)
@@ -58,8 +60,10 @@ void	move_right(void)
 
 	map = g_cub.map;
 	plr = &g_cub.plr;
-	if (map[(int)plr->posY][(int)(plr->posX - plr->dirY * MOVESPEED / 1.5)] == '0')
-		plr->posX -= plr->dirY * MOVESPEED / 1.5;
-	if (map[(int)(plr->posY + plr->dirX * MOVESPEED / 1.5)][(int)plr->posX] == '0')
-		plr->posY += plr->dirX * MOVESPEED / 1.5;
+	if (map[(int)plr->posy]
+		[(int)(plr->posx - plr->diry * MOVESPEED / 1.5)] == '0')
+		plr->posx -= plr->diry * MOVESPEED / 1.5;
+	if (map[(int)(plr->posy + plr->dirx * MOVESPEED / 1.5)]
+		[(int)plr->posx] == '0')
+		plr->posy += plr->dirx * MOVESPEED / 1.5;
 }

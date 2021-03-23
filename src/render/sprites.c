@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 18:15:40 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/17 16:57:20 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:11:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	get_sprites_distance(t_list *curr, t_spr *spr)
 	while (curr)
 	{
 		spr = curr->content;
-		spr->distance = ((g_cub.plr.posX - spr->x) * (g_cub.plr.posX - spr->x)
-						+ (g_cub.plr.posY - spr->y) * (g_cub.plr.posY - spr->y));
+		spr->distance = ((g_cub.plr.posx - spr->x) * (g_cub.plr.posx - spr->x)
+						+ (g_cub.plr.posy - spr->y) * (g_cub.plr.posy - spr->y));
 		curr = curr->next;
 	}
 }
@@ -89,38 +89,38 @@ void sprites(double *zBuffer)
 		spr = curr->content;
 
 		//translate sprite position to relative to camera
-		double spriteX = spr->x - g_cub.plr.posX + 0.5;
-		double spriteY = spr->y - g_cub.plr.posY + 0.5;
+		double spriteX = spr->x - g_cub.plr.posx + 0.5;
+		double spriteY = spr->y - g_cub.plr.posy + 0.5;
 
-		double invDet = 1.0 / (g_cub.plr.planeX * g_cub.plr.dirY - g_cub.plr.dirX * g_cub.plr.planeY); //required for correct matrix multiplication
+		double invDet = 1.0 / (g_cub.plr.planex * g_cub.plr.diry - g_cub.plr.dirx * g_cub.plr.planey); //required for correct matrix multiplication
 
-		double transformX = invDet * (g_cub.plr.dirY * spriteX - g_cub.plr.dirX * spriteY);
-		double transformY = invDet * (-g_cub.plr.planeY * spriteX + g_cub.plr.planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+		double transformX = invDet * (g_cub.plr.diry * spriteX - g_cub.plr.dirx * spriteY);
+		double transformY = invDet * (-g_cub.plr.planey * spriteX + g_cub.plr.planex * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
 
-		int spriteScreenX = (int)((g_win.w / 2) * (1 + transformX / transformY));
+		int spriteScreenX = (int)((g_cub.w / 2) * (1 + transformX / transformY));
 
 		int vDiv = 2;
 		int uDiv = 2;
 		t_tex	*texture = &g_cub.s;
 		int vMoveScreen = (int)(texture->height * 4 / transformY);
 		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(g_win.h / (transformY))) / vDiv; //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = abs((int)(g_cub.h / (transformY))) / vDiv; //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + g_win.h / 2 + vMoveScreen;
+		int drawStartY = -spriteHeight / 2 + g_cub.h / 2 + vMoveScreen;
 		if (drawStartY < 0)
 			drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + g_win.h / 2 + vMoveScreen;
-		if (drawEndY >= g_win.h)
-			drawEndY = g_win.h - 1;
+		int drawEndY = spriteHeight / 2 + g_cub.h / 2 + vMoveScreen;
+		if (drawEndY >= g_cub.h)
+			drawEndY = g_cub.h - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs((int)(g_win.h / (transformY))) / uDiv;
+		int spriteWidth = abs((int)(g_cub.h / (transformY))) / uDiv;
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
 		if (drawStartX < 0)
 			drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		if (drawEndX >= g_win.w)
-			drawEndX = g_win.w - 1;
+		if (drawEndX >= g_cub.w)
+			drawEndX = g_cub.w - 1;
 
 		int texX;
 		//loop through every vertical stripe of the sprite on screen
@@ -133,16 +133,16 @@ void sprites(double *zBuffer)
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			if (transformY > 0 && stripe > 0 && stripe < g_win.w && transformY < zBuffer[stripe])
+			if (transformY > 0 && stripe > 0 && stripe < g_cub.w && transformY < zBuffer[stripe])
 			{
 				int y = drawStartY;
 				while (y < drawEndY) //for every pixel of the current stripe
 				{
-					int d = (y - vMoveScreen) * 256 - g_win.h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int d = (y - vMoveScreen) * 256 - g_cub.h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 					int texY = ((d * texture->height) / spriteHeight) / 256;
 					int color = ((unsigned int *)(texture->data.addr))[texture->width * texY + texX]; //get current color from the texture
 					if ((color & 0x00FFFFFF) != 0) //paint pixel if it isn't black, black is the invisible color
-						my_mlx_pixel_put(&g_data, stripe, y, color);
+						my_mlx_pixel_put(&g_cub.data, stripe, y, color);
 					y++;
 				}
 			}

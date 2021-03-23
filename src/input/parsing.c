@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/22 17:47:48 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:03:13 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ static char	parse_window(char *s)
 {
 	if (*s == 'R')
 	{
-		if (g_win.w || g_win.h)
+		if (g_cub.w || g_cub.h)
 			ft_error("Multiple R declarations", NULL);
 		s++;
 		while (ft_isspace(*s))
 			s++;
-		if (!(ft_isdigit(*s) && (g_win.w = ft_atoi(s))))
+		if (!(ft_isdigit(*s) && (g_cub.w = ft_atoi(s))))
 			ft_error("Window width not valid", NULL);
 		while (ft_isdigit(*s))
 			s++;
 		while (ft_isspace(*s))
 			s++;
-		if (!(ft_isdigit(*s) && (g_win.h = ft_atoi(s))))
+		if (!(ft_isdigit(*s) && (g_cub.h = ft_atoi(s))))
 			ft_error("Window height not valid", NULL);
 		while (ft_isdigit(*s))
 			s++;
@@ -126,9 +126,9 @@ static char	parse_color(char *s)
 		g = parse_color_component(&s, c);
 		b = parse_color_component(&s, c);
 		if (c == 'F' && (g_cub.check[0] = 1))
-			g_cub.F = create_trgb(0, r, g, b);
+			g_cub.f = create_trgb(0, r, g, b);
 		else if (c == 'C' && (g_cub.check[1] = 1))
-			g_cub.C = create_trgb(0, r, g, b);
+			g_cub.c = create_trgb(0, r, g, b);
 		return (1);
 	}
 	return (0);

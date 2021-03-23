@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:02 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/20 16:37:59 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:06:32 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		ft_exit(int i)
 {
-	if (g_win.ptr)
-		mlx_destroy_window(g_mlx.mlx, g_win.ptr);
+	if (g_cub.win)
+		mlx_destroy_window(g_cub.mlx, g_cub.win);
 	ft_lstclear(&g_cub.spr, free);
 	exit(i);
 	return (i);
@@ -23,7 +23,8 @@ int		ft_exit(int i)
 
 void	ft_error(char *s, char *z)
 {
-	errno = errno ? errno : 1;
+	if (!errno)
+		errno = 1;
 	printf("Error\n");
 	printf("%s", s);
 	if (z)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/22 19:04:18 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:11:04 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,7 @@
 # define RIGHTARROW	124
 # define MOUSE		128
 
-t_mlx	g_mlx;
-t_win	g_win;
 t_cub	g_cub;
-t_data	g_data;
-t_ray	g_ray;
 
 char	parse_options(t_list *list);
 char	parse_map(t_list *list, int max);
@@ -106,20 +102,21 @@ void	ft_error(char *s, char *z);
 char	*char_to_str(char c);
 
 /*
-** utils_check.c
+** utils/check.c
 */
 void	check_flag(char *s);
 char	check_extension(char *s);
 char	empty_line(char *s);
 
 /*
-** utils_color.c
+** utils/color.c
 */
 int		create_trgb(int t, int r, int g, int b);
 
 /*
-** utils_render.c
+** utils/render.c
 */
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+t_tex	*select_texture(int side);
 
 #endif

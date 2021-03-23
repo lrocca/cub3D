@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/22 18:32:55 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:06:32 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,31 @@ static void	set_direction(char c)
 {
 	if (c == 'N')
 	{
-		g_cub.plr.dirX = 0;
-		g_cub.plr.dirY = -1;
-		g_cub.plr.planeX = 0.66;
-		g_cub.plr.planeY = 0;
+		g_cub.plr.dirx = 0;
+		g_cub.plr.diry = -1;
+		g_cub.plr.planex = 0.66;
+		g_cub.plr.planey = 0;
 	}
 	if (c == 'S')
 	{
-		g_cub.plr.dirX = 0;
-		g_cub.plr.dirY = 1;
-		g_cub.plr.planeX = -0.66;
-		g_cub.plr.planeY = 0;
+		g_cub.plr.dirx = 0;
+		g_cub.plr.diry = 1;
+		g_cub.plr.planex = -0.66;
+		g_cub.plr.planey = 0;
 	}
 	if (c == 'E')
 	{
-		g_cub.plr.dirX = 1;
-		g_cub.plr.dirY = 0;
-		g_cub.plr.planeX = 0;
-		g_cub.plr.planeY = 0.66;
+		g_cub.plr.dirx = 1;
+		g_cub.plr.diry = 0;
+		g_cub.plr.planex = 0;
+		g_cub.plr.planey = 0.66;
 	}
 	if (c == 'W')
 	{
-		g_cub.plr.dirX = -1;
-		g_cub.plr.dirY = 0;
-		g_cub.plr.planeX = 0;
-		g_cub.plr.planeY = -0.66;
+		g_cub.plr.dirx = -1;
+		g_cub.plr.diry = 0;
+		g_cub.plr.planex = 0;
+		g_cub.plr.planey = -0.66;
 	}
 }
 
@@ -76,8 +76,8 @@ static char	check_map(void)
 			}
 			else if (ft_ischarset(g_cub.map[y][x], "NSEW"))
 			{
-				g_cub.plr.posX = x + 0.5;
-				g_cub.plr.posY = y + 0.5;
+				g_cub.plr.posx = x + 0.5;
+				g_cub.plr.posy = y + 0.5;
 				set_direction(g_cub.map[y][x]);
 				g_cub.map[y][x] = '0';
 				player++;
@@ -109,17 +109,15 @@ void		check_file(void)
 	int width;
 	int height;
 
-	if (!g_win.h || !g_win.w)
+	if (!g_cub.h || !g_cub.w)
 		ft_error("Missing or invalid R declaration", NULL);
 	else if (!g_cub.check[0] || !g_cub.check[1])
 		ft_error("Missing colors", NULL);
 	else if (!g_cub.no.path || !g_cub.so.path || !g_cub.ea.path || !g_cub.we.path || !g_cub.s.path)
 		ft_error("One or more textures are missing", NULL);
-	// else if (!load_textures())
-	// 	ft_error("Failed to load textures", NULL);
 	else if (!check_map())
 		ft_error("Invalid map", NULL);
-	mlx_get_screen_size(g_mlx.mlx, &width, &height);
-	g_win.w = g_win.w > width ? width : g_win.w;
-	g_win.h = g_win.h > height ? height : g_win.h;
+	mlx_get_screen_size(g_cub.mlx, &width, &height);
+	g_cub.w = g_cub.w > width ? width : g_cub.w;
+	g_cub.h = g_cub.h > height ? height : g_cub.h;
 }
