@@ -44,7 +44,6 @@ mlx:
 test: all
 	./cub3D maps/test.cub
 
-
 clean:
 	@rm -f $(OBJ)
 	@printf "%-80.80b\n" "\e[1;31m•\e[0m Deleted objects for \033[1m$(NAME)\033[0m"
