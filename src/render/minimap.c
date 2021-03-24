@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:29:03 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 15:11:01 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/24 17:15:29 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,39 @@
 
 void	draw_position(void)
 {
-	int	offsetX = (g_cub.w - g_cub.x * SCALE) / 2;
-	int	offsetY = -(SCALE / PADDING);
-	int e = 0;
+	int	e;
+	int	offsetx;
+	int	offsety;
 
+	e = 0;
+	offsetx = (g_cub.w - g_cub.x * SCALE) / 2;
+	offsety = -(SCALE / PADDING);
 	while (e < SCALE / 4)
 	{
-		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + e + offsetX, g_cub.plr.posy * SCALE + offsetY, COLOR);
-		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE - e + offsetX, g_cub.plr.posy * SCALE + offsetY, COLOR);
-		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + offsetX, g_cub.plr.posy * SCALE - e + offsetY, COLOR);
-		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + offsetX, g_cub.plr.posy * SCALE + e + offsetY, COLOR);
+		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + e + offsetx, \
+			g_cub.plr.posy * SCALE + offsety, COLOR);
+		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE - e + offsetx, \
+			g_cub.plr.posy * SCALE + offsety, COLOR);
+		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + offsetx, \
+			g_cub.plr.posy * SCALE - e + offsety, COLOR);
+		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + offsetx, \
+			g_cub.plr.posy * SCALE + e + offsety, COLOR);
 		e++;
 	}
 }
 
 void	draw_square(int x, int y)
 {
-	int	color;
 	int	i;
 	int	j;
-	int	offsetX = (g_cub.w - g_cub.x * SCALE) / 2;
-	int	offsetY = -(SCALE / PADDING);
+	int	color;
+	int	offsetx;
+	int	offsety;
 
 	i = SCALE / PADDING;
 	j = SCALE / PADDING;
+	offsetx = (g_cub.w - g_cub.x * SCALE) / 2;
+	offsety = -(SCALE / PADDING);
 	if (g_cub.map[y][x] == '0')
 		color = 0x0D21A1;
 	else if (g_cub.map[y][x] == '1')
@@ -52,7 +61,8 @@ void	draw_square(int x, int y)
 	{
 		i = SCALE / PADDING;
 		while (i < SCALE)
-			my_mlx_pixel_put(&g_cub.data, offsetX + x * SCALE + i++, offsetY + y * SCALE + j, color);
+			my_mlx_pixel_put(&g_cub.data, offsetx + x * SCALE + i++, \
+				offsety + y * SCALE + j, color);
 		j++;
 	}
 }

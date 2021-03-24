@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 16:52:20 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/24 19:52:16 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,14 @@ static void	update_player(void)
 	}
 }
 
-static void	get_image(void)
-{
-	t_data	*data;
-
-	data = &g_cub.data;
-	data->img = mlx_new_image(g_cub.mlx, g_cub.w, g_cub.h);
-	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, \
-		&data->line_length, &data->endian);
-	draw_walls();
-	draw_minimap();
-}
-
 static int	my_hook(void)
 {
 	update_player();
-	get_image();
+	draw_walls();
+	draw_minimap();
 	mlx_put_image_to_window(g_cub.mlx, g_cub.win, g_cub.data.img, 0, 0);
-	mlx_destroy_image(g_cub.mlx, g_cub.data.img);
+	mlx_do_sync(g_cub.mlx);
+	// mlx_destroy_image(g_cub.mlx, g_cub.data.img);
 	return (1);
 }
 
@@ -89,7 +79,7 @@ static int	mousemove(int x, int y)
 	if (x > g_cub.w || x < 0)
 	{
 		flag = 1;
-		mlx_mouse_move(g_cub.win, g_cub.w/2, 0);
+		mlx_mouse_move(g_cub.win, g_cub.w / 2, 0);
 	}
 	return (0);
 }
@@ -118,9 +108,6 @@ static char	load_textures(void)
 
 static void	save_flag(void)
 {
-	g_cub.data.img = mlx_new_image(g_cub.mlx, g_cub.w, g_cub.h);
-	g_cub.data.addr = mlx_get_data_addr(g_cub.data.img, &g_cub.data.bits_per_pixel,
-		&g_cub.data.line_length, &g_cub.data.endian);
 	draw_walls();
 	draw_minimap();
 	save_image_to_bmp_file(g_cub.w, g_cub.h);
@@ -130,10 +117,16 @@ static void	save_flag(void)
 
 void		mlx(void)
 {
+	t_data	*data;
+
+	data = &g_cub.data;
 	ft_bzero(g_cub.keys, 129);
 	if (!(g_cub.mlx = mlx_init()))
 		ft_error("Connection to graphical system failed", NULL);
 	load_textures();
+	data->img = mlx_new_image(g_cub.mlx, g_cub.w, g_cub.h);
+	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, \
+		&data->line_length, &data->endian);
 	if (g_cub.save)
 		save_flag();
 	g_cub.win = mlx_new_window(g_cub.mlx, g_cub.w, g_cub.h, "cub3D");

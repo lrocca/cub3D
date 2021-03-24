@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 15:11:01 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/24 19:14:23 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ static int		perform_dda(void)
 static void		before_print(int side)
 {
 	if (side == 0)
-		g_cub.ray.dist = (g_cub.ray.mapx - g_cub.plr.posx + (1 - g_cub.ray.stepx) / 2) / g_cub.ray.x;
+		g_cub.ray.dist = (g_cub.ray.mapx - g_cub.plr.posx \
+			+ (1 - g_cub.ray.stepx) / 2) / g_cub.ray.x;
 	else
-		g_cub.ray.dist = (g_cub.ray.mapy - g_cub.plr.posy + (1 - g_cub.ray.stepy) / 2) / g_cub.ray.y;
+		g_cub.ray.dist = (g_cub.ray.mapy - g_cub.plr.posy \
+			+ (1 - g_cub.ray.stepy) / 2) / g_cub.ray.y;
 	g_cub.ray.line_height = (int)(g_cub.h / g_cub.ray.dist);
 	if (side == 0)
 		g_cub.ray.wallx = g_cub.plr.posy + g_cub.ray.dist * g_cub.ray.y;
@@ -74,7 +76,8 @@ static void		put_column(int x)
 
 	y = 0;
 	step = 1.0 * g_cub.ray.texture->height / g_cub.ray.line_height;
-	texPos = (g_cub.ray.drawstart - g_cub.h / 2 + g_cub.ray.line_height / 2) * step;
+	texPos = (g_cub.ray.drawstart - g_cub.h / 2 \
+		+ g_cub.ray.line_height / 2) * step;
 	while (y < g_cub.ray.drawstart)
 		my_mlx_pixel_put(&g_cub.data, x, y++, g_cub.c);
 	y = g_cub.ray.drawstart;
@@ -82,7 +85,8 @@ static void		put_column(int x)
 	{
 		texY = (int)texPos % g_cub.ray.texture->height;
 		texPos += step;
-		color = ((int *)(g_cub.ray.texture->data.addr))[g_cub.ray.texture->height * texY + g_cub.ray.texx];
+		color = ((int *)(g_cub.ray.texture->data.addr)) \
+			[g_cub.ray.texture->height * texY + g_cub.ray.texx];
 		my_mlx_pixel_put(&g_cub.data, x, y, color);
 		y++;
 	}

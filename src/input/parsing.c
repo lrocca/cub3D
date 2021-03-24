@@ -6,13 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 15:03:13 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/24 18:44:40 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-#define WHITESPACE	" \t\v\f\r"
 
 static char	parse_window(char *s)
 {
@@ -54,28 +52,23 @@ static char	parse_texture(char *s)
 {
 	if (!ft_strncmp(s, "NO", 2) && skip(&s, 2))
 	{
-		if (g_cub.no.path || !(g_cub.no.path = ft_strtrim(s, WHITESPACE)))
-			ft_error("Multiple NO paths or memory allocation failed", NULL);
+		assign_tex(&g_cub.no.path, s);
 	}
 	else if (!ft_strncmp(s, "SO", 2) && skip(&s, 2))
 	{
-		if (g_cub.so.path || !(g_cub.so.path = ft_strtrim(s, WHITESPACE)))
-			ft_error("Multiple SO paths or memory allocation failed", NULL);
+		assign_tex(&g_cub.so.path, s);
 	}
 	else if (!ft_strncmp(s, "WE", 2) && skip(&s, 2))
 	{
-		if (g_cub.we.path || !(g_cub.we.path = ft_strtrim(s, WHITESPACE)))
-			ft_error("Multiple WE paths or memory allocation failed", NULL);
+		assign_tex(&g_cub.we.path, s);
 	}
 	else if (!ft_strncmp(s, "EA", 2) && skip(&s, 2))
 	{
-		if (g_cub.ea.path || !(g_cub.ea.path = ft_strtrim(s, WHITESPACE)))
-			ft_error("Multiple EA paths or memory allocation failed", NULL);
+		assign_tex(&g_cub.ea.path, s);
 	}
 	else if (!ft_strncmp(s, "S", 1) && skip(&s, 2))
 	{
-		if (g_cub.s.path || !(g_cub.s.path = ft_strtrim(s, WHITESPACE)))
-			ft_error("Multiple S paths or memory allocation failed", NULL);
+		assign_tex(&g_cub.s.path, s);
 	}
 	else
 		return (0);

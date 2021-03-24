@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:45:25 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 15:11:01 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/24 19:53:10 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ void	set_header(unsigned char header[], int width,
 void	set_pixels(unsigned char *buf, unsigned int width_in_bytes,
 					int width, int height)
 {
-	int	i;
-	int	j;
-	int	tmp;
+	int		i;
+	int		j;
+	int		tmp;
+	t_data	*data;
 
+	data = &g_cub.data;
 	width_in_bytes = ((width * 24 + 31) / 32) * 4;
 	tmp = height;
 	i = 0;
@@ -63,14 +65,14 @@ void	set_pixels(unsigned char *buf, unsigned int width_in_bytes,
 		while (++j < width)
 		{
 			buf[tmp * width_in_bytes + j * 3 + 0] = \
-			(*((unsigned int*)(g_cub.data.addr + (i * g_cub.data.line_length + j \
-			* (g_cub.data.bits_per_pixel / 8))))) & 0xff;
+			(*((unsigned int*)(data->addr + (i * data->line_length + j \
+			* (data->bits_per_pixel / 8))))) & 0xff;
 			buf[tmp * width_in_bytes + j * 3 + 1] = \
-			((*((unsigned int*)(g_cub.data.addr + (i * g_cub.data.line_length + j \
-			* (g_cub.data.bits_per_pixel / 8))))) >> 8) & 0xff;
+			((*((unsigned int*)(data->addr + (i * data->line_length + j \
+			* (data->bits_per_pixel / 8))))) >> 8) & 0xff;
 			buf[tmp * width_in_bytes + j * 3 + 2] = \
-			((*((unsigned int*)(g_cub.data.addr + (i * g_cub.data.line_length + j \
-			* (g_cub.data.bits_per_pixel / 8))))) >> 16) & 0xff;
+			((*((unsigned int*)(data->addr + (i * data->line_length + j \
+			* (data->bits_per_pixel / 8))))) >> 16) & 0xff;
 		}
 		i++;
 	}

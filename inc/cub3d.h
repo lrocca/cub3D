@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 19:44:15 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/24 18:40:28 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,10 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 t_tex	*select_texture(int side);
 void	get_sprites_distance(t_list *curr, t_spr *spr);
 void	put_texel(int y, int stripe);
+
+/*
+** utils/parsing.c
+*/
+void	assign_tex(char **tex, char *path);
 
 #endif
