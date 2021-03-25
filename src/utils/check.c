@@ -6,11 +6,12 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:58:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/22 17:48:44 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/25 14:07:31 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#define INVALIDCHAR " 1"
 
 void	check_flag(char *s)
 {
@@ -33,4 +34,17 @@ char	empty_line(char *s)
 		if (!ft_isspace(*s++))
 			return (0);
 	return (1);
+}
+
+char	invalid_character(int x, int y)
+{
+	if (y > 0 && !ft_ischarset(g_cub.map[y - 1][x], INVALIDCHAR))
+		return (1);
+	if (x > 0 && !ft_ischarset(g_cub.map[y][x - 1], INVALIDCHAR))
+		return (1);
+	if (y < g_cub.y - 1 && !ft_ischarset(g_cub.map[y + 1][x], INVALIDCHAR))
+		return (1);
+	if (x < g_cub.x - 1 && !ft_ischarset(g_cub.map[y][x + 1], INVALIDCHAR))
+		return (1);
+	return (0);
 }

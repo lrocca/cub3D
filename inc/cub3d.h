@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/24 18:40:28 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/25 19:21:48 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@
 # define RIGHTARROW	124
 # define MOUSE		128
 
-# define UDIV		2
-# define VDIV		2
+# define UDIV		1.5
+# define VDIV		1.5
 
 t_cub	g_cub;
 
 char	parse_options(t_list *list);
-char	parse_map(t_list *list, int max);
+char	parse_map(t_list *list);
 void	check_file(void);
 
 /*
@@ -65,7 +65,7 @@ void	mlx(void);
 /*
 ** bmp.c
 */
-int		save_image_to_bmp_file(int width, int height);
+int		save_image_to_bmp_file(void);
 
 /*
 ** move.c
@@ -110,6 +110,7 @@ char	*char_to_str(char c);
 void	check_flag(char *s);
 char	check_extension(char *s);
 char	empty_line(char *s);
+char	invalid_character(int x, int y);
 
 /*
 ** utils/color.c
@@ -121,12 +122,20 @@ int		create_trgb(int t, int r, int g, int b);
 */
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 t_tex	*select_texture(int side);
-void	get_sprites_distance(t_list *curr, t_spr *spr);
+void	get_sprites_distance(t_list *curr);
 void	put_texel(int y, int stripe);
 
 /*
 ** utils/parsing.c
 */
 void	assign_tex(char **tex, char *path);
+
+/*
+** utils/mlx.c
+*/
+int		keypress(int key);
+int		keyrelease(int key);
+void	update_player(void);
+int		mousemove(int x, int y);
 
 #endif

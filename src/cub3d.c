@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:01 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/22 18:21:48 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/25 17:51:50 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,18 @@ static int	max_len(t_list *list)
 
 static void	parse_file(t_list *list)
 {
-	int	len;
-	int	max;
-
 	while (list && (parse_options(list)
 		|| ft_strlen(list->content) == 0
 		|| empty_line(list->content)))
 		list = list->next;
-	len = ft_lstsize(list) + 2;
-	if (!(g_cub.map = malloc((len + 1) * sizeof(char*))))
+	g_cub.y = ft_lstsize(list) + 2;
+	if (!(g_cub.map = malloc((g_cub.y + 1) * sizeof(char*))))
 		ft_error("Matrix allocation failed", NULL);
-	g_cub.map[len] = NULL;
-	max = max_len(list) + 2;
-	while (list && parse_map(list, max))
+	g_cub.map[g_cub.y] = NULL;
+	g_cub.x = max_len(list) + 2;
+	while (list && parse_map(list))
 		list = list->next;
-	parse_map(NULL, max);
+	parse_map(NULL);
 	check_file();
 }
 

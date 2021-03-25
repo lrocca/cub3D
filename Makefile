@@ -6,7 +6,7 @@ FILES		=	cub3d.c \
 				mlx/mlx.c mlx/move.c mlx/rotate.c \
 				render/walls.c render/sprites.c render/minimap.c render/bmp.c \
 				utils/global.c utils/check.c utils/color.c utils/render.c \
-				utils/parsing.c
+				utils/parsing.c utils/mlx.c
 				# test_scenes.c
 SRC			=	$(addprefix $(SRCDIR)/,$(FILES))
 OBJ			= 	$(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRC:.c=.o))
@@ -19,6 +19,7 @@ LIBFT		=	$(LIBFTDIR)/libft.a
 DYLIB		=	$(LIBDIR)/mlx_mms/libmlx.dylib
 
 all: mlx $(LIBFT) $(NAME)
+# @osascript -e 'display notification "Program is ready" with title "cub3D"'
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -framework OpenGL -framework AppKit $^ $(LIB) -o $@
@@ -32,7 +33,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 $(OBJ): | $(OBJDIR)
 
 $(OBJDIR):
-	mkdir $(OBJDIR)
+	@mkdir $(OBJDIR)
 
 $(LIBFT):
 	@make -C $(LIBFTDIR)
@@ -48,7 +49,7 @@ test: all
 clean:
 	@rm -f $(OBJ)
 	@printf "%-80.80b\n" "\e[1;31m•\e[0m Deleted objects for \033[1m$(NAME)\033[0m"
-#	rm -r $(OBJDIR)
+	@rm -r $(OBJDIR)
 	@make clean -C $(LIBFTDIR)
 	@make clean -C $(LIBDIR)/mlx_mms
 	@make clean -C $(LIBDIR)/mlx_opengl

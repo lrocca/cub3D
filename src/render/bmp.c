@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:45:25 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/24 19:53:10 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/25 18:08:42 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,30 @@ void	set_header(unsigned char header[], int width,
 	ft_memcpy(header + 34, &imagesize, 4);
 }
 
-void	set_pixels(unsigned char *buf, unsigned int width_in_bytes,
-					int width, int height)
+void	set_pixels(unsigned char *buf, unsigned int bytes, t_data *data)
 {
 	int		i;
 	int		j;
 	int		tmp;
-	t_data	*data;
 
-	data = &g_cub.data;
-	width_in_bytes = ((width * 24 + 31) / 32) * 4;
-	tmp = height;
+	bytes = ((g_cub.w * 24 + 31) / 32) * 4;
+	tmp = g_cub.h;
 	i = 0;
-	while (i < height)
+	while (i < g_cub.h)
 	{
 		j = -1;
 		tmp--;
-		while (++j < width)
+		while (++j < g_cub.w)
 		{
-			buf[tmp * width_in_bytes + j * 3 + 0] = \
-			(*((unsigned int*)(data->addr + (i * data->line_length + j \
-			* (data->bits_per_pixel / 8))))) & 0xff;
-			buf[tmp * width_in_bytes + j * 3 + 1] = \
-			((*((unsigned int*)(data->addr + (i * data->line_length + j \
-			* (data->bits_per_pixel / 8))))) >> 8) & 0xff;
-			buf[tmp * width_in_bytes + j * 3 + 2] = \
-			((*((unsigned int*)(data->addr + (i * data->line_length + j \
-			* (data->bits_per_pixel / 8))))) >> 16) & 0xff;
+			buf[tmp * bytes + j * 3 + 0] = \
+				(*((unsigned int*)(data->addr + (i * data->line_length + j \
+				* (data->bits_per_pixel / 8))))) & 0xff;
+			buf[tmp * bytes + j * 3 + 1] = \
+				((*((unsigned int*)(data->addr + (i * data->line_length + j \
+				* (data->bits_per_pixel / 8))))) >> 8) & 0xff;
+			buf[tmp * bytes + j * 3 + 2] = \
+				((*((unsigned int*)(data->addr + (i * data->line_length + j \
+				* (data->bits_per_pixel / 8))))) >> 16) & 0xff;
 		}
 		i++;
 	}
@@ -82,25 +79,26 @@ void	writefile(unsigned char header[], unsigned char *buf, unsigned int size)
 {
 	int	fd;
 
-	fd = open("./save.bmp", O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+	if ((fd = open("./save.bmp", O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR)) < 0)
+		ft_error("Could not create './save.bmp'", NULL);
 	write(fd, header, 54);
 	write(fd, (char*)buf, size);
 	close(fd);
 }
 
-int		save_image_to_bmp_file(int width, int height)
+int		save_image_to_bmp_file(void)
 {
 	unsigned char	header[54];
 	unsigned char	*buff;
 	unsigned int	width_in_bytes;
 	unsigned int	size;
 
-	width_in_bytes = ((width * 24 + 31) / 32) * 4;
-	size = width_in_bytes * height;
-	set_header(header, width, height, width_in_bytes);
+	width_in_bytes = ((g_cub.w * 24 + 31) / 32) * 4;
+	size = width_in_bytes * g_cub.h;
+	set_header(header, g_cub.w, g_cub.h, width_in_bytes);
 	if (!(buff = malloc(size)))
 		return (0);
-	set_pixels(buff, width_in_bytes, width, height);
+	set_pixels(buff, width_in_bytes, &g_cub.data);
 	writefile(header, buff, size);
 	free(buff);
 	return (1);

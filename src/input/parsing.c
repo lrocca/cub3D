@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/24 18:44:40 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/25 14:09:18 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,37 +145,37 @@ char		parse_options(t_list *list)
 	return (0);
 }
 
-static char	*fill_line(char *s, int max)
+static char	*fill_line(char *s)
 {
 	int		i;
 	char	*out;
 
-	if (!(out = malloc(max + 1)))
+	if (!(out = malloc(g_cub.x + 1)))
 		ft_error("Matrix row allocation failed", NULL);
 	out[0] = ' ';
-	out[max] = '\0';
+	out[g_cub.x] = '\0';
 	i = 0;
 	while (s[i])
 	{
 		out[i + 1] = s[i];
 		i++;
 	}
-	while (i + 1 < max)
+	while (i + 1 < g_cub.x)
 		out[1 + i++] = ' ';
 	return (out);
 }
 
-char		parse_map(t_list *list, int max)
+char		parse_map(t_list *list)
 {
 	static int	i = 0;
 
 	if (i == 0 || !list)
 	{
-		g_cub.map[i] = fill_line("", max);
+		g_cub.map[i] = fill_line("");
 		if (!list)
 			return (1);
 		i++;
 	}
-	g_cub.map[i++] = fill_line(list->content, max);
+	g_cub.map[i++] = fill_line(list->content);
 	return (1);
 }

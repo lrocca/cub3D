@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:56:40 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 19:58:54 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/25 14:11:04 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ t_tex	*select_texture(int side)
 	return (g_cub.ray.texture);
 }
 
-void	get_sprites_distance(t_list *curr, t_spr *spr)
+void	get_sprites_distance(t_list *curr)
 {
+	t_spr	*spr;
+
 	while (curr)
 	{
 		spr = curr->content;
