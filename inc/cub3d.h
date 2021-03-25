@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/25 19:21:48 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/25 19:27:51 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,10 @@ void	put_texel(int y, int stripe);
 /*
 ** utils/parsing.c
 */
+char	ft_skip(char **s, int n);
 void	assign_tex(char **tex, char *path);
+char	*fill_line(char *s);
+int		parse_color_component(char **s, char c);
 
 /*
 ** utils/mlx.c
