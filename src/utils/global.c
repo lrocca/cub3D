@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:02 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/24 19:19:59 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/26 18:02:31 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ int		ft_exit(int i)
 		mlx_destroy_image(g_cub.mlx, g_cub.data.img);
 	if (g_cub.win)
 		mlx_destroy_window(g_cub.mlx, g_cub.win);
+	if (g_cub.no.data.img)
+		mlx_destroy_image(g_cub.mlx, g_cub.no.data.img);
+	if (g_cub.so.data.img)
+		mlx_destroy_image(g_cub.mlx, g_cub.so.data.img);
+	if (g_cub.ea.data.img)
+		mlx_destroy_image(g_cub.mlx, g_cub.ea.data.img);
+	if (g_cub.we.data.img)
+		mlx_destroy_image(g_cub.mlx, g_cub.we.data.img);
 	ft_lstclear(&g_cub.spr, free);
 	exit(i);
 	return (i);
