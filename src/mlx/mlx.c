@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/25 19:21:53 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/26 16:53:39 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	load_texture(t_tex *tex)
 		&tex->data.line_length, &tex->data.endian);
 }
 
-static char	load_textures(void)
+static void	load_textures(void)
 {
 	load_texture(&g_cub.no);
 	load_texture(&g_cub.so);
@@ -41,7 +41,6 @@ static char	load_textures(void)
 	load_texture(&g_cub.ea);
 	if (g_cub.spr)
 		load_texture(&g_cub.s);
-	return (1);
 }
 
 static void	save_flag(void)
