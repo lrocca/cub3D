@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 17:12:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/13 19:41:07 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "main.h"
 
 int		create_trgb(int t, int r, int g, int b)
 {

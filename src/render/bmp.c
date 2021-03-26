@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:45:25 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/25 18:08:42 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "main.h"
 
 void	set_default_value(unsigned char header[])
 {

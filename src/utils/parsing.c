@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 18:25:45 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/25 19:28:48 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "main.h"
 
 #define WHITESPACE	" \t\v\f\r"
 

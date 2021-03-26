@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:56:40 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/25 14:11:04 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "main.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
