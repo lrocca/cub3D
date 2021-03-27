@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 18:13:27 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 18:16:27 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	draw_walls(void);
 /*
 ** sprites.c
 */
-void	sprites(double *zBuffer);
+void	sprites(double *zbuffer);
 
 /*
 ** minimap.c
