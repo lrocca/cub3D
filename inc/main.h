@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 14:40:42 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 18:13:27 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "../lib/libft/libft.h"
 # include "../lib/mlx_mms/mlx.h"
 # include "../lib/mlx_opengl/mlx.h"
+# include "../lib/simple-sdl2-audio/audio.h"
 
 # include "structs.h"
 
@@ -31,8 +32,8 @@
 # define KEYRELEASE	3
 # define MOVESPEED	0.05
 # define ROTSPEED	0.05
-# define TEXWIDTH	64
-# define TEXHEIGHT	64
+
+# define MUSICPATH	"audio/music.wav"
 
 # define ESCKEY		53
 # define WKEY		13
@@ -141,5 +142,6 @@ int		keypress(int key);
 int		keyrelease(int key);
 void	update_player(void);
 int		mousemove(int x, int y);
+void	load_texture(t_tex *tex);
 
 #endif

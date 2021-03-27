@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:02 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 17:46:08 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ int		ft_exit(int i)
 	if (g_cub.we.data.img)
 		mlx_destroy_image(g_cub.mlx, g_cub.we.data.img);
 	ft_lstclear(&g_cub.spr, free);
+	if (g_cub.audio)
+	{
+		if (g_cub.music)
+			freeAudio(g_cub.music);
+		endAudio();
+		SDL_Quit();
+	}
 	exit(i);
 	return (i);
 }

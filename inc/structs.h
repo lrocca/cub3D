@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/23 19:22:41 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 17:45:40 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct	s_cub {
 	t_ray	ray;
 	t_list	*spr;
 	t_data	data;
+	char	audio;
+	Audio	*music;
 }				t_cub;
 
 #endif

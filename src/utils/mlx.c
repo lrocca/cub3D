@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 19:18:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 17:56:57 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,25 @@ int		keyrelease(int key)
 	return (0);
 }
 
+void	update_mouse(void)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	mlx_mouse_hide();
+	mlx_mouse_get_pos(g_cub.win, &x, &y);
+	if (x > g_cub.w / 2)
+		g_cub.keys[MOUSE] = -1;
+	else if (x < g_cub.w / 2)
+		g_cub.keys[MOUSE] = 1;
+	mlx_mouse_move(g_cub.win, g_cub.w / 2, g_cub.h / 2);
+}
+
 void	update_player(void)
 {
+	update_mouse();
 	if (g_cub.keys[WKEY])
 		move_fwd();
 	if (g_cub.keys[SKEY])
@@ -48,27 +65,16 @@ void	update_player(void)
 		g_cub.keys[MOUSE] = 0;
 		rotate_right();
 	}
+	g_cub.keys[MOUSE] = 0;
 }
 
-int		mousemove(int x, int y)
+void	load_texture(t_tex *tex)
 {
-	static int	ex_x;
-	static char	flag;
-
-	mlx_mouse_hide();
-	if (y)
-		mlx_mouse_move(g_cub.win, x, 0);
-	if (flag && (flag = 0))
-		return (0);
-	if (ex_x > x)
-		g_cub.keys[MOUSE] = 1;
-	else if (ex_x < x)
-		g_cub.keys[MOUSE] = -1;
-	ex_x = x;
-	if (x > g_cub.w || x < 0)
-	{
-		flag = 1;
-		mlx_mouse_move(g_cub.win, g_cub.w / 2, 0);
-	}
-	return (0);
+	if (!(tex->data.img = mlx_xpm_file_to_image(g_cub.mlx, tex->path,
+		&tex->width, &tex->height))
+	&& (!(tex->data.img = mlx_png_file_to_image(g_cub.mlx, tex->path,
+		&tex->width, &tex->height))))
+		ft_error("Failed to load texture", NULL);
+	tex->data.addr = mlx_get_data_addr(tex->data.img, &tex->data.bits_per_pixel,
+		&tex->data.line_length, &tex->data.endian);
 }
