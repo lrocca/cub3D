@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:36 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/26 20:17:21 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@
 # define RIGHTARROW	124
 # define MOUSE		128
 
-# define UDIV		1.5
-# define VDIV		1.5
+# define UDIV		2
+# define VDIV		2
+# define VMOVE		4
 
 t_cub	g_cub;
 
