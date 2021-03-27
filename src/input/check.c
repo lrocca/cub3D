@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 20:25:43 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void		check_file(void)
 	else if (!g_cub.check[0] || !g_cub.check[1])
 		ft_error("Missing colors", NULL);
 	else if (!g_cub.no.path || !g_cub.so.path || !g_cub.ea.path || \
-		!g_cub.we.path || !g_cub.s.path)
+	!g_cub.we.path || !g_cub.s.path || !g_cub.floor.path || !g_cub.ceiling.path)
 		ft_error("One or more textures are missing", NULL);
 	check_map();
 	mlx_get_screen_size(g_cub.mlx, &width, &height);

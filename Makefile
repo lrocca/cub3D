@@ -6,19 +6,19 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/26 16:49:45 by lrocca            #+#    #+#              #
-#    Updated: 2021/03/27 16:45:18 by lrocca           ###   ########.fr        #
+#    Updated: 2021/03/27 20:28:32 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	cub3D
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra -Iinc -I/Library/Frameworks/SDL2.framework/Headers
+CFLAGS		=	-Wall -Werror -Wextra -Iinc -I/Library/Frameworks/SDL2.framework/Headers -g
 OBJDIR		=	./obj
 SRCDIR		=	./src
 LIBDIR		=	./lib
 FILES		=	main.c \
 				input/gnl.c input/parsing.c input/check.c \
-				mlx/mlx.c mlx/move.c mlx/rotate.c \
+				mlx/mlx.c mlx/move.c mlx/rotate.c render/floor.c \
 				render/walls.c render/sprites.c render/minimap.c render/bmp.c \
 				utils/global.c utils/check.c utils/color.c utils/render.c \
 				utils/parsing.c utils/mlx.c
@@ -60,7 +60,7 @@ test: all
 	./cub3D maps/test.cub
 
 clean:
-	@rm -f $(OBJ)
+	@rm -f $(OBJ) ./lib/simple-sdl2-audio/audio.o
 	@printf "%-80.80b\n" "\e[1;31m•\e[0m Deleted objects for \033[1m$(NAME)\033[0m"
 # @rm -r $(OBJDIR)
 	@make clean -C $(LIBFTDIR)

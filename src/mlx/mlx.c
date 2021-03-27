@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 18:13:32 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 20:36:06 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static int	my_hook(void)
 {
 	update_player();
+	draw_floor();
 	draw_walls();
-	draw_minimap();
+	if (g_cub.keys[SPACEBAR])
+		draw_minimap();
 	mlx_put_image_to_window(g_cub.mlx, g_cub.win, g_cub.data.img, 0, 0);
 	mlx_do_sync(g_cub.mlx);
 	return (1);
@@ -24,6 +26,7 @@ static int	my_hook(void)
 
 static void	load_textures(void)
 {
+	load_texture(&g_cub.floor);
 	load_texture(&g_cub.no);
 	load_texture(&g_cub.so);
 	load_texture(&g_cub.we);
@@ -34,8 +37,8 @@ static void	load_textures(void)
 
 static void	save_flag(void)
 {
+	draw_floor();
 	draw_walls();
-	draw_minimap();
 	save_image_to_bmp_file();
 	ft_exit(0);
 }

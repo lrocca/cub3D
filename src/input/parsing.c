@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 20:25:10 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,19 @@ static char	parse_window(char *s)
 static char	parse_texture(char *s)
 {
 	if (!ft_strncmp(s, "NO", 2) && ft_skip(&s, 2))
-	{
 		assign_tex(&g_cub.no.path, s);
-	}
 	else if (!ft_strncmp(s, "SO", 2) && ft_skip(&s, 2))
-	{
 		assign_tex(&g_cub.so.path, s);
-	}
 	else if (!ft_strncmp(s, "WE", 2) && ft_skip(&s, 2))
-	{
 		assign_tex(&g_cub.we.path, s);
-	}
 	else if (!ft_strncmp(s, "EA", 2) && ft_skip(&s, 2))
-	{
 		assign_tex(&g_cub.ea.path, s);
-	}
-	else if (!ft_strncmp(s, "S", 1) && ft_skip(&s, 2))
-	{
+	else if (!ft_strncmp(s, "S", 1) && ft_skip(&s, 1))
 		assign_tex(&g_cub.s.path, s);
-	}
+	else if (!ft_strncmp(s, "FL", 2) && ft_skip(&s, 2))
+		assign_tex(&g_cub.floor.path, s);
+	else if (!ft_strncmp(s, "CL", 2) && ft_skip(&s, 2))
+		assign_tex(&g_cub.ceiling.path, s);
 	else
 		return (0);
 	return (1);

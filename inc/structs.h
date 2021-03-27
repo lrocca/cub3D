@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 17:45:40 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 20:25:20 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ typedef struct	s_cub {
 	t_tex	we;
 	t_tex	ea;
 	t_tex	s;
+	t_tex	floor;
+	t_tex	ceiling;
 	t_plr	plr;
 	t_ray	ray;
 	t_list	*spr;

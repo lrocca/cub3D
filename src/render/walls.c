@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 20:36:32 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ static void		put_column(int x)
 		my_mlx_pixel_put(&g_cub.data, x, y, color);
 		y++;
 	}
-	while (y < g_cub.h)
-		my_mlx_pixel_put(&g_cub.data, x, y++, g_cub.f);
 }
 
 static void		draw_column(int x)

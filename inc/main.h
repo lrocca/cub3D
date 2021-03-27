@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 18:16:27 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 19:46:39 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define MOVESPEED	0.05
 # define ROTSPEED	0.05
 
-# define MUSICPATH	"audio/music.wav"
+# define MUSICPATH	"audio/minecraft.wav"
 
 # define ESCKEY		53
 # define WKEY		13
@@ -41,12 +41,13 @@
 # define AKEY		0
 # define DKEY		2
 # define LEFTARROW	123
+# define SPACEBAR	49
 # define RIGHTARROW	124
 # define MOUSE		128
 
-# define UDIV		2
-# define VDIV		2
-# define VMOVE		4
+# define UDIV		1
+# define VDIV		1
+# define VMOVE		0
 
 t_cub	g_cub;
 
@@ -82,6 +83,11 @@ void	move_right(void);
 */
 void	rotate_left(void);
 void	rotate_right(void);
+
+/*
+** floor.c
+*/
+void	draw_floor(void);
 
 /*
 ** walls.c

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:29:03 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 19:11:23 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	draw_position(void)
 
 	e = 0;
 	offsetx = (g_cub.w - g_cub.x * SCALE) / 2;
-	offsety = -(SCALE / PADDING);
+	offsety = (g_cub.h - g_cub.y * SCALE) / 2;
 	while (e < SCALE / 4)
 	{
 		my_mlx_pixel_put(&g_cub.data, g_cub.plr.posx * SCALE + e + offsetx, \
@@ -50,7 +50,7 @@ void	draw_square(int x, int y)
 	i = SCALE / PADDING;
 	j = SCALE / PADDING;
 	offsetx = (g_cub.w - g_cub.x * SCALE) / 2;
-	offsety = -(SCALE / PADDING);
+	offsety = (g_cub.h - g_cub.y * SCALE) / 2;
 	if (g_cub.map[y][x] == '0')
 		color = 0x0D21A1;
 	else if (g_cub.map[y][x] == '1')
