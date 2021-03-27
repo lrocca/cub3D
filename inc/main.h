@@ -6,12 +6,12 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 20:17:21 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/27 14:40:42 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef MAIN_H
+# define MAIN_H
 
 # include <errno.h>
 # include <string.h>
