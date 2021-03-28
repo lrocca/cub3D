@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 19:18:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 17:56:57 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/28 22:15:49 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,20 @@
 
 int		keypress(int key)
 {
+	static char	music = 1;
+
 	if (key == ESCKEY)
 		ft_exit(0);
+	if (g_cub.audio && key == MKEY && music)
+	{
+		music = 0;
+		pauseAudio();
+	}
+	else if (g_cub.audio && key == MKEY && !music)
+	{
+		music = 1;
+		unpauseAudio();
+	}
 	if (key < 128)
 		g_cub.keys[key] = 1;
 	return (0);

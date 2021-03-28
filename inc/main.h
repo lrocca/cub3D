@@ -40,6 +40,7 @@
 # define SKEY		1
 # define AKEY		0
 # define DKEY		2
+# define MKEY		46
 # define LEFTARROW	123
 # define SPACEBAR	49
 # define RIGHTARROW	124
