@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 19:46:39 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/28 23:21:07 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,26 @@
 # define MOVESPEED	0.05
 # define ROTSPEED	0.05
 
-# define MUSICPATH	"audio/minecraft.wav"
-
-# define ESCKEY		53
-# define WKEY		13
-# define SKEY		1
 # define AKEY		0
+# define SKEY		1
 # define DKEY		2
+# define WKEY		13
 # define MKEY		46
-# define LEFTARROW	123
 # define SPACEBAR	49
+# define ESCKEY		53
+# define LEFTARROW	123
 # define RIGHTARROW	124
 # define MOUSE		128
+
+# define FLOOR		0b001
+# define CEILING	0b010
 
 # define UDIV		1
 # define VDIV		1
 # define VMOVE		0
+
+# define MUSICPATH	"audio/minecraft.wav"
+# define LIFE		500
 
 t_cub	g_cub;
 
@@ -99,6 +103,11 @@ void	draw_walls(void);
 ** sprites.c
 */
 void	sprites(double *zbuffer);
+
+/*
+** life.c
+*/
+void	draw_life(void);
 
 /*
 ** minimap.c

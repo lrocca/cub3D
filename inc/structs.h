@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 20:25:20 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/28 23:05:42 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct	s_tex {
 }				t_tex;
 
 typedef struct	s_plr {
+	int		life;
 	double	posx;
 	double	posy;
 	double	dirx;
@@ -87,7 +88,9 @@ typedef struct	s_cub {
 	int		y;
 	void	*mlx;
 	void	*win;
+	char	opt;
 	char	save;
+	char	audio;
 	char	**map;
 	char	check[2];
 	char	keys[129];
@@ -102,7 +105,6 @@ typedef struct	s_cub {
 	t_ray	ray;
 	t_list	*spr;
 	t_data	data;
-	char	audio;
 	Audio	*music;
 }				t_cub;
 

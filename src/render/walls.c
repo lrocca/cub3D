@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:08:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 20:36:32 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/28 22:30:46 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ static void		put_column(int x)
 	step = 1.0 * g_cub.ray.texture->height / g_cub.ray.line_height;
 	texpos = (g_cub.ray.drawstart - g_cub.h / 2 \
 		+ g_cub.ray.line_height / 2) * step;
-	while (y < g_cub.ray.drawstart)
-		my_mlx_pixel_put(&g_cub.data, x, y++, g_cub.c);
+	if (!(g_cub.opt & CEILING))
+		while (y < g_cub.ray.drawstart)
+			my_mlx_pixel_put(&g_cub.data, x, y++, g_cub.c);
 	y = g_cub.ray.drawstart;
 	while (y < g_cub.ray.drawend)
 	{
@@ -90,6 +91,9 @@ static void		put_column(int x)
 		my_mlx_pixel_put(&g_cub.data, x, y, color);
 		y++;
 	}
+	if (!(g_cub.opt & FLOOR))
+		while (y < g_cub.h)
+			my_mlx_pixel_put(&g_cub.data, x, y++, g_cub.f);
 }
 
 static void		draw_column(int x)

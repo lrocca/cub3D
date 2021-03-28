@@ -1,11 +1,11 @@
 R	1280 720
 NO	./textures/minecraft/spruce.png
-SO	./textures/minecraft/birch.png
+SO	./textures/minecraft/spruce.png
 WE	./textures/minecraft/oak.png
-EA	./textures/minecraft/jungle.png
+EA	./textures/minecraft/oak.png
 
 FL	./textures/minecraft/grass.png
-CL	./textures/minecraft/grass.png
+CL	./textures/minecraft/leaves.png
 S	./textures/minecraft/poppy.xpm
 F	80,80,80
 C	120,120,255

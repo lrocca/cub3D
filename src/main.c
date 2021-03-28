@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:01 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/28 23:06:03 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int			main(int ac, char **av)
 	else if (ac == 2 || ac == 3)
 	{
 		g_cub.save = 0;
+		g_cub.opt = 0;
+		g_cub.audio = 0;
+		g_cub.plr.life = LIFE;
 		if (ac == 3)
 			check_flag(av[2]);
 		g_cub.check[0] = 0;

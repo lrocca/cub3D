@@ -6,17 +6,24 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 20:36:06 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/28 23:21:27 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static int	my_hook(void)
+static int	my_loop(void)
 {
+	g_cub.plr.life--;
+	if (!g_cub.plr.life)
+	{
+		write(1, "You're dead!\n", 14);
+		ft_exit(0);
+	}
 	update_player();
 	draw_floor();
 	draw_walls();
+	draw_life();
 	if (g_cub.keys[SPACEBAR])
 		draw_minimap();
 	mlx_put_image_to_window(g_cub.mlx, g_cub.win, g_cub.data.img, 0, 0);
@@ -26,7 +33,10 @@ static int	my_hook(void)
 
 static void	load_textures(void)
 {
-	load_texture(&g_cub.floor);
+	if (g_cub.opt & FLOOR)
+		load_texture(&g_cub.floor);
+	if (g_cub.opt & CEILING)
+		load_texture(&g_cub.ceiling);
 	load_texture(&g_cub.no);
 	load_texture(&g_cub.so);
 	load_texture(&g_cub.we);
@@ -59,7 +69,6 @@ void		mlx(void)
 
 	data = &g_cub.data;
 	ft_bzero(g_cub.keys, 129);
-	g_cub.audio = 0;
 	if (!(g_cub.mlx = mlx_init()))
 		ft_error("Connection to graphical system failed", NULL);
 	load_textures();
@@ -72,9 +81,9 @@ void		mlx(void)
 	load_music();
 	mlx_mouse_hide();
 	mlx_mouse_move(g_cub.win, 0, 0);
-	mlx_hook(g_cub.win, KEYPRESS, 1L, &keypress, NULL);
-	mlx_hook(g_cub.win, KEYRELEASE, 2L, &keyrelease, NULL);
-	mlx_hook(g_cub.win, 17, 1L, &ft_exit, NULL);
-	mlx_loop_hook(g_cub.mlx, &my_hook, NULL);
+	mlx_hook(g_cub.win, KEYPRESS, 0, &keypress, NULL);
+	mlx_hook(g_cub.win, KEYRELEASE, 0, &keyrelease, NULL);
+	mlx_hook(g_cub.win, 17, 0, &ft_exit, NULL);
+	mlx_loop_hook(g_cub.mlx, &my_loop, NULL);
 	mlx_loop(g_cub.mlx);
 }
