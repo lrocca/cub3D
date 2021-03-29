@@ -9,3 +9,4 @@ cub3D
 cub3D.dSYM
 *.bmp
 .DS_Store
+*.swiftsourceinfo
