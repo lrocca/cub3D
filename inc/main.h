@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/28 23:21:07 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 04:02:40 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@
 
 # define UDIV		1
 # define VDIV		1
-# define VMOVE		0
 
 # define MUSICPATH	"audio/minecraft.wav"
 # define LIFE		500
@@ -140,8 +139,14 @@ int		create_trgb(int t, int r, int g, int b);
 */
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 t_tex	*select_texture(int side);
+
+/*
+** utils/sprites.c
+*/
 void	get_sprites_distance(t_list *curr);
-void	put_texel(int y, int stripe);
+void	put_texel(int y, int stripe, unsigned char type);
+void	remove_sprite(int x, int y);
+void	update_z_axis(t_spr *spr);
 
 /*
 ** utils/parsing.c

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 17:13:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/28 22:29:17 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 03:51:24 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ static void	set_sprite(int x, int y)
 		ft_error("Sprite allocation failed", NULL);
 	spr->x = x;
 	spr->y = y;
+	spr->z = 0;
 	spr->distance = 0;
+	spr->type = g_cub.map[y][x] - '0' - 2;
 	ft_lstadd_back(&g_cub.spr, ft_lstnew(spr));
 }
 
@@ -79,7 +81,7 @@ static void	check_map(void)
 				ft_error("Bad character in map", NULL);
 			else if (ft_ischarset(g_cub.map[y][x], "NSEW") && (player += 1))
 				set_player(x, y);
-			else if (g_cub.map[y][x] == '2')
+			else if (ft_ischarset(g_cub.map[y][x], "234"))
 				set_sprite(x, y);
 			x++;
 		}
@@ -99,12 +101,16 @@ void		check_file(void)
 	else if (!g_cub.check[0] || !g_cub.check[1])
 		ft_error("Missing colors", NULL);
 	else if (!g_cub.no.path || !g_cub.so.path || !g_cub.ea.path || \
-	!g_cub.we.path || !g_cub.s.path)
+	!g_cub.we.path || !g_cub.s[0].path)
 		ft_error("One or more textures are missing", NULL);
 	if (g_cub.floor.path)
 		g_cub.opt |= FLOOR;
 	if (g_cub.ceiling.path)
 		g_cub.opt |= CEILING;
+	if (!g_cub.s[1].path)
+		g_cub.s[1].path = g_cub.s[0].path;
+	if (!g_cub.s[2].path)
+		g_cub.s[2].path = g_cub.s[0].path;
 	check_map();
 	mlx_get_screen_size(g_cub.mlx, &width, &height);
 	g_cub.w = g_cub.w > width ? width : g_cub.w;

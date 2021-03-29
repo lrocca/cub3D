@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/28 23:21:27 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 04:29:28 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,22 @@
 static int	my_loop(void)
 {
 	g_cub.plr.life--;
+	if (g_cub.map[(int)g_cub.plr.posy][(int)g_cub.plr.posx] == '3')
+	{
+		playSoundFromMemory(g_cub.life, SDL_MIX_MAXVOLUME);
+		remove_sprite((int)g_cub.plr.posx, (int)g_cub.plr.posy);
+		g_cub.plr.life += LIFE / 10;
+	}
+	else if (g_cub.map[(int)g_cub.plr.posy][(int)g_cub.plr.posx] == '4')
+	{
+		playSoundFromMemory(g_cub.success, SDL_MIX_MAXVOLUME);
+		write(1, "You won!\n", 10);
+		sleep(2);
+		ft_exit(0);
+	}
 	if (!g_cub.plr.life)
 	{
-		write(1, "You're dead!\n", 14);
+		write(1, "You lost!\n", 11);
 		ft_exit(0);
 	}
 	update_player();
@@ -41,8 +54,9 @@ static void	load_textures(void)
 	load_texture(&g_cub.so);
 	load_texture(&g_cub.we);
 	load_texture(&g_cub.ea);
-	if (g_cub.spr)
-		load_texture(&g_cub.s);
+	load_texture(&g_cub.s[0]);
+	load_texture(&g_cub.s[1]);
+	load_texture(&g_cub.s[2]);
 }
 
 static void	save_flag(void)
@@ -59,6 +73,10 @@ static void	load_music(void)
 	initAudio();
 	if (!(g_cub.music = createAudio(MUSICPATH, 1, SDL_MIX_MAXVOLUME)))
 		ft_error("Failed to load music", NULL);
+	if (!(g_cub.success = createAudio("audio/levelup.wav", 0, SDL_MIX_MAXVOLUME)))
+		ft_error("Failed to load success sound", NULL);
+	if (!(g_cub.life = createAudio("audio/burp.wav", 0, SDL_MIX_MAXVOLUME)))
+		ft_error("Failed to load life sound", NULL);
 	playMusicFromMemory(g_cub.music, SDL_MIX_MAXVOLUME);
 	g_cub.audio = 1;
 }

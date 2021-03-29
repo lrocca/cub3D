@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 18:15:40 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 20:17:02 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 04:00:34 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void		sort_sprites(void)
 	g_cub.spr = out;
 }
 
-static void		draw_sprites(double *zbuffer)
+static void		draw_sprites(double *zbuffer, unsigned char type)
 {
 	int	y;
 	int	stripe;
@@ -66,7 +66,7 @@ static void		draw_sprites(double *zbuffer)
 			y = g_cub.ray.drawstarty;
 			while (y < g_cub.ray.drawendy)
 			{
-				put_texel(y, stripe);
+				put_texel(y, stripe, type);
 				y++;
 			}
 		}
@@ -86,7 +86,7 @@ static void		before_print(t_spr *spr)
 	* g_cub.ray.spritex + g_cub.plr.planex * g_cub.ray.spritey);
 	g_cub.ray.spritescreenx = (int)((g_cub.w / 2) * \
 	(1 + g_cub.ray.transformx / g_cub.ray.transformy));
-	g_cub.ray.vmove = (int)(g_cub.s.height * VMOVE / g_cub.ray.transformy);
+	g_cub.ray.vmove = (int)(g_cub.s[spr->type].height * spr->z / g_cub.ray.transformy);
 	g_cub.ray.spriteheight = abs((int)(g_cub.h \
 	/ (g_cub.ray.transformy))) / VDIV;
 	g_cub.ray.drawstarty = -g_cub.ray.spriteheight / 2 + g_cub.h \
@@ -108,6 +108,7 @@ void			sprites(double *zbuffer)
 	sort_sprites();
 	while (curr)
 	{
+		update_z_axis(curr->content);
 		before_print(curr->content);
 		g_cub.ray.spritewidth = abs((int)(g_cub.h / \
 		(g_cub.ray.transformy))) / UDIV;
@@ -119,7 +120,7 @@ void			sprites(double *zbuffer)
 		+ g_cub.ray.spritescreenx;
 		if (g_cub.ray.drawendx >= g_cub.w)
 			g_cub.ray.drawendx = g_cub.w - 1;
-		draw_sprites(zbuffer);
+		draw_sprites(zbuffer, ((t_spr *)(curr->content))->type);
 		curr = curr->next;
 	}
 }

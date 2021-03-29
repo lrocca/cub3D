@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/28 23:05:42 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 04:25:44 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,11 @@ typedef struct	s_ray {
 }				t_ray;
 
 typedef struct	s_spr {
-	int		x;
-	int		y;
-	double	distance;
+	int				x;
+	int				y;
+	double			distance;
+	double			z;
+	unsigned char	type;
 }				t_spr;
 
 typedef struct	s_cub {
@@ -98,7 +100,7 @@ typedef struct	s_cub {
 	t_tex	so;
 	t_tex	we;
 	t_tex	ea;
-	t_tex	s;
+	t_tex	s[3];
 	t_tex	floor;
 	t_tex	ceiling;
 	t_plr	plr;
@@ -106,6 +108,8 @@ typedef struct	s_cub {
 	t_list	*spr;
 	t_data	data;
 	Audio	*music;
+	Audio	*life;
+	Audio	*success;
 }				t_cub;
 
 #endif

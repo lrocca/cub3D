@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/26 16:49:45 by lrocca            #+#    #+#              #
-#    Updated: 2021/03/28 23:21:44 by lrocca           ###   ########.fr        #
+#    Updated: 2021/03/29 03:37:47 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ FILES		=	main.c \
 				mlx/mlx.c mlx/move.c mlx/rotate.c render/floor.c render/life.c \
 				render/walls.c render/sprites.c render/minimap.c render/bmp.c \
 				utils/global.c utils/check.c utils/color.c utils/render.c \
-				utils/parsing.c utils/mlx.c
+				utils/parsing.c utils/mlx.c utils/sprites.c
 				# test_scenes.c
 SRC			=	$(addprefix $(SRCDIR)/,$(FILES))
 OBJ			= 	$(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRC:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:29:03 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 19:11:23 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 04:59:04 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	draw_square(int x, int y)
 	j = SCALE / PADDING;
 	offsetx = (g_cub.w - g_cub.x * SCALE) / 2;
 	offsety = (g_cub.h - g_cub.y * SCALE) / 2;
-	if (g_cub.map[y][x] == '0')
-		color = 0x0D21A1;
-	else if (g_cub.map[y][x] == '1')
-		color = 0x011638;
+	if (g_cub.map[y][x] == '1')
+		color = 0x544123;
 	else if (g_cub.map[y][x] == '2')
-		color = 0xF77F00;
+		color = 0xED302C;
+	else
+		color = 0x608830;
 	while (j < SCALE)
 	{
 		i = SCALE / PADDING;

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:03:04 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/27 20:25:10 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 02:15:44 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,12 @@ static char	parse_texture(char *s)
 		assign_tex(&g_cub.we.path, s);
 	else if (!ft_strncmp(s, "EA", 2) && ft_skip(&s, 2))
 		assign_tex(&g_cub.ea.path, s);
+	else if (!ft_strncmp(s, "S3", 2) && ft_skip(&s, 2))
+		assign_tex(&g_cub.s[1].path, s);
+	else if (!ft_strncmp(s, "S4", 2) && ft_skip(&s, 2))
+		assign_tex(&g_cub.s[2].path, s);
 	else if (!ft_strncmp(s, "S", 1) && ft_skip(&s, 1))
-		assign_tex(&g_cub.s.path, s);
+		assign_tex(&g_cub.s[0].path, s);
 	else if (!ft_strncmp(s, "FL", 2) && ft_skip(&s, 2))
 		assign_tex(&g_cub.floor.path, s);
 	else if (!ft_strncmp(s, "CL", 2) && ft_skip(&s, 2))

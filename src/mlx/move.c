@@ -6,11 +6,12 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 16:49:56 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 03:13:25 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#define WALK "034"
 
 void	move_fwd(void)
 {
@@ -19,9 +20,11 @@ void	move_fwd(void)
 
 	map = g_cub.map;
 	plr = &g_cub.plr;
-	if (map[(int)plr->posy][(int)(plr->posx + plr->dirx * MOVESPEED)] == '0')
+	if (ft_ischarset(
+		map[(int)plr->posy][(int)(plr->posx + plr->dirx * MOVESPEED)], WALK))
 		plr->posx += plr->dirx * MOVESPEED;
-	if (map[(int)(plr->posy + plr->diry * MOVESPEED)][(int)plr->posx] == '0')
+	if (ft_ischarset(
+		map[(int)(plr->posy + plr->diry * MOVESPEED)][(int)plr->posx], WALK))
 		plr->posy += plr->diry * MOVESPEED;
 }
 
@@ -32,9 +35,11 @@ void	move_back(void)
 
 	map = g_cub.map;
 	plr = &g_cub.plr;
-	if (map[(int)plr->posy][(int)(plr->posx - plr->dirx * MOVESPEED)] == '0')
+	if (ft_ischarset(
+		map[(int)plr->posy][(int)(plr->posx - plr->dirx * MOVESPEED)], WALK))
 		plr->posx -= plr->dirx * MOVESPEED;
-	if (map[(int)(plr->posy - plr->diry * MOVESPEED)][(int)plr->posx] == '0')
+	if (ft_ischarset(
+		map[(int)(plr->posy - plr->diry * MOVESPEED)][(int)plr->posx], WALK))
 		plr->posy -= plr->diry * MOVESPEED;
 }
 
@@ -45,11 +50,11 @@ void	move_left(void)
 
 	map = g_cub.map;
 	plr = &g_cub.plr;
-	if (map[(int)plr->posy]
-		[(int)(plr->posx + plr->diry * MOVESPEED / 1.5)] == '0')
+	if (ft_ischarset(
+	map[(int)plr->posy][(int)(plr->posx + plr->diry * MOVESPEED / 1.5)], WALK))
 		plr->posx += plr->diry * MOVESPEED / 1.5;
-	if (map[(int)(plr->posy - plr->dirx * MOVESPEED / 1.5)]
-		[(int)plr->posx] == '0')
+	if (ft_ischarset(
+	map[(int)(plr->posy - plr->dirx * MOVESPEED / 1.5)][(int)plr->posx], WALK))
 		plr->posy -= plr->dirx * MOVESPEED / 1.5;
 }
 
@@ -60,10 +65,10 @@ void	move_right(void)
 
 	map = g_cub.map;
 	plr = &g_cub.plr;
-	if (map[(int)plr->posy]
-		[(int)(plr->posx - plr->diry * MOVESPEED / 1.5)] == '0')
+	if (ft_ischarset(
+	map[(int)plr->posy][(int)(plr->posx - plr->diry * MOVESPEED / 1.5)], WALK))
 		plr->posx -= plr->diry * MOVESPEED / 1.5;
-	if (map[(int)(plr->posy + plr->dirx * MOVESPEED / 1.5)]
-		[(int)plr->posx] == '0')
+	if (ft_ischarset(
+	map[(int)(plr->posy + plr->dirx * MOVESPEED / 1.5)][(int)plr->posx], WALK))
 		plr->posy += plr->dirx * MOVESPEED / 1.5;
 }

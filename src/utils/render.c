@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:56:40 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 03:29:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,4 @@ t_tex	*select_texture(int side)
 			g_cub.ray.texture = &g_cub.we;
 	}
 	return (g_cub.ray.texture);
-}
-
-void	get_sprites_distance(t_list *curr)
-{
-	t_spr	*spr;
-
-	while (curr)
-	{
-		spr = curr->content;
-		spr->distance = ((g_cub.plr.posx - spr->x) * (g_cub.plr.posx - spr->x)
-			+ (g_cub.plr.posy - spr->y) * (g_cub.plr.posy - spr->y));
-		curr = curr->next;
-	}
-}
-
-void	put_texel(int y, int stripe)
-{
-	int		d;
-	int		color;
-	int		texx;
-	int		texy;
-	t_ray	*ray;
-
-	ray = &g_cub.ray;
-	texx = (int)(256 * (stripe - (-ray->spritewidth / 2 + ray->spritescreenx)) \
-		* g_cub.s.width / ray->spritewidth) / 256;
-	d = (y - ray->vmove) * 256 - g_cub.h * 128 + ray->spriteheight * 128;
-	texy = ((d * g_cub.s.height) / ray->spriteheight) / 256;
-	color = ((unsigned int *)(g_cub.s.data.addr))[g_cub.s.width * texy + texx];
-	if ((color & 0x00FFFFFF) != 0)
-		my_mlx_pixel_put(&g_cub.data, stripe, y, color);
 }
