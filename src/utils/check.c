@@ -6,12 +6,12 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 18:58:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/26 18:45:33 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 03:54:25 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-#define INVALIDCHAR " 1"
+#define VALIDCHAR " 1"
 
 void	check_flag(char *s)
 {
@@ -38,13 +38,13 @@ char	empty_line(char *s)
 
 char	invalid_character(int x, int y)
 {
-	if (y > 0 && !ft_ischarset(g_cub.map[y - 1][x], INVALIDCHAR))
+	if (y > 0 && !ft_ischarset(g_cub.map[y - 1][x], VALIDCHAR))
 		return (1);
-	if (x > 0 && !ft_ischarset(g_cub.map[y][x - 1], INVALIDCHAR))
+	if (x > 0 && !ft_ischarset(g_cub.map[y][x - 1], VALIDCHAR))
 		return (1);
-	if (y < g_cub.y - 1 && !ft_ischarset(g_cub.map[y + 1][x], INVALIDCHAR))
+	if (y < g_cub.y - 1 && !ft_ischarset(g_cub.map[y + 1][x], VALIDCHAR))
 		return (1);
-	if (x < g_cub.x - 1 && !ft_ischarset(g_cub.map[y][x + 1], INVALIDCHAR))
+	if (x < g_cub.x - 1 && !ft_ischarset(g_cub.map[y][x + 1], VALIDCHAR))
 		return (1);
 	return (0);
 }
