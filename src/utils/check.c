@@ -25,7 +25,7 @@ char	check_extension(char *s)
 {
 	if (!(s = ft_strrchr(s, '.')))
 		return (1);
-	return (ft_strncmp(s, ".cub", 4));
+	return (ft_strlen(s) != 4 || ft_strncmp(s, ".cub", 4));
 }
 
 char	empty_line(char *s)
