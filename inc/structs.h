@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 12:29:41 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/29 04:25:44 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 20:21:12 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,18 @@ typedef struct	s_ray {
 	int		udiv;
 	int		vdiv;
 	t_tex	*texture;
+	int		p;
+	float	z;
+	float	raydirx0;
+	float	raydiry0;
+	float	raydirx1;
+	float	raydiry1;
+	float	floorstepx;
+	float	floorstepy;
+	float	floorx;
+	float	floory;
+	int		cellx;
+	int		celly;
 }				t_ray;
 
 typedef struct	s_spr {
@@ -110,6 +122,7 @@ typedef struct	s_cub {
 	Audio	*music;
 	Audio	*life;
 	Audio	*success;
+	Audio	*fail;
 }				t_cub;
 
 #endif

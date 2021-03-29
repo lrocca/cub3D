@@ -6,43 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:34:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/29 04:29:28 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 20:26:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-
-static int	my_loop(void)
-{
-	g_cub.plr.life--;
-	if (g_cub.map[(int)g_cub.plr.posy][(int)g_cub.plr.posx] == '3')
-	{
-		playSoundFromMemory(g_cub.life, SDL_MIX_MAXVOLUME);
-		remove_sprite((int)g_cub.plr.posx, (int)g_cub.plr.posy);
-		g_cub.plr.life += LIFE / 10;
-	}
-	else if (g_cub.map[(int)g_cub.plr.posy][(int)g_cub.plr.posx] == '4')
-	{
-		playSoundFromMemory(g_cub.success, SDL_MIX_MAXVOLUME);
-		write(1, "You won!\n", 10);
-		sleep(2);
-		ft_exit(0);
-	}
-	if (!g_cub.plr.life)
-	{
-		write(1, "You lost!\n", 11);
-		ft_exit(0);
-	}
-	update_player();
-	draw_floor();
-	draw_walls();
-	draw_life();
-	if (g_cub.keys[SPACEBAR])
-		draw_minimap();
-	mlx_put_image_to_window(g_cub.mlx, g_cub.win, g_cub.data.img, 0, 0);
-	mlx_do_sync(g_cub.mlx);
-	return (1);
-}
 
 static void	load_textures(void)
 {
@@ -71,12 +39,14 @@ static void	load_music(void)
 {
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
-	if (!(g_cub.music = createAudio(MUSICPATH, 1, SDL_MIX_MAXVOLUME)))
+	if (!(g_cub.music = createAudio(A_MUSIC, 1, SDL_MIX_MAXVOLUME)))
 		ft_error("Failed to load music", NULL);
-	if (!(g_cub.success = createAudio("audio/levelup.wav", 0, SDL_MIX_MAXVOLUME)))
+	if (!(g_cub.success = createAudio(A_SUCC, 0, SDL_MIX_MAXVOLUME)))
 		ft_error("Failed to load success sound", NULL);
-	if (!(g_cub.life = createAudio("audio/burp.wav", 0, SDL_MIX_MAXVOLUME)))
+	if (!(g_cub.life = createAudio(A_LIFE, 0, SDL_MIX_MAXVOLUME)))
 		ft_error("Failed to load life sound", NULL);
+	if (!(g_cub.fail = createAudio(A_FAIL, 0, SDL_MIX_MAXVOLUME)))
+		ft_error("Failed to load fail sound", NULL);
 	playMusicFromMemory(g_cub.music, SDL_MIX_MAXVOLUME);
 	g_cub.audio = 1;
 }

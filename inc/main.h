@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:46:21 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/29 04:02:40 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 20:28:56 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,19 @@
 # define RIGHTARROW	124
 # define MOUSE		128
 
-# define FLOOR		0b001
-# define CEILING	0b010
+# define FLOOR		1
+# define CEILING	2
 
 # define UDIV		1
 # define VDIV		1
 
-# define MUSICPATH	"audio/minecraft.wav"
 # define LIFE		500
+
+# define SOUNDLEVEL	10
+# define A_MUSIC	"audio/minecraft.wav"
+# define A_SUCC		"audio/levelup.wav"
+# define A_LIFE		"audio/burp.wav"
+# define A_FAIL		"audio/fail.wav"
 
 t_cub	g_cub;
 
@@ -115,7 +120,15 @@ void	draw_minimap(void);
 void	test_scene(void);
 
 /*
-** utils.c
+** loop.c
+*/
+void	loop_life(void);
+void	loop_success(void);
+void	loop_fail(void);
+int		my_loop(void);
+
+/*
+** utils/global.c
 */
 int		ft_exit(int i);
 void	ft_error(char *s, char *z);

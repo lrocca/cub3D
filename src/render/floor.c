@@ -6,80 +6,69 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 18:49:23 by lrocca            #+#    #+#             */
-/*   Updated: 2021/03/28 22:31:50 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/03/29 20:24:10 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	draw_floor(void)
+static void	put_row(t_ray *ray, int x, int y)
 {
-	float rayDirX0;
-	float rayDirY0;
-	float rayDirX1;
-	float rayDirY1;
-	int p;
-	float posZ;
-	float rowDistance;
-	float floorStepX;
-	float floorStepY;
-	float floorX;
-	float floorY;
+	int		tx;
+	int		ty;
+	int		color;
+	t_tex	*f;
+	t_tex	*c;
 
-	t_tex *floor;
-	floor = &g_cub.floor;
-	t_tex *ceiling;
-	ceiling = &g_cub.ceiling;
-
-	int y = 0;
-	while (y < g_cub.h)
+	f = &g_cub.floor;
+	c = &g_cub.ceiling;
+	if (g_cub.opt & FLOOR)
 	{
-		rayDirX0 = g_cub.plr.dirx - g_cub.plr.planex;
-		rayDirY0 = g_cub.plr.diry - g_cub.plr.planey;
-		rayDirX1 = g_cub.plr.dirx + g_cub.plr.planex;
-		rayDirY1 = g_cub.plr.diry + g_cub.plr.planey;
+		tx = (int)(f->width * (ray->floorx - ray->cellx)) & (f->width - 1);
+		ty = (int)(f->height * (ray->floory - ray->celly)) & (f->height - 1);
+		color = ((int *)f->data.addr)[f->width * ty + tx];
+		my_mlx_pixel_put(&g_cub.data, x, y, color);
+	}
+	if (g_cub.opt & CEILING)
+	{
+		tx = (int)(c->width * (ray->floorx - ray->cellx)) & (c->width - 1);
+		ty = (int)(c->height * (ray->floory - ray->celly)) & (c->height - 1);
+		color = ((int *)c->data.addr)[c->width * ty + tx];
+		my_mlx_pixel_put(&g_cub.data, x, g_cub.h - y - 1, color);
+	}
+}
 
-		p = y - g_cub.h / 2;
+static void	calculus(t_ray *ray, t_plr *plr)
+{
+	ray->raydirx0 = plr->dirx - plr->planex;
+	ray->raydiry0 = plr->diry - plr->planey;
+	ray->raydirx1 = plr->dirx + plr->planex;
+	ray->raydiry1 = plr->diry + plr->planey;
+	ray->p = ray->y - g_cub.h / 2;
+	ray->z = 0.5 * g_cub.h;
+	ray->dist = ray->z / ray->p;
+	ray->floorstepx = ray->dist * (ray->raydirx1 - ray->raydirx0) / g_cub.w;
+	ray->floorstepy = ray->dist * (ray->raydiry1 - ray->raydiry0) / g_cub.w;
+	ray->floorx = plr->posx + ray->dist * ray->raydirx0;
+	ray->floory = plr->posy + ray->dist * ray->raydiry0;
+}
 
-		posZ = 0.5 * g_cub.h;
-
-		rowDistance = posZ / p;
-
-		floorStepX = rowDistance * (rayDirX1 - rayDirX0) / g_cub.w;
-		floorStepY = rowDistance * (rayDirY1 - rayDirY0) / g_cub.w;
-
-		floorX = g_cub.plr.posx + rowDistance * rayDirX0;
-		floorY = g_cub.plr.posy + rowDistance * rayDirY0;
-
-		int cellX;
-		int cellY;
-		int tx;
-		int ty;
-		int color;
-
-		int x = 0;
-		while (x < g_cub.w)
+void		draw_floor(void)
+{
+	g_cub.ray.y = 0;
+	while (g_cub.ray.y < g_cub.h)
+	{
+		calculus(&g_cub.ray, &g_cub.plr);
+		g_cub.ray.x = 0;
+		while (g_cub.ray.x < g_cub.w)
 		{
-			cellX = (int)(floorX);
-			cellY = (int)(floorY);
-			if (g_cub.opt & FLOOR)
-			{
-				tx = (int)(floor->width * (floorX - cellX)) & (floor->width - 1);
-				ty = (int)(floor->height * (floorY - cellY)) & (floor->height - 1);
-				color = ((int *)floor->data.addr)[floor->width * ty + tx];
-				my_mlx_pixel_put(&g_cub.data, x, y, color);
-			}
-			if (g_cub.opt & CEILING)
-			{
-				tx = (int)(ceiling->width * (floorX - cellX)) & (ceiling->width - 1);
-				ty = (int)(ceiling->height * (floorY - cellY)) & (ceiling->height - 1);
-				color = ((int *)ceiling->data.addr)[ceiling->width * ty + tx];
-				my_mlx_pixel_put(&g_cub.data, x, g_cub.h - y - 1, color);
-			}
-			floorX += floorStepX;
-			floorY += floorStepY;
-			x++;
+			g_cub.ray.cellx = (int)(g_cub.ray.floorx);
+			g_cub.ray.celly = (int)(g_cub.ray.floory);
+			put_row(&g_cub.ray, g_cub.ray.x, g_cub.ray.y);
+			g_cub.ray.floorx += g_cub.ray.floorstepx;
+			g_cub.ray.floory += g_cub.ray.floorstepy;
+			g_cub.ray.x++;
 		}
-		y++;
+		g_cub.ray.y++;
 	}
 }
