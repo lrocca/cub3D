@@ -38,7 +38,7 @@
 #define AUDIO_FREQUENCY 44100
 
 /* 1 mono, 2 stereo, 4 quad, 6 (5.1) */
-#define AUDIO_CHANNELS 2
+#define AUDIO_CHANNELS 1
 
 /* Specifies a unit of audio data to be used at a time. Must be a power of 2 */
 #define AUDIO_SAMPLES 4096
